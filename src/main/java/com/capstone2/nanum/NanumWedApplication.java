@@ -9,9 +9,6 @@ public class NanumWedApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(NanumWedApplication.class, args);
-		System.out.println("hello java");
-		System.out.println("hello java");
-		System.out.println("hello java");
 	}
 
 }
