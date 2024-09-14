@@ -11,6 +11,7 @@ public class NanumWedApplication {
 		SpringApplication.run(NanumWedApplication.class, args);
 		System.out.println("Hello java");
 		System.out.println("Hello davidChu");
+		System.out.println("Hello davidChu222222");
 	}
 
 }
