@@ -9,7 +9,6 @@ public class NanumWedApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(NanumWedApplication.class, args);
-		System.out.println("Test Stop tracking application.yaml in branch davidchu2");
 	}
 
 }
