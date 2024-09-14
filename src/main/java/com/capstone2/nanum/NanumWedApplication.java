@@ -11,6 +11,8 @@ public class NanumWedApplication {
 		System.out.println("hello java");
 		System.out.println("Hellooooooooooo");
 		System.out.println("hi");
+		System.out.println("hi1111");
+		System.out.println("h22222222");
 	}
 
 }
