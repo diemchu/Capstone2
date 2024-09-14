@@ -10,7 +10,7 @@ public class NanumWedApplication {
 		SpringApplication.run(NanumWedApplication.class, args);
 		System.out.println("hello java");
 		System.out.println("Hellooooooooooo");
-
+		System.out.println("hi");
 	}
 
 }
