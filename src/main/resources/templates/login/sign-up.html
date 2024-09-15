@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Sign Up</title>
   <style>
             {
@@ -158,20 +159,20 @@
 
 </head>
 <body>
-<!-- 뒤로가기 버튼 -->
+<!-- Back button -->
 <a href="javascript:history.back()" class="back-button">← Back</a>
 
 <div class="container">
   <div class="signup-container">
     <h2>Sign Up</h2>
-    <form action="/signup" method="POST">
+    <form id="signup-form" action="/api/create" method="post">
       <div class="input-group">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" required>
       </div>
       <div class="input-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" required>
       </div>
       <div class="input-group">
         <label for="password">Password</label>
@@ -181,8 +182,6 @@
         <label for="confirm-password">Confirm Password</label>
         <input type="password" id="confirm-password" name="confirm-password" required>
       </div>
-
-      <!-- 이메일 입력 및 인증 버튼을 Flexbox로 묶음 -->
       <div class="input-group email-group">
         <label for="email">Email</label>
         <div class="email-input-container">
@@ -190,18 +189,14 @@
           <button type="button" class="email-verify-btn" id="email-verify-btn">Verify Email</button>
         </div>
       </div>
-
-      <!-- 인증번호 입력 필드 -->
       <div class="input-group">
         <label for="verification-code">Verification Code</label>
         <input type="text" id="verification-code" name="verification-code" placeholder="Enter verification code">
       </div>
-
       <div class="input-group">
         <label for="nickname">Nickname</label>
         <input type="text" id="nickname" name="nickname" required>
       </div>
-
       <div class="input-group">
         <label for="gender">Gender (Optional)</label>
         <select id="gender" name="gender">
@@ -211,7 +206,6 @@
           <option value="other">Other</option>
         </select>
       </div>
-
       <div class="input-group">
         <button type="submit" class="btn">Sign Up</button>
       </div>
