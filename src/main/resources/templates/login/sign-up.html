@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Sign Up</title>
+  <style>
+            {
+           box-sizing: border-box;
+           margin: 0;
+           padding: 0;
+        }
+
+        body {
+           font-family: Arial, sans-serif;
+           background-color: #f2f2f2;
+           height: 100vh;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           overflow-y: auto;
+           padding: 20px;
+        }
+
+        /* 뒤로가기 버튼 스타일 */
+        .back-button {
+           position: absolute;
+           top: 20px;
+           left: 20px;
+           font-size: 18px;
+           text-decoration: none;
+           color: #007BFF;
+           font-weight: bold;
+           background-color: white;
+           padding: 10px 15px;
+           border-radius: 5px;
+           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+           transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+           background-color: #e0e0e0;
+        }
+
+        .container {
+           display: flex;
+           width: 900px;
+           min-height: 500px;
+           background: url('https://search.pstatic.net/common/?src=http%3A%2F%2Fcafefiles.naver.net%2Fdata3%2F2004%2F8%2F2%2F181%2F%25C6%25C4%25B6%25F5%25B9%25D9%25B4%25D9.jpg&type=sc960_832') no-repeat center center;
+           background-size: cover;
+           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+           border-radius: 8px;
+           overflow: hidden;
+        }
+
+        .image-container {
+           flex: 1;
+           background-color: rgba(255, 255, 255, 0.5);
+           border-radius: 8px 0 0 8px;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+        }
+
+        .image-container img {
+           width: 80%;
+           height: auto;
+        }
+
+        .signup-container {
+           flex: 0.5;
+           padding: 40px;
+           display: flex;
+           flex-direction: column;
+           justify-content: center;
+           background-color: rgba(255, 255, 255, 0.8);
+           border-radius: 0 8px 8px 0;
+        }
+
+        h2 {
+           font-size: 24px;
+           margin-bottom: 20px;
+           color: #333;
+           text-align: left;
+        }
+
+        .input-group {
+           margin-bottom: 15px;
+           text-align: left;
+        }
+
+        label {
+           display: block;
+           font-size: 14px;
+           color: #333;
+           margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        select {
+           width: 100%;
+           padding: 10px;
+           font-size: 16px;
+           border: 1px solid #ccc;
+           border-radius: 4px;
+           outline: none;
+        }
+
+        input:focus,
+        select:focus {
+           border-color: #007BFF;
+        }
+
+        /* 이메일 필드와 인증 버튼을 같은 줄에 배치 */
+        .email-group .email-input-container {
+           display: flex;
+           align-items: center;
+           gap: 10px; /* 이메일 입력과 인증 버튼 사이 간격 */
+        }
+
+        .email-input-container input[type="email"] {
+           flex: 2; /* 이메일 입력 필드가 더 넓게 */
+        }
+
+        .email-verify-btn {
+           flex: 1; /* 인증 버튼이 적당한 크기를 유지 */
+           padding: 10px;
+           font-size: 14px;
+           color: white;
+           background-color: #007BFF;
+           border: none;
+           border-radius: 4px;
+           cursor: pointer;
+        }
+
+        .email-verify-btn:hover {
+           background-color: #0056b3;
+        }
+
+        .btn {
+           width: 100%;
+           padding: 10px;
+           font-size: 16px;
+           color: white;
+           background-color: #007BFF;
+           border: none;
+           border-radius: 4px;
+           cursor: pointer;
+        }
+
+        .btn:hover {
+           background-color: #0056b3;
+        }
+
+  </style>
+
+</head>
+<body>
+<!-- Back button -->
+<a href="javascript:history.back()" class="back-button">← Back</a>
+
+<div class="container">
+  <div class="signup-container">
+    <h2>Sign Up</h2>
+    <form id="signup-form" action="/api/create" method="post">
+      <div class="input-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="input-group">
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div class="input-group">
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" id="confirm-password" name="confirm-password" required>
+      </div>
+      <div class="input-group email-group">
+        <label for="email">Email</label>
+        <div class="email-input-container">
+          <input type="email" id="email" name="email" required>
+          <button type="button" class="email-verify-btn" id="email-verify-btn">Verify Email</button>
+        </div>
+      </div>
+      <div class="input-group">
+        <label for="verification-code">Verification Code</label>
+        <input type="text" id="verification-code" name="verification-code" placeholder="Enter verification code">
+      </div>
+      <div class="input-group">
+        <label for="nickname">Nickname</label>
+        <input type="text" id="nickname" name="nickname" required>
+      </div>
+      <div class="input-group">
+        <label for="gender">Gender (Optional)</label>
+        <select id="gender" name="gender">
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <button type="submit" class="btn">Sign Up</button>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>
