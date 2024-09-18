@@ -39,6 +39,7 @@ public class UserController {
         newUser.setPassword(password);
         newUser.setGender(gender);
         userService.createUser(newUser);
-        return "home/home.html";
+       // return "home/home.html";
+        return "login/login.html";
     }
 }
