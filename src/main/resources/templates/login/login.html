@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -124,18 +124,49 @@
                 text-decoration: underline;
             }
     </style>
+<!--show message-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function showAlert(message) {
+                if (message) {
+                    alert(message);
+                }
+            }
+            // Chuyển đổi giá trị message thành chuỗi an toàn cho JavaScript
+            var message = /*[[${message}]]*/ '';
+            console.log('Message from Thymeleaf:', message);
+            showAlert(message);
+        });
+    </script>
+
+
 </head>
 <body>
 <div class="container">
+
+<!--    message는 널값 이지 않을 경우-->
+    <div th:if="${message}">
+        <p>Message: [[${message}]]</p>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Chuyển đổi giá trị message thành chuỗi an toàn cho JavaScript
+                var message = /*[[${message}]]*/ '';
+                if (message) {
+                    alert(message);
+                }
+            });
+        </script>
+    </div>
+
     <div class="image-container">
         <img src="/static/image/bg.jpeg" alt="Login Image">
     </div>
     <div class="login-container">
         <h2>Nanumi</h2>
-        <form action="/login" method="POST">
+        <form action="/login/login" method="post">
             <div class="input-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <label for="Email">Username</label>
+                <input type="text" id="email" name="email" required>
             </div>
             <div class="input-group">
                 <label for="password">Password</label>

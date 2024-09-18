@@ -4,6 +4,8 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+
+//데이더베이스 접속 처리
 @Component
 public class DatabaseConnection {
     @Value("${spring.datasource.url}")
