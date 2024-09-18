@@ -109,7 +109,7 @@
         }
 
         .login-links {
-            display: flex
+            display: flex;
             justify-content: space-between;
             margin-top: 10px;
         }
@@ -124,56 +124,12 @@
             text-decoration: underline;
         }
     </style>
-<!--show message-->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            function showAlert(message) {
-                if (message) {
-                    alert(message);
-                }
-            }
-            // Chuyển đổi giá trị message thành chuỗi an toàn cho JavaScript
-            var message = /*[[${message}]]*/ '';
-            console.log('Message from Thymeleaf:', message);
-            showAlert(message);
-        });
-    </script>
-
-
 </head>
-<<<<<<< HEAD
-    <body>
+<body>
+    <div class="container">
         <div class="container">
             <div class="image-container">
                 <img src="/static/image/bg.jpeg" alt="Login Image">
-=======
-<body>
-<div class="container">
-
-<!--    message는 널값 이지 않을 경우-->
-    <div th:if="${message}">
-        <p>Message: [[${message}]]</p>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Chuyển đổi giá trị message thành chuỗi an toàn cho JavaScript
-                var message = /*[[${message}]]*/ '';
-                if (message) {
-                    alert(message);
-                }
-            });
-        </script>
-    </div>
-
-    <div class="image-container">
-        <img src="/static/image/bg.jpeg" alt="Login Image">
-    </div>
-    <div class="login-container">
-        <h2>Nanumi</h2>
-        <form action="/login/login" method="post">
-            <div class="input-group">
-                <label for="Email">Username</label>
-                <input type="text" id="email" name="email" required>
->>>>>>> main
             </div>
             <div class="login-container">
                 <h2>Nanumi</h2>
@@ -200,5 +156,5 @@
                 </form>
             </div>
         </div>
-    </body>
+        </body>
 </html>
