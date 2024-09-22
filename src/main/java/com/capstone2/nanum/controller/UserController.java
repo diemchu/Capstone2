@@ -30,16 +30,30 @@ public class UserController {
             @RequestParam("age") Integer age,
             @RequestParam("password") String password,
             @RequestParam("email") String email,
-            @RequestParam("gender") String gender
+            @RequestParam("gender") String gender,
+            @RequestParam("confirm-password") String confirm_password,
+            RedirectAttributes redirectAttributes
+
     ) {
-        User newUser = new User();
-        newUser.setName(name);
-        newUser.setAge(age);
-        newUser.setEmail(email);
-        newUser.setPassword(password);
-        newUser.setGender(gender);
-        userService.createUser(newUser);
-        return "login/login.html";
+        User checkUser = userService.findByEmail(email);
+        if(checkUser == null){
+            User newUser = new User();
+            newUser.setName(name);
+            newUser.setAge(age);
+            newUser.setEmail(email);
+            newUser.setPassword(password);
+            newUser.setGender(gender);
+            userService.createUser(newUser);
+            return "login/login.html";
+        }else{
+            redirectAttributes.addFlashAttribute("message" , "이메일 중복 합니다!");
+            redirectAttributes.addFlashAttribute("name",name);
+            redirectAttributes.addFlashAttribute("age",age);
+            redirectAttributes.addFlashAttribute("password",password);
+            redirectAttributes.addFlashAttribute("gender",gender);
+            redirectAttributes.addFlashAttribute("confirm_password",confirm_password);
+            return "redirect:/login/signup-view";
+        }
     }
 
     //로그인 화면 요청
