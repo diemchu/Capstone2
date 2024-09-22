@@ -55,19 +55,26 @@ public class UserController {
             @RequestParam("password") String password,
             RedirectAttributes redirectAttributes) {
 
-        String message = null;
+        String message =" ";
         User user = userService.findByEmail(email);
-        System.out.println(email);
-        System.out.println(password);
-        System.out.println(user);
+
         if (user == null) {
-            message = "login 정보를 틀렸습니다";
+            message = "이메일을 틀렸습니다. 다시 확인하시기 바랍니다";
+            redirectAttributes.addFlashAttribute("email",email);
+            redirectAttributes.addFlashAttribute("password",password);
             redirectAttributes.addFlashAttribute("message", message);
             return "redirect:/login/login-view";
         } else {
-            message = "login 성공";
-            redirectAttributes.addFlashAttribute("message", message);
-            return "home/home";
+            if(!user.getPassword().equals(password)){
+                message = "비밀번호를 틀렸습니다";
+                redirectAttributes.addFlashAttribute("email",email);
+                redirectAttributes.addFlashAttribute("password",password);
+                redirectAttributes.addFlashAttribute("message", message);
+                return "redirect:/login/login-view";
+            }else{
+                redirectAttributes.addFlashAttribute("message", message);
+                return "home/home";
+            }
         }
     }
 
