@@ -10,7 +10,7 @@ function showAlert(message) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    var message = document.getElementById('alertMessage').value; // Lấy giá trị từ một input ẩn
+    var message = document.getElementById('alertMessage').value;
     if (message && message !== '') {
         showAlert(message);
     }
