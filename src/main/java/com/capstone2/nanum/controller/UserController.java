@@ -30,18 +30,15 @@ public class UserController {
             @RequestParam("age") Integer age,
             @RequestParam("password") String password,
             @RequestParam("email") String email,
-            @RequestParam("nickname") String nickname,
             @RequestParam("gender") String gender
     ) {
         User newUser = new User();
         newUser.setName(name);
         newUser.setAge(age);
         newUser.setEmail(email);
-        newUser.setNickname(nickname);
         newUser.setPassword(password);
         newUser.setGender(gender);
         userService.createUser(newUser);
-       // return "home/home.html";
         return "login/login.html";
     }
 
@@ -52,7 +49,7 @@ public class UserController {
     }
 
     //로그인 처리
-    @RequestMapping("/login")
+    @PostMapping("/login")
     public String login(
             @RequestParam("email") String email,
             @RequestParam("password") String password,
@@ -60,13 +57,24 @@ public class UserController {
 
         String message = null;
         User user = userService.findByEmail(email);
+        System.out.println(email);
+        System.out.println(password);
+        System.out.println(user);
         if (user == null) {
             message = "login 정보를 틀렸습니다";
             redirectAttributes.addFlashAttribute("message", message);
             return "redirect:/login/login-view";
         } else {
+            message = "login 성공";
             redirectAttributes.addFlashAttribute("message", message);
-            return "redirect:/home/home";
+            return "home/home";
         }
     }
+
+    //비밀번호 찾기 화면 요청
+    @GetMapping("/forget-password-view")
+    public String forgetPassword() {
+        return "login/forget-password";
+    }
+
 }
