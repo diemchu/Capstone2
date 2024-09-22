@@ -30,19 +30,30 @@ public class UserController {
             @RequestParam("age") Integer age,
             @RequestParam("password") String password,
             @RequestParam("email") String email,
-            @RequestParam("nickname") String nickname,
-            @RequestParam("gender") String gender
+            @RequestParam("gender") String gender,
+            @RequestParam("confirm-password") String confirm_password,
+            RedirectAttributes redirectAttributes
+
     ) {
-        User newUser = new User();
-        newUser.setName(name);
-        newUser.setAge(age);
-        newUser.setEmail(email);
-        newUser.setNickname(nickname);
-        newUser.setPassword(password);
-        newUser.setGender(gender);
-        userService.createUser(newUser);
-       // return "home/home.html";
-        return "login/login.html";
+        User checkUser = userService.findByEmail(email);
+        if(checkUser == null){
+            User newUser = new User();
+            newUser.setName(name);
+            newUser.setAge(age);
+            newUser.setEmail(email);
+            newUser.setPassword(password);
+            newUser.setGender(gender);
+            userService.createUser(newUser);
+            return "login/login.html";
+        }else{
+            redirectAttributes.addFlashAttribute("message" , "이메일 중복 합니다!");
+            redirectAttributes.addFlashAttribute("name",name);
+            redirectAttributes.addFlashAttribute("age",age);
+            redirectAttributes.addFlashAttribute("password",password);
+            redirectAttributes.addFlashAttribute("gender",gender);
+            redirectAttributes.addFlashAttribute("confirm_password",confirm_password);
+            return "redirect:/login/signup-view";
+        }
     }
 
     //로그인 화면 요청
@@ -52,21 +63,39 @@ public class UserController {
     }
 
     //로그인 처리
-    @RequestMapping("/login")
+    @PostMapping("/login")
     public String login(
             @RequestParam("email") String email,
             @RequestParam("password") String password,
             RedirectAttributes redirectAttributes) {
 
-        String message = null;
+        String message =" ";
         User user = userService.findByEmail(email);
+
         if (user == null) {
-            message = "login 정보를 틀렸습니다";
+            message = "이메일을 틀렸습니다. 다시 확인하시기 바랍니다";
+            redirectAttributes.addFlashAttribute("email",email);
+            redirectAttributes.addFlashAttribute("password",password);
             redirectAttributes.addFlashAttribute("message", message);
             return "redirect:/login/login-view";
         } else {
-            redirectAttributes.addFlashAttribute("message", message);
-            return "redirect:/home/home";
+            if(!user.getPassword().equals(password)){
+                message = "비밀번호를 틀렸습니다";
+                redirectAttributes.addFlashAttribute("email",email);
+                redirectAttributes.addFlashAttribute("password",password);
+                redirectAttributes.addFlashAttribute("message", message);
+                return "redirect:/login/login-view";
+            }else{
+                redirectAttributes.addFlashAttribute("message", message);
+                return "home/home";
+            }
         }
     }
+
+    //비밀번호 찾기 화면 요청
+    @GetMapping("/forget-password-view")
+    public String forgetPassword() {
+        return "login/forget-password";
+    }
+
 }
