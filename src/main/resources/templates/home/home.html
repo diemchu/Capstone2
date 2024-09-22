@@ -1,10 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h1>Home</h1>
-</body>
+    <!doctype html>
+    <html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>main page</title>
+        <meta charset="utf-8">
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+            }
+
+            header {
+                padding: 10px 20px;
+                text-align: center;
+            }
+
+            footer {
+                padding : 10px 20px;
+                text-align : center;
+            }
+
+            #container {
+                display: flex;
+                border: 1px solid #222;
+                height: calc(100vh - 50px);
+                margin-top: 50px;
+            }
+
+            aside {
+                width: 200px;
+                padding: 20px;
+                background-color: #f4f4f4;
+                border-right: 1px solid #ccc;
+            }
+
+            #main {
+                flex: 1;
+                padding: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            로고 + 방 참여하기, 방 생성하기, 게시판
+        </header>
+
+        <div id="container">
+            <!-- side user 정보 -->
+            <aside>
+                아직 고민중...<br>
+                유저의 프로필
+            </aside>
+
+            <!-- main -->
+            <div id="main">
+                학교에 대한 정보와 택시비, 배달비, 공동구매에 대한 정보를 도움글?
+            </div>
+        </div>
+        <footer>
+            장소 + 개발자 정보 및 학교주소 등등
+        </footer>
+    </body>
 </html>
