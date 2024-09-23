@@ -109,24 +109,25 @@
 <header>
     <img src="#" alt="로고" class="logo">
     <nav class="navbar">
-        <a href="create-room.html">방 생성하기</a>
-        <a href="join-room.html">방 참여하기</a>
-        <a href="board.html">게시판</a>
+        <a th:href="@{/room/create-room-view}">방 생성하기</a>
+        <a th:href="@{/join-room-view}">방 참여하기</a>
+        <a th:href="@{/board-view}">게시판</a>
     </nav>
 </header>
 
 
 
+
 <div id="container">
     <aside>
-        <img src="user-image.png" alt="사용자 이미지" class="user-image">
-        <div class="nickname">사용자 닉네임</div>
-        <a href="user-info.html" class="edit-profile">프로필 수정</a>
+        <img src="#" alt="사용자 이미지" class="user-image">
+        <div class="nickname">사용자 이름</div>
+        <a th:href="@{user-info-view}" class="edit-profile">프로필 수정</a>
         <a href="#" class="room-link">참여한 방</a>
         <a href="#" class="tag">택시비</a>
         <a href="#" class="tag">배달비</a>
         <a href="#" class="tag">공동구매</a>
-        <a href="login.html" class="logout">로그아웃</a>
+        <a th:href="@{login-view}" class="logout">로그아웃</a>
     </aside>
 
 
