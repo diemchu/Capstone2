@@ -8,7 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="/js/alerts.js"></script>
   <title>Sign Up</title>
-  
+
 </head>
 <body>
 <input type="hidden" id="alertMessage" th:value="${message}"/>
@@ -59,7 +59,7 @@
       <div class="input-group">
         <button type="submit" class="btn">회원가입</button>
       </div>
-      
+
     </form>
   </div>
 </div>
@@ -134,28 +134,28 @@
 
     if(password.length < 6){
       showAlert("비밀번호가 6글자 이상 필요합니다")
-      event.preventDefault();  
+      event.preventDefault();
       return;
     }
 
     if (!passwordRegex.test(password)) {
         showAlert("비밀번호가 영문과 숫자를 썩어야 합니다.");
-        event.preventDefault();  
+        event.preventDefault();
         return;
     }
     var verificationCode = /*[[${message}]]*/ '';
     console.log(verificationCode);
-    
-    
+
+
     if (password !== confirm_password) {
         showAlert("비밀번호가 일치하지 않습니다!");
-        event.preventDefault();  
+        event.preventDefault();
         return;
     }
 
     // if (enteredCode !== verificationCode) {
     //     showAlert("입력한 인증 코드가 맞지 않습니다!");
-    //     event.preventDefault();  
+    //     event.preventDefault();
     //     return;
     // }
 
