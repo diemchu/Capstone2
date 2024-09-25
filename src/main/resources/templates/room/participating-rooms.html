@@ -122,12 +122,13 @@
     <aside>
         <img src="#" alt="사용자 이미지" class="user-image">
         <div class="nickname">사용자 이름</div>
-        <a th:href="@{user-info-view}" class="edit-profile">프로필 수정</a>
-        <a href="#" class="room-link">참여한 방</a>
-        <a href="#" class="tag">택시비</a>
-        <a href="#" class="tag">배달비</a>
-        <a href="#" class="tag">공동구매</a>
-        <a th:href="@{login-view}" class="logout">로그아웃</a>
+        <!-- 프로필 수정 링크를 수정 -->
+        <a th:href="@{/user-info}" class="edit-profile">프로필 수정</a>
+        <a th:href="@{/join-room}" class="room-link">참여한 방</a>
+        <a th:href="@{/textroom-list}" class="tag">택시비</a>
+        <a th:href="@{/deliveryroom-list}" class="tag">배달비</a>
+        <a th:href="@{/jointroom-list}" class="tag">공동구매</a>
+        <a th:href="@{/login/view}" class="logout">로그아웃</a>
     </aside>
 
 
