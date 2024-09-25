@@ -34,7 +34,6 @@
             color: #000;
         }
 
-
         footer {
             padding : 10px 20px;
             text-align : center;
@@ -98,7 +97,6 @@
             display: block; /* 블록으로 설정 */
         }
 
-
         #main {
             flex: 1;
             padding: 20px;
@@ -115,21 +113,18 @@
     </nav>
 </header>
 
-
-
-
 <div id="container">
     <aside>
         <img src="#" alt="사용자 이미지" class="user-image">
         <div class="nickname">사용자 이름</div>
-        <a th:href="@{user-info-view}" class="edit-profile">프로필 수정</a>
-        <a href="#" class="room-link">참여한 방</a>
+        <!-- 프로필 수정 링크를 수정 -->
+        <a th:href="@{/user-info}" class="edit-profile">프로필 수정</a>
+        <a th:href="@{/join-room}" class="room-link">참여한 방</a>
         <a href="#" class="tag">택시비</a>
         <a href="#" class="tag">배달비</a>
         <a href="#" class="tag">공동구매</a>
-        <a th:href="@{login-view}" class="logout">로그아웃</a>
+        <a th:href="@{/login/view}" class="logout">로그아웃</a>
     </aside>
-
 
     <!-- main -->
     <div id="main">
