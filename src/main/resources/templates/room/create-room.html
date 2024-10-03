@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>createroom page</title>
+    <title>방 생성</title>
     <style>
         body {
             margin: 0;
@@ -34,10 +34,9 @@
             color: #000;
         }
 
-
         footer {
-            padding : 10px 20px;
-            text-align : center;
+            padding: 10px 20px;
+            text-align: center;
         }
 
         #container {
@@ -65,6 +64,7 @@
             font-size: 18px;
             margin-bottom: 20px;
         }
+
         .edit-profile {
             font-size: 18px;
             text-decoration: none;
@@ -98,47 +98,182 @@
             display: block; /* 블록으로 설정 */
         }
 
-
         #main {
             flex: 1;
             padding: 20px;
         }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .category-section {
+            display: none;
+        }
+
+        .form-actions {
+            text-align: center;
+        }
+
+        .form-actions button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-actions button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
+
 <header>
     <img src="#" alt="로고" class="logo">
     <nav class="navbar">
-        <a th:href="@{/room/create-room-view}">방 생성하기</a>
-        <a th:href="@{/join-room-view}">방 참여하기</a>
-        <a th:href="@{/board-view}">게시판</a>
+        <a href="/room/create-room-view">방 생성하기</a>
+        <a href="/join-room-view">방 참여하기</a>
+        <a href="/board-view">게시판</a>
     </nav>
 </header>
 
-
-
-
 <div id="container">
     <aside>
-        <img src="#" alt="사용자 이미지" class="user-image">
+        <img src="/image/man.jpeg" alt="사용자 이미지" class="user-image">
         <div class="nickname">사용자 이름</div>
-        <!-- 프로필 수정 링크를 수정 -->
-        <a th:href="@{/user-info}" class="edit-profile">프로필 수정</a>
-        <a th:href="@{/join-room}" class="room-link">참여한 방</a>
-        <a th:href="@{/textroom-list}" class="tag">택시비</a>
-        <a th:href="@{/deliveryroom-list}" class="tag">배달비</a>
-        <a th:href="@{/jointroom-list}" class="tag">공동구매</a>
-        <a th:href="@{/login/view}" class="logout">로그아웃</a>
+        <a href="/user-info" class="edit-profile">프로필 수정</a>
+        <a href="/join-room" class="room-link">참여한 방</a>
+        <a href="/textroom-list" class="tag">택시비</a>
+        <a href="/deliveryroom-list" class="tag">배달비</a>
+        <a href="/jointroom-list" class="tag">공동구매</a>
+        <a href="/login/view" class="logout">로그아웃</a>
     </aside>
-
 
     <!-- main -->
     <div id="main">
-        방 생성 페이지
+        <div class="container">
+            <h2>방 생성</h2>
+            <form>
+                <div class="form-group">
+                    <label for="room-name">방 이름</label>
+                    <input type="text" id="room-name" placeholder="방 이름을 입력하세요" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">카테고리</label>
+                    <select id="category" required onchange="showCategoryFields(this.value)">
+                        <option value="">카테고리를 선택하세요</option>
+                        <option value="taxi">택시비</option>
+                        <option value="delivery">배달비</option>
+                        <option value="group">공동구매</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="max-people">최대 인원 (2~99명)</label>
+                    <input type="number" id="max-people" min="2" max="99" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">방 설명</label>
+                    <textarea id="description" rows="4" placeholder="방에 대한 설명을 입력하세요" required></textarea>
+                </div>
+
+                <!-- 택시비 카테고리 -->
+                <div id="taxi-section" class="category-section">
+                    <div class="form-group">
+                        <label for="departure">출발지</label>
+                        <input type="text" id="departure" placeholder="출발지를 입력하세요">
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">도착지</label>
+                        <input type="text" id="destination" placeholder="도착지를 입력하세요">
+                    </div>
+                </div>
+
+                <!-- 배달비 카테고리 -->
+                <div id="delivery-section" class="category-section">
+                    <div class="form-group">
+                        <label for="delivery-location">배달 받을 위치</label>
+                        <input type="text" id="delivery-location" placeholder="음식을 나눌 위치를 입력하세요">
+                    </div>
+                </div>
+
+                <!-- 공동구매 카테고리 -->
+                <div id="group-section" class="category-section">
+                    <div class="form-group">
+                        <label for="product">구매할 물품</label>
+                        <input type="text" id="product" placeholder="구매할 물품을 입력하세요">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">날짜</label>
+                    <input type="date" id="date" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit">방 생성</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
 <footer>
     장소 + 개발자 정보 및 학교주소 등등
 </footer>
+
+<script>
+    function showCategoryFields(category) {
+        // 모든 섹션 숨기기
+        document.getElementById('taxi-section').style.display = 'none';
+        document.getElementById('delivery-section').style.display = 'none';
+        document.getElementById('group-section').style.display = 'none';
+
+        // 선택된 카테고리에 맞는 섹션 표시
+        if (category === 'taxi') {
+            document.getElementById('taxi-section').style.display = 'block';
+        } else if (category === 'delivery') {
+            document.getElementById('delivery-section').style.display = 'block';
+        } else if (category === 'group') {
+            document.getElementById('group-section').style.display = 'block';
+        }
+    }
+</script>
+
 </body>
 </html>
