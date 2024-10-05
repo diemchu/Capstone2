@@ -74,28 +74,28 @@
         }
 
         .room-link {
-            font-size: 24px; /* h1 크기 */
-            font-weight: bold; /* 강조 */
+            font-size: 24px;
+            font-weight: bold;
             text-decoration: none;
             color: #000;
             margin-bottom: 10px;
-            display: block; /* 각 링크를 블록으로 설정 */
+            display: block;
         }
 
         .tag {
-            font-size: 18px; /* h3 크기 */
+            font-size: 18px;
             text-decoration: none;
             color: #000;
             margin-bottom: 5px;
-            display: block; /* 각 링크를 블록으로 설정 */
+            display: block;
         }
 
         .logout {
-            font-size: 18px; /* h3 크기 */
+            font-size: 18px;
             text-decoration: none;
-            color: red; /* 로그아웃 강조 */
+            color: red;
             margin-top: 20px;
-            display: block; /* 블록으로 설정 */
+            display: block;
         }
 
         #main {
@@ -182,7 +182,6 @@
         <a href="/login/view" class="logout">로그아웃</a>
     </aside>
 
-    <!-- main -->
     <div id="main">
         <div class="container">
             <h2>방 생성</h2>
@@ -246,7 +245,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit">방 생성</button>
+                    <button type="submit">방 생성하기</button>
                 </div>
             </form>
         </div>
@@ -254,10 +253,28 @@
 </div>
 
 <footer>
-    장소 + 개발자 정보 및 학교주소 등등
+    <p>Developed by Your Name - School Info</p>
 </footer>
 
 <script>
+    // URL에서 쿼리 파라미터 읽기
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // 페이지 로드 시 실행
+    window.onload = function() {
+        const category = getQueryParam('category');
+        if (category) {
+            // 기본 카테고리 선택
+            document.getElementById('category').value = category;
+            // 해당 카테고리 필드 표시
+            showCategoryFields(category);
+        }
+    }
+
+    // 카테고리 선택 시 관련 필드 표시하는 함수
     function showCategoryFields(category) {
         // 모든 섹션 숨기기
         document.getElementById('taxi-section').style.display = 'none';

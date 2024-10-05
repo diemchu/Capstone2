@@ -146,40 +146,33 @@
     </aside>
 
     <div id="main">
-        <div id="carouselExampleDark" class="carousel carousel-dark slide">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-            <div class="card-deck">
-                <div class="card" style="width: 18rem;">
-                    <img src="/image/택시비.jpeg" class="card-img-top" alt="택시비 이미지">
-                    <div class="card-body">
-                        <h5 class="card-title">택시비</h5>
-                        <p class="card-text">여러 명과 함께 택시를 타고 비용을 나눠서 결제하세요.</p>
-                        <a href="#" class="btn btn-primary">자세히 보기</a>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <img src="/image/배달.jpeg" class="card-img-top" alt="배달비 이미지">
-                    <div class="card-body">
-                        <h5 class="card-title">배달비</h5>
-                        <p class="card-text">배달비가 부담스러울 때, 이웃과 함께 배달비를 나누세요.</p>
-                        <a href="#" class="btn btn-primary">자세히 보기</a>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <img src="/image/공동구매.jpeg" class="card-img-top" alt="공동구매 이미지">
-                    <div class="card-body">
-                        <h5 class="card-title">공동구매</h5>
-                        <p class="card-text">원하는 물건을 다른사람들과 함께 구매하여 저렴하게 구매하세요.</p>
-                        <a href="#" class="btn btn-primary">자세히 보기</a>
-                    </div>
+        <div class="d-flex justify-content-between gap-3">
+            <div class="card" style="width: 18rem;">
+                <img src="/image/택시비.jpeg" class="card-img-top" alt="택시비 이미지">
+                <div class="card-body">
+                    <h5 class="card-title">택시비</h5>
+                    <p class="card-text">여러 명과 함께 택시를 타고 비용을 나눠서 결제하세요.</p>
+                    <a href="/room/create-room.html?category=taxi" class="btn btn-primary">자세히 보기</a>
                 </div>
             </div>
-
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+            <div class="card" style="width: 18rem;">
+                <img src="/image/배달.jpeg" class="card-img-top" alt="배달비 이미지">
+                <div class="card-body">
+                    <h5 class="card-title">배달비</h5>
+                    <p class="card-text">배달비가 부담스러울 때, 이웃과 함께 배달비를 나누세요.</p>
+                    <a href="/room/create-room.html?category=delivery" class="btn btn-primary">자세히 보기</a>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <img src="/image/공동구매.jpeg" class="card-img-top" alt="공동구매 이미지">
+                <div class="card-body">
+                    <h5 class="card-title">공동구매</h5>
+                    <p class="card-text">원하는 물건을 다른사람들과 함께 구매하여 저렴하게 구매하세요.</p>
+                    <a href="/room/create-room.html?category=group" class="btn btn-primary">자세히 보기</a>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
