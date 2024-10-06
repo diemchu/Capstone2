@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>joinroom page</title>
+    <title>JoinRoom Page</title>
     <style>
         body {
             margin: 0;
@@ -34,10 +34,9 @@
             color: #000;
         }
 
-
         footer {
-            padding : 10px 20px;
-            text-align : center;
+            padding: 10px 20px;
+            text-align: center;
         }
 
         #container {
@@ -65,6 +64,7 @@
             font-size: 18px;
             margin-bottom: 20px;
         }
+
         .edit-profile {
             font-size: 18px;
             text-decoration: none;
@@ -74,34 +74,75 @@
         }
 
         .room-link {
-            font-size: 24px; /* h1 크기 */
-            font-weight: bold; /* 강조 */
+            font-size: 24px;
+            font-weight: bold;
             text-decoration: none;
             color: #000;
             margin-bottom: 10px;
-            display: block; /* 각 링크를 블록으로 설정 */
+            display: block;
         }
 
         .tag {
-            font-size: 18px; /* h3 크기 */
+            font-size: 18px;
             text-decoration: none;
             color: #000;
             margin-bottom: 5px;
-            display: block; /* 각 링크를 블록으로 설정 */
+            display: block;
         }
 
         .logout {
-            font-size: 18px; /* h3 크기 */
+            font-size: 18px;
             text-decoration: none;
-            color: red; /* 로그아웃 강조 */
+            color: red;
             margin-top: 20px;
-            display: block; /* 블록으로 설정 */
+            display: block;
         }
-
 
         #main {
             flex: 1;
             padding: 20px;
+        }
+
+        /* 방 리스트와 검색창을 같은 줄에 정렬 */
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* 좌측 정렬 */
+            gap: 10px; /* 제목과 검색창 간격 */
+            margin-bottom: 20px;
+        }
+
+        /* 검색창 스타일 */
+        .search-container input {
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        /* 방 리스트 스타일 */
+        #room-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .room-item {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        #pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #pagination button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -115,14 +156,10 @@
     </nav>
 </header>
 
-
-
-
 <div id="container">
     <aside>
         <img src="#" alt="사용자 이미지" class="user-image">
         <div class="nickname">사용자 이름</div>
-        <!-- 프로필 수정 링크를 수정 -->
         <a th:href="@{/user-info}" class="edit-profile">프로필 수정</a>
         <a th:href="@{/join-room}" class="room-link">참여한 방</a>
         <a th:href="@{/textroom-list}" class="tag">택시비</a>
@@ -131,14 +168,103 @@
         <a th:href="@{/login/view}" class="logout">로그아웃</a>
     </aside>
 
-
-    <!-- main -->
     <div id="main">
-        방 참여 페이지
+        <div class="search-container">
+            <h2>방 리스트</h2>
+            <input type="text" id="search-input" placeholder="방 이름 검색" oninput="filterRooms()">
+        </div>
+
+        <!-- 방 리스트를 보여줄 부분 -->
+        <div id="room-list"></div>
+
+        <!-- 페이지네이션 버튼 -->
+        <div id="pagination"></div>
     </div>
 </div>
+
 <footer>
     장소 + 개발자 정보 및 학교주소 등등
 </footer>
+
+<script>
+    // 방 데이터 (예시) 나중에 지울 것
+    const rooms = [
+        { category: '택시', roomName: '서울', departure: '강릉', destination: '서울', participants: '1/4' },
+        { category: '배달비', roomName: '치킨 나눔', deliveryLocation: '관동대학교', participants: '2/5' },
+        { category: '공동구매', roomName: '넷플릭스', product: '넷플릭스 구독', participants: '3/6' },
+        // 더 많은 방을 추가 가능
+    ];
+
+    let currentPage = 1;
+    const roomsPerPage = 20;
+
+    // 방 리스트 렌더링 함수
+    function renderRoomList(page) {
+        const roomList = document.getElementById('room-list');
+        const searchInput = document.getElementById('search-input').value.toLowerCase();
+        roomList.innerHTML = '';
+
+        const start = (page - 1) * roomsPerPage;
+        const end = start + roomsPerPage;
+        let roomsToDisplay = rooms.slice(start, end);
+
+        // 검색어가 입력된 경우 필터링
+        if (searchInput) {
+            roomsToDisplay = roomsToDisplay.filter(room => room.roomName.toLowerCase().includes(searchInput));
+        }
+
+        roomsToDisplay.forEach(room => {
+            let roomHtml = '<div class="room-item">';
+
+            if (room.category === '택시') {
+                roomHtml += `[택시] ${room.roomName} ${room.departure}->${room.destination} ${room.participants}`;
+            } else if (room.category === '배달비') {
+                roomHtml += `[배달비] ${room.roomName} ${room.deliveryLocation} ${room.participants}`;
+            } else if (room.category === '공동구매') {
+                roomHtml += `[공동구매] ${room.roomName} ${room.product} ${room.participants}`;
+            }
+
+            roomHtml += '</div>';
+            roomList.innerHTML += roomHtml;
+        });
+
+        renderPagination();
+    }
+
+    // 페이지네이션 렌더링 함수
+    function renderPagination() {
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+
+        const totalPages = Math.ceil(rooms.length / roomsPerPage);
+
+        if (currentPage > 1) {
+            const prevButton = document.createElement('button');
+            prevButton.textContent = '이전';
+            prevButton.onclick = () => {
+                currentPage--;
+                renderRoomList(currentPage);
+            };
+            pagination.appendChild(prevButton);
+        }
+
+        if (currentPage < totalPages) {
+            const nextButton = document.createElement('button');
+            nextButton.textContent = '다음';
+            nextButton.onclick = () => {
+                currentPage++;
+                renderRoomList(currentPage);
+            };
+            pagination.appendChild(nextButton);
+        }
+    }
+
+    // 검색 시 즉시 결과 반영
+    function filterRooms() {
+        renderRoomList(1);  // 검색 시 첫 번째 페이지부터 다시 시작
+    }
+
+    renderRoomList(1);
+</script>
 </body>
 </html>
