@@ -75,27 +75,26 @@
         }
 
         .room-link {
-            font-size: 24px; /* h1 크기 */
-            font-weight: bold; /* 강조 */
+            font-size: 24px;
+            font-weight: bold;
             text-decoration: none;
             color: #000;
             margin-bottom: 10px;
-            display: block; /* 각 링크를 블록으로 설정 */
+            display: block;
         }
 
-        /* 각 카테고리 간 간격 추가 */
         .tag {
-            font-size: 18px; /* h3 크기 */
+            font-size: 18px;
             text-decoration: none;
             color: #000;
-            margin-bottom: 15px; /* 카테고리들 간 간격 설정 */
+            margin-bottom: 15px;
             display: block;
         }
 
         .logout {
-            font-size: 18px; /* h3 크기 */
+            font-size: 18px;
             text-decoration: none;
-            color: red; /* 로그아웃 강조 */
+            color: red;
             margin-top: 20px;
             display: block;
         }
@@ -104,32 +103,47 @@
             flex: 1;
             padding: 20px;
             display: flex;
-            justify-content: center; /* 메인 영역 중앙 정렬 */
-        }
-
-        /* 카드 간의 간격을 좁히기 위한 설정 */
-        .card-group {
-            display: flex;
-            gap: 15px; /* 카드 간의 간격을 좁게 설정 */
-            justify-content: center; /* 카드 그룹 중앙 정렬 */
-        }
-
-        .carousel-content {
-            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
         }
 
-        .carousel-image {
-            width: 30%;
-            margin-right: 20px;
-            border-radius: 8px;
-            object-fit: cover;
+        .card-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
         }
 
-        .carousel-caption {
-            width: 70%;
-            text-align: center;
+        .room-list-section {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 1200px;
+            overflow-y: auto;
+            max-height: 400px;
         }
+
+        .room-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .room-item {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .room-category {
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 20px;
+        }
+
     </style>
 </head>
 <body>
@@ -155,14 +169,13 @@
     </aside>
 
     <div id="main">
-        <!-- 카드들을 중앙에 위치시키고 간격을 좁힌 카드 그룹 -->
         <div class="card-group">
             <div class="card" style="width: 18rem;">
-                <img src="/image/texi.jpeg" class="card-img-top" alt="택시비 이미지">
+                <img src="/image/texti.jpeg" class="card-img-top" alt="택시비 이미지">
                 <div class="card-body">
                     <h5 class="card-title">택시비</h5>
                     <p class="card-text">여러 명과 함께 택시를 타고 비용을 나눠서 결제하세요.</p>
-                    <a href="/room/create-room.html?category=taxi" class="btn btn-primary">자세히 보기</a>
+                    <a href="/room/create-room.html?category=taxi" class="btn btn-primary">방 생성하기</a>
                 </div>
             </div>
             <div class="card" style="width: 18rem;">
@@ -170,7 +183,7 @@
                 <div class="card-body">
                     <h5 class="card-title">배달비</h5>
                     <p class="card-text">배달비가 부담스러울 때, 이웃과 함께 배달비를 나누세요.</p>
-                    <a href="/room/create-room.html?category=delivery" class="btn btn-primary">자세히 보기</a>
+                    <a href="/room/create-room.html?category=delivery" class="btn btn-primary">방 생성하기</a>
                 </div>
             </div>
             <div class="card" style="width: 18rem;">
@@ -178,8 +191,17 @@
                 <div class="card-body">
                     <h5 class="card-title">공동구매</h5>
                     <p class="card-text">원하는 물건을 다른사람들과 함께 구매하여 저렴하게 구매하세요.</p>
-                    <a href="/room/create-room.html?category=group" class="btn btn-primary">자세히 보기</a>
+                    <a href="/room/create-room.html?category=group" class="btn btn-primary">방 생성하기</a>
                 </div>
+            </div>
+        </div>
+
+        <h2>여기서부터 방 참여 목록이 나옵니다.</h2>
+
+        <!-- 방 리스트 섹션 -->
+        <div class="room-list-section">
+            <div class="room-list" id="room-list">
+                <!-- 방 목록이 동적으로 추가될 자리 -->
             </div>
         </div>
     </div>
@@ -190,5 +212,33 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+    // 서버에서 방 데이터를 불러와서 리스트에 추가하는 함수
+    async function loadRoomList() {
+        try {
+            // 여기에 실제 API 경로를 입력하세요
+            const response = await fetch('/api/room-list');
+            const rooms = await response.json();
+
+            const roomList = document.getElementById('room-list');
+
+            rooms.forEach(room => {
+                const roomItem = document.createElement('div');
+                roomItem.classList.add('room-item');
+
+                roomItem.innerHTML = \`
+                    <span class="room-category">[\${room.category}]</span> \${room.name}
+                    <span>현재 인원: \${room.participants}/\${room.maxParticipants}</span>
+                \`;
+                roomList.appendChild(roomItem);
+            });
+        } catch (error) {
+            console.error('방 목록을 불러오는 중 오류 발생:', error);
+        }
+    }
+
+    // 페이지가 로드될 때 방 목록을 불러오기
+    document.addEventListener('DOMContentLoaded', loadRoomList);
+</script>
 </body>
 </html>
