@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("login")
 public class UserController {
+    public static  String code = null;
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -32,11 +33,22 @@ public class UserController {
             @RequestParam("email") String email,
             @RequestParam("gender") String gender,
             @RequestParam("confirm-password") String confirm_password,
+            @RequestParam("code") String code,
             RedirectAttributes redirectAttributes
 
     ) {
         User checkUser = userService.findByEmail(email);
         if(checkUser == null){
+            if(!code.equals(EmailController.code)){
+                redirectAttributes.addFlashAttribute("message" , "인증번호 일치하지않습니다");
+                redirectAttributes.addFlashAttribute("email" , EmailController.email);
+                redirectAttributes.addFlashAttribute("name",name);
+                redirectAttributes.addFlashAttribute("age",age);
+                redirectAttributes.addFlashAttribute("password",password);
+                redirectAttributes.addFlashAttribute("gender",gender);
+                redirectAttributes.addFlashAttribute("confirm_password",confirm_password);
+                return "redirect:/login/signup-view";
+            }
             User newUser = new User();
             newUser.setName(name);
             newUser.setAge(age);
@@ -47,6 +59,7 @@ public class UserController {
             return "login/login.html";
         }else{
             redirectAttributes.addFlashAttribute("message" , "이메일 중복 합니다!");
+            redirectAttributes.addFlashAttribute("email" , EmailController.email);
             redirectAttributes.addFlashAttribute("name",name);
             redirectAttributes.addFlashAttribute("age",age);
             redirectAttributes.addFlashAttribute("password",password);
@@ -55,7 +68,6 @@ public class UserController {
             return "redirect:/login/signup-view";
         }
     }
-
     //로그인 화면 요청
     @GetMapping("/login-view")
     public String loginView(){
@@ -97,5 +109,40 @@ public class UserController {
     public String forgetPassword() {
         return "login/forget-password";
     }
+
+    // 비밀번호 찾기 기능
+    @RequestMapping("/forget-password")
+    public String forgetPassword(
+            @RequestParam("verification-code") String code,
+            @RequestParam("password") String newPassword,
+            @RequestParam("confirm-password") String confirmPassword,
+            RedirectAttributes redirectAttributes
+    ) {
+        String message;
+        if (!code.equals(EmailController.code)) {
+            message = "인증번호 일치하지 않습니다";
+            redirectAttributes.addFlashAttribute("message", message);
+            redirectAttributes.addFlashAttribute("code", code);
+            redirectAttributes.addFlashAttribute("newPassword", newPassword);
+            redirectAttributes.addFlashAttribute("email", EmailController.email);
+            System.out.println(EmailController.email);
+            redirectAttributes.addFlashAttribute("confirmPassword", confirmPassword);
+            return "redirect:/login/forget-password-view";
+        }
+        if (!newPassword.equals(confirmPassword)) {
+            message = "비밀번호 일치하지 않습니다";
+            redirectAttributes.addFlashAttribute("message", message);
+            redirectAttributes.addFlashAttribute("code", code);
+            System.out.println(EmailController.email);
+            redirectAttributes.addFlashAttribute("newPassword", newPassword);
+            redirectAttributes.addFlashAttribute("email", EmailController.email);
+            redirectAttributes.addFlashAttribute("confirmPassword", confirmPassword);
+            return "redirect:/login/forget-password-view";
+        }
+
+        userService.updatePassword(EmailController.email , newPassword);
+        return "home/home";
+    }
+
 
 }

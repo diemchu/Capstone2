@@ -182,72 +182,69 @@
         <a href="/login/view" class="logout">로그아웃</a>
     </aside>
 
-    <div id="main">
-        <div class="container">
-            <h2>방 생성</h2>
-            <form>
-                <div class="form-group">
-                    <label for="room-name">방 이름</label>
-                    <input type="text" id="room-name" placeholder="방 이름을 입력하세요" required>
-                </div>
+    <form action="/room/create-room" method="post">
+        <div class="form-group">
+            <label for="room-name">방 이름</label>
+            <input type="text" id="room-name" name="room-name" placeholder="방 이름을 입력하세요" required>
+        </div>
 
-                <div class="form-group">
-                    <label for="category">카테고리</label>
-                    <select id="category" required onchange="showCategoryFields(this.value)">
-                        <option value="">카테고리를 선택하세요</option>
-                        <option value="taxi">택시비</option>
-                        <option value="delivery">배달비</option>
-                        <option value="group">공동구매</option>
-                    </select>
-                </div>
+        <div class="form-group">
+            <label for="category">카테고리</label>
+            <select id="category" name="category" required onchange="showCategoryFields(this.value)">
+                <option value="">카테고리를 선택하세요</option>
+                <option value="taxi">택시비</option>
+                <option value="delivery">배달비</option>
+                <option value="group">공동구매</option>
+            </select>
+        </div>
 
-                <div class="form-group">
-                    <label for="max-people">최대 인원 (2~99명)</label>
-                    <input type="number" id="max-people" min="2" max="99" required>
-                </div>
+        <div class="form-group">
+            <label for="max-people">최대 인원 (2~99명)</label>
+            <input type="number" id="max-people" name="max-people" min="2" max="99" required>
+        </div>
 
-                <div class="form-group">
-                    <label for="description">방 설명</label>
-                    <textarea id="description" rows="4" placeholder="방에 대한 설명을 입력하세요" required></textarea>
-                </div>
+        <div class="form-group">
+            <label for="description">방 설명</label>
+            <textarea id="description" name="description" rows="4" placeholder="방에 대한 설명을 입력하세요" required></textarea>
+        </div>
 
-                <!-- 택시비 카테고리 -->
-                <div id="taxi-section" class="category-section">
-                    <div class="form-group">
-                        <label for="departure">출발지</label>
-                        <input type="text" id="departure" placeholder="출발지를 입력하세요">
-                    </div>
-                    <div class="form-group">
-                        <label for="destination">도착지</label>
-                        <input type="text" id="destination" placeholder="도착지를 입력하세요">
-                    </div>
-                </div>
+        <!-- 택시비 카테고리 -->
+        <div id="taxi-section" class="category-section">
+            <div class="form-group">
+                <label for="departure">출발지</label>
+                <input type="text" id="departure" name="departure" placeholder="출발지를 입력하세요">
+            </div>
+            <div class="form-group">
+                <label for="destination">도착지</label>
+                <input type="text" id="destination" name="destination" placeholder="도착지를 입력하세요">
+            </div>
+        </div>
 
-                <!-- 배달비 카테고리 -->
-                <div id="delivery-section" class="category-section">
-                    <div class="form-group">
-                        <label for="delivery-location">배달 받을 위치</label>
-                        <input type="text" id="delivery-location" placeholder="음식을 나눌 위치를 입력하세요">
-                    </div>
-                </div>
+        <!-- 배달비 카테고리 -->
+        <div id="delivery-section" class="category-section">
+            <div class="form-group">
+                <label for="delivery-location">배달 받을 위치</label>
+                <input type="text" id="delivery-location" name="delivery-location" placeholder="음식을 나눌 위치를 입력하세요">
+            </div>
+        </div>
 
-                <!-- 공동구매 카테고리 -->
-                <div id="group-section" class="category-section">
-                    <div class="form-group">
-                        <label for="product">구매할 물품</label>
-                        <input type="text" id="product" placeholder="구매할 물품을 입력하세요">
-                    </div>
-                </div>
+        <!-- 공동구매 카테고리 -->
+        <div id="group-section" class="category-section">
+            <div class="form-group">
+                <label for="product">구매할 물품</label>
+                <input type="text" id="product" name="product" placeholder="구매할 물품을 입력하세요">
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label for="date">날짜</label>
-                    <input type="date" id="date" required>
-                </div>
+        <div class="form-group">
+            <label for="date">날짜</label>
+            <input type="date" id="date" name="date" required>
+        </div>
 
-                <div class="form-actions">
-                    <button type="submit">방 생성하기</button>
-                </div>
-            </form>
+        <div class="form-actions">
+            <button type="submit">방 생성하기</button>
+        </div>
+    </form>
         </div>
     </div>
 </div>
