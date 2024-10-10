@@ -49,6 +49,7 @@ public class EmailController {
         return response;
     }
 
+    //비밀번호 변경 페이지 기능
     @PostMapping("/change-password")
     @ResponseBody
     public Map<String, String> changePassword(@RequestParam String email) {
