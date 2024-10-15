@@ -151,8 +151,8 @@
     <img src="#" alt="로고" class="logo">
     <nav class="navbar">
         <a th:href="@{/room/create-room-view}">방 생성하기</a>
-        <a th:href="@{/join-room-view}">방 참여하기</a>
-        <a th:href="@{/board-view}">게시판</a>
+        <a th:href="@{/room/join-room-view}">방 참여하기</a>
+        <a th:href="@{/home/board-view}">게시판</a>
     </nav>
 </header>
 
@@ -160,12 +160,12 @@
     <aside>
         <img src="/image/man.jpeg" alt="사용자 이미지" class="user-image">
         <div class="nickname">사용자 이름</div>
-        <a href="/home/user-info.html" class="edit-profile">프로필 수정</a>
-        <a href="/room/join-room.html" class="room-link">참여한 방</a>
-        <a href="/room/textroom-list.html" class="tag">택시비</a>
-        <a href="/room/deliveryroom.html" class="tag">배달비</a>
-        <a href="/room/jointroom-list.html" class="tag">공동구매</a>
-        <a href="/room/login.html" class="logout">로그아웃</a>
+        <a th:href="@{/home/user-info-view}" class="edit-profile">프로필 수정</a>
+        <a h:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
+        <a th:href="@{/room/taxiroom-list-view}" class="tag">택시비</a>
+        <a th:href="@{/room/deliveryroom-view}" class="tag">배달비</a>
+        <a th:href="@{/room/jointroom-list-view}" class="tag">공동구매</a>
+        <a th:href="@{/login/login-view}" class="logout">로그아웃</a>
     </aside>
 
     <div id="main">

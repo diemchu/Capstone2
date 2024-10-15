@@ -148,11 +148,16 @@
 </head>
 <body>
 <header>
-    <img src="#" alt="로고" class="logo">
+    <img src="/path/to/logo.png" alt="웹사이트 로고" class="logo">
     <nav class="navbar">
-        <a href="/room/create-room.html">방 생성하기</a>
-        <a href="/room/join-room.html">방 참여하기</a>
-        <a href="board/board">게시판</a>
+        <a th:href="@{/room/create-room-view}">방 생성하기</a>
+        <a th:href="@{/room/join-room-view}">방 참여하기</a>
+        <a th:href="@{/home/board-view}">게시판</a>
+
+
+<!--        <a href="/room/create-room.html">방 생성하기</a>-->
+<!--        <a href="/room/join-room-view">방 참여하기</a>-->
+<!--        <a href="/home/board-view">게시판</a>-->
     </nav>
 </header>
 
@@ -160,12 +165,12 @@
     <aside>
         <img src="/image/man.jpeg" alt="사용자 이미지" class="user-image">
         <div class="nickname">사용자 이름</div>
-        <a href="/home/user-info.html" class="edit-profile">프로필 수정</a>
-        <a href="/room/join-room.html" class="room-link">참여한 방</a>
-        <a href="/room/textroom-list.html" class="tag">택시비</a>
-        <a href="/room/deliveryroom.html" class="tag">배달비</a>
-        <a href="/room/jointroom-list.html" class="tag">공동구매</a>
-        <a href="/room/login.html" class="logout">로그아웃</a>
+        <a th:href="@{/home/user-info-view}" class="edit-profile">프로필 수정</a>
+        <a h:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
+        <a th:href="@{/room/taxiroom-list-view}" class="tag">택시비</a>
+        <a th:href="@{/room/deliveryroom-view}" class="tag">배달비</a>
+        <a th:href="@{/room/jointroom-list-view}" class="tag">공동구매</a>
+        <a th:href="@{/login/login-view}" class="logout">로그아웃</a>
     </aside>
 
     <div id="main">
@@ -175,7 +180,7 @@
                 <div class="card-body">
                     <h5 class="card-title">택시비</h5>
                     <p class="card-text">여러 명과 함께 택시를 타고 비용을 나눠서 결제하세요.</p>
-                    <a href="/room/create-room.html" class="btn btn-primary">방 생성하기</a>
+                    <a th:href="@{/room/create-room-view}" class="btn btn-primary">방 생성하기</a>
                 </div>
             </div>
             <div class="card" style="width: 18rem;">
@@ -183,7 +188,7 @@
                 <div class="card-body">
                     <h5 class="card-title">배달비</h5>
                     <p class="card-text">배달비가 부담스러울 때, 이웃과 함께 배달비를 나누세요.</p>
-                    <a href="/room/create-room.html?category=delivery" class="btn btn-primary">방 생성하기</a>
+                    <a th:href="@{/room/create-room-view}" class="btn btn-primary">방 생성하기</a>
                 </div>
             </div>
             <div class="card" style="width: 18rem;">
@@ -191,7 +196,7 @@
                 <div class="card-body">
                     <h5 class="card-title">공동구매</h5>
                     <p class="card-text">원하는 물건을 다른사람들과 함께 구매하여 저렴하게 구매하세요.</p>
-                    <a href="/room/create-room.html?category=group" class="btn btn-primary">방 생성하기</a>
+                    <a th:href="@{/room/create-room-view}" class="btn btn-primary">방 생성하기</a>
                 </div>
             </div>
         </div>

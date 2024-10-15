@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("room")
-public class TaxiRoomController {
+public class RoomController {
 
     @Autowired
     private RoomService roomService;
@@ -19,6 +19,24 @@ public class TaxiRoomController {
     @GetMapping("/create-room-view")
     public String create() {
         return "room/create-room";
+    }
+
+    @GetMapping("/join-room-view")
+    public String join_room() {
+        return "room/join-room";
+    }
+
+    @GetMapping("/taxiroom-list-view")
+    public String textroom() {
+        return "room/taxiroom-list";
+    }
+    @GetMapping("/deliveryroom-view")
+    public String deliveryroom() {
+        return "room/deliveryroom-list";
+    }
+    @GetMapping("/jointroom-list-view")
+    public String jointroom() {
+        return "room/jointroom-list";
     }
 
     @PostMapping("/create-room")
