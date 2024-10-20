@@ -19,4 +19,7 @@ public class RoomService {
     public List<Room> findAllRooms() {
         return roomRepository.findAll();
     }
+    public List<Room> findByCategory(String category){
+        return roomRepository.findByCategory(category);
+    }
 }

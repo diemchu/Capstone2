@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,50 +75,71 @@
         }
 
         .logout {
-            color: red; /* 로그아웃 강조 */
+            color: red;
             margin-top: 20px;
         }
 
         #main {
             flex: 1;
             padding: 20px;
-            overflow-y: auto; /* Thêm cuộn dọc nếu cần */
+            overflow-y: auto;
         }
 
-        /* CSS cho bảng */
+        #button-container {
+            margin-bottom: 20px;
+        }
+
+        .filter-button {
+            margin: 0 10px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .filter-button:hover {
+            background-color: #0056b3;
+        }
+
         table {
             width: 100%;
-            border-collapse: collapse; /* Kết hợp đường viền */
-            margin-top: 20px; /* Khoảng cách giữa các phần */
+            border-collapse: collapse;
+            margin-top: 20px;
         }
 
         th, td {
-            border: 1px solid #ccc; /* Đường viền cho ô */
-            padding: 10px; /* Khoảng cách bên trong ô */
-            text-align: left; /* Căn trái cho văn bản */
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
         }
 
         th {
-            background-color: #f2f2f2; /* Nền cho hàng tiêu đề */
-            font-weight: bold; /* Đậm cho tiêu đề */
+            background-color: #f2f2f2;
+            font-weight: bold;
         }
 
         tr:nth-child(even) {
-            background-color: #f9f9f9; /* Nền cho hàng chẵn */
+            background-color: #f9f9f9;
         }
 
         tr:hover {
-            background-color: #eaeaea; /* Hiệu ứng hover */
+            background-color: #eaeaea;
         }
-         footer {
+
+        footer {
             margin-top: 20px;
         }
+
         .footer-address li {
             list-style-type: none;
         }
+
         .big {
-            width: 100px; /* 원하는 크기로 변경 */
-            height: auto; /* 비율 유지 */
+            width: 100px;
+            height: auto;
         }
     </style>
 </head>
@@ -137,41 +158,50 @@
         <img src="#" alt="사용자 이미지" class="user-image">
         <div class="nickname">사용자 이름</div>
         <a th:href="@{/home/user-info-view}" class="edit-profile">프로필 수정</a>
-        <a h:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
+        <a th:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
         <a th:href="@{/room/taxiroom-list-view}" class="tag">택시비</a>
         <a th:href="@{/room/deliveryroom-view}" class="tag">배달비</a>
         <a th:href="@{/room/jointroom-list-view}" class="tag">공동구매</a>
         <a th:href="@{/login/login-view}" class="logout">로그아웃</a>
     </aside>
 
-    <!-- main -->
     <div id="main">
         <h2>게시판 페이지</h2>
+        <div id="button-container">
+            <a th:href="@{/room/select-taxi-room(category='taxi')}" class="filter-button">택시</a>
+            <a th:href="@{/room/select-delivery-room(category='delivery')}" class="filter-button">배달비</a>
+            <a th:href="@{/room/select-group-room(category='group')}" class="filter-button">공동 구매</a>
+            <a th:href="@{/home/board-view}" class="filter-button">모두 보기</a>
+
+        </div>
         <table>
             <thead>
             <tr>
-                <th>Category</th>
-                <th>Date</th>
-                <th>Delivery Location</th>
-                <th>Departure</th>
-                <th>Description</th>
-                <th>Destination</th>
-                <th>Max People</th>
-                <th>Product</th>
-                <th>Room Name</th>
+                <th>Id</th>
+                <th>방 이름</th>
+                <th>가테고리</th>
+                <th>날짜</th>
+                <th>최대 인원</th>
+                <th>배달 받을 위치</th>
+                <th>출발 위치</th>
+                <th>도착 위치</th>
+                <th>상세 설명</th>
+                <th>주문 항목</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="room : ${rooms}">
-                <td th:text="${room.roomName}"></td>
-                <td th:text="${room.category}"></td>
-                <td th:text="${room.maxPeople}"></td>
-                <td th:text="${room.description}"></td>
-                <td th:text="${room.departure}"></td>
-                <td th:text="${room.destination}"></td>
-                <td th:text="${room.deliveryLocation}"></td>
-                <td th:text="${room.product}"></td>
-                <td th:text="${room.date}"></td>
+            <tr th:each="room : ${rooms}"
+                onclick="confirmParticipation()">
+                <td th:if="${room.id != null}" th:text="${room.id}"></td>
+                <td th:if="${room.roomName != null}" th:text="${room.roomName}"></td>
+                <td th:if="${room.category != null}" th:text="${room.category}"></td>
+                <td th:if="${room.date != null}" th:text="${room.date}"></td>
+                <td th:if="${room.maxPeople != null}" th:text="${room.maxPeople}"></td>
+                <td th:if="${room.deliveryLocation != null}" th:text="${room.deliveryLocation}"></td>
+                <td th:if="${room.departure != null}" th:text="${room.departure}"></td>
+                <td th:if="${room.destination != null}" th:text="${room.destination}"></td>
+                <td th:if="${room.description != null}" th:text="${room.description}"></td>
+                <td th:if="${room.product != null}" th:text="${room.product}"></td>
             </tr>
             </tbody>
         </table>
@@ -196,5 +226,39 @@
         </div>
     </div>
 </footer>
+
+<script>
+    function filterData(category) {
+        const rows = document.querySelectorAll("tbody tr");
+        rows.forEach(row => {
+            const roomCategory = row.cells[1].innerText;
+            if (roomCategory === category) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+
+    function resetFilter() {
+        const rows = document.querySelectorAll("tbody tr");
+        rows.forEach(row => {
+            row.style.display = "";
+        });
+
+    }
+
+    function confirmParticipation(roomId, roomName) {
+    console.log(`roomId: ${roomId}, roomName: ${roomName}`);
+    const confirmation = confirm(`채팅방 "${roomName}" 참여하시겠습니까?`);
+    if (confirmation) {
+        alert(`참여했습니다 ID: "${roomId}"`);
+    } else {
+        alert("거절했습니다.");
+    }
+    }
+
+
+</script>
 </body>
 </html>

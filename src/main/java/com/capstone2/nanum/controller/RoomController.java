@@ -4,10 +4,13 @@ import com.capstone2.nanum.database.Room;
 import com.capstone2.nanum.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("room")
@@ -20,14 +23,13 @@ public class RoomController {
     public String create() {
         return "room/create-room";
     }
-
     @GetMapping("/join-room-view")
     public String join_room() {
         return "room/join-room";
     }
 
     @GetMapping("/taxiroom-list-view")
-    public String textroom() {
+    public String taxiroom() {
         return "room/taxiroom-list";
     }
     @GetMapping("/deliveryroom-view")
@@ -52,7 +54,6 @@ public class RoomController {
             @RequestParam("date") String date) {
 
 
-        System.out.println("hello");
         Room room = new Room();
         room.setRoomName(roomName);
         room.setCategory(category);
@@ -64,6 +65,32 @@ public class RoomController {
         room.setProduct(product);
         room.setDate(date);
         roomService.saveRoom(room);
-        return "home/home";
+        return "redirect:/home/board-view";
+    }
+
+
+    //select taxi room
+    @GetMapping("/select-taxi-room")
+    public  String selectTaxiRoom(@RequestParam("category") String category  ,Model model){
+        List<Room> rooms  = roomService.findByCategory(category);
+        model.addAttribute("rooms",rooms);
+        return "board/board";
+    }
+
+    //select delivery
+    @GetMapping("/select-delivery-room")
+    public  String selectDeliveryRoom(@RequestParam("category") String category  ,Model model){
+        List<Room> rooms  = roomService.findByCategory(category);
+        model.addAttribute("rooms",rooms);
+        return "board/board";
+    }
+
+
+    //select taxi room
+    @GetMapping("/select-group-room")
+    public  String selectGroupRoom(@RequestParam("category") String category  ,Model model){
+        List<Room> rooms  = roomService.findByCategory(category);
+        model.addAttribute("rooms",rooms);
+        return "board/board";
     }
 }
