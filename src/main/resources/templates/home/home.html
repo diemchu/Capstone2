@@ -15,10 +15,11 @@
             padding: 10px 20px;
             text-align: center;
             position: relative;
+            margin-top: 20px;
         }
 
         .logo {
-            height: 50px;
+            height: 80px;
             float: left;
             margin-right: 20px;
         }
@@ -143,12 +144,21 @@
         footer {
             margin-top: 20px;
         }
+        .footer-address li {
+            list-style-type: none;
+        }
+        .big {
+            width: 100px; /* 원하는 크기로 변경 */
+            height: auto; /* 비율 유지 */
+        }
+
+
 
     </style>
 </head>
 <body>
 <header>
-    <img src="/path/to/logo.png" alt="웹사이트 로고" class="logo">
+    <img src="/image/app_logo.jpeg" alt="웹사이트 로고" class="logo">
     <nav class="navbar">
         <a th:href="@{/room/create-room-view}">방 생성하기</a>
         <a th:href="@{/room/join-room-view}">방 참여하기</a>
@@ -208,7 +218,22 @@
 </div>
 
 <footer>
-    장소 + 개발자 정보 및 학교주소 등등
+    <div class="footer-contact">
+        <div class="footer-logo">
+            <img src="/image/ft-logo.png" alt="가톨릭관동대학교 CATHOLIC KWANDONG UNIVERSITY" class="big">
+        </div>
+        <div class="footer-info">
+            <ul class="footer-address">
+                <li>(25601) 강릉시 범일로 579번길 24 (내곡동)</li>
+                <li>TEL : (033) 649 - 7114</li>
+                <li>FAX : (033) 641 - 1010</li>
+                <li>입학 TEL : 033-649-7000 (평일 : 09:00 ~ 17:00)</li>
+            </ul>
+            <div class="footer-copyright">
+                Copyright© CATHOLIC KWANDONG UNIVERSITY. All Rights Reserved
+            </div>
+        </div>
+    </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

@@ -28,7 +28,6 @@ public class HomeController {
     @GetMapping("/board-view")
     public String board(Model model) {
         List<Room> rooms = roomService.findAllRooms();
-        System.out.println(rooms.size());
         model.addAttribute("rooms", rooms);
         return "board/board";
     }
