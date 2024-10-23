@@ -158,15 +158,18 @@
         .form-actions button:hover {
             background-color: #0056b3;
         }
-         footer {
+
+        footer {
             margin-top: 20px;
         }
+
         .footer-address li {
             list-style-type: none;
         }
+
         .big {
-            width: 100px; /* 원하는 크기로 변경 */
-            height: auto; /* 비율 유지 */
+            width: 100px;
+            height: auto;
         }
     </style>
 </head>
@@ -193,7 +196,6 @@
         <a href="/login/view" class="logout">로그아웃</a>
     </aside>
 
-    <!-- 중앙으로 배치하는 부분 시작 -->
     <div id="main" style="display: flex; justify-content: center; align-items: center;">
         <form action="/room/create-room" method="post" style="width: 100%; max-width: 600px;">
             <div class="form-group">
@@ -225,11 +227,27 @@
             <div id="taxi-section" class="category-section">
                 <div class="form-group">
                     <label for="departure">출발지</label>
-                    <input type="text" id="departure" name="departure" placeholder="출발지를 입력하세요">
+                    <select id="departure" name="departure" required>
+                        <option value="">출발지를 선택하세요</option>
+                        <option value="#">가톨릭관동대학교 정문</option>
+                        <option value="#">강릉고속버스터미널</option>
+                        <option value="#">강릉역</option>
+                        <option value="#">안목커피거리</option>
+                        <option value="#">신영극장</option>
+                        <!-- 필요한 다른 장소들 추가 -->
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="destination">도착지</label>
-                    <input type="text" id="destination" name="destination" placeholder="도착지를 입력하세요">
+                    <select id="destination" name="destination" required>
+                        <option value="">도착지를 선택하세요</option>
+                        <option value="#">가톨릭관동대학교 정문</option>
+                        <option value="#">강릉고속버스터미널</option>
+                        <option value="#">강릉역</option>
+                        <option value="#">안목커피거리</option>
+                        <option value="#">신영극장</option>
+                        <!-- 필요한 다른 장소들 추가 -->
+                    </select>
                 </div>
             </div>
 
@@ -237,7 +255,20 @@
             <div id="delivery-section" class="category-section">
                 <div class="form-group">
                     <label for="delivery-location">배달 받을 위치</label>
-                    <input type="text" id="delivery-location" name="delivery-location" placeholder="음식을 나눌 위치를 입력하세요">
+                    <select id="delivery-location" name="delivery-location" required>
+                        <option value="">위치를 선택하세요</option>
+                        <option value="#">가톨릭관동대학교 정문</option>
+                        <option value="#">가톨릭관동대학교 후문</option>
+                        <option value="#">창조관</option>
+                        <option value="#">가브리엘관</option>
+                        <option value="#">제 1생활관</option>
+                        <option value="#">제 2생활관</option>
+                        <option value="#">제 3생활관</option>
+                        <option value="#">제 4생활관</option>
+                        <option value="#">제 5생활관</option>
+                        <option value="#">제 6생활관</option>
+                        <!-- 필요한 다른 장소들 추가 -->
+                    </select>
                 </div>
             </div>
 
@@ -259,55 +290,27 @@
             </div>
         </form>
     </div>
-    <!-- 중앙으로 배치하는 부분 끝 -->
 </div>
 
-
 <footer>
-    <div class="footer-contact">
-        <div class="footer-logo">
-            <img src="/image/ft-logo.png" alt="가톨릭관동대학교 CATHOLIC KWANDONG UNIVERSITY" class="big">
-        </div>
-        <div class="footer-info">
-            <ul class="footer-address">
-                <li>(25601) 강릉시 범일로 579번길 24 (내곡동)</li>
-                <li>TEL : (033) 649 - 7114</li>
-                <li>FAX : (033) 641 - 1010</li>
-                <li>입학 TEL : 033-649-7000 (평일 : 09:00 ~ 17:00)</li>
-            </ul>
-            <div class="footer-copyright">
-                Copyright© CATHOLIC KWANDONG UNIVERSITY. All Rights Reserved
-            </div>
-        </div>
+    <div class="footer-address">
+        <ul>
+            <li>학교 주소: 강원도 강릉시 죽헌길 50</li>
+            <li>전화번호: 033-649-7000</li>
+            <li>팩스: 033-649-7100</li>
+        </ul>
     </div>
+    <img class="big" src="/image/kwandong_logo.png" alt="Catholic Kwandong University">
 </footer>
 
 <script>
-    // URL에서 쿼리 파라미터 읽기
-    function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-    }
-
-    // 페이지 로드 시 실행
-    window.onload = function() {
-        const category = getQueryParam('category');
-        if (category) {
-            // 기본 카테고리 선택
-            document.getElementById('category').value = category;
-            // 해당 카테고리 필드 표시
-            showCategoryFields(category);
-        }
-    }
-
-    // 카테고리 선택 시 관련 필드 표시하는 함수
     function showCategoryFields(category) {
-        // 모든 섹션 숨기기
+        // 모든 카테고리 섹션 숨기기
         document.getElementById('taxi-section').style.display = 'none';
         document.getElementById('delivery-section').style.display = 'none';
         document.getElementById('group-section').style.display = 'none';
 
-        // 선택된 카테고리에 맞는 섹션 표시
+        // 선택한 카테고리에 따라 섹션 보여주기
         if (category === 'taxi') {
             document.getElementById('taxi-section').style.display = 'block';
         } else if (category === 'delivery') {
