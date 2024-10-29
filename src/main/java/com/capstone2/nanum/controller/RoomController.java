@@ -2,6 +2,7 @@ package com.capstone2.nanum.controller;
 
 import com.capstone2.nanum.database.Room;
 import com.capstone2.nanum.services.RoomService;
+import com.capstone2.nanum.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,6 +65,7 @@ public class RoomController {
         room.setDeliveryLocation(deliveryLocation);
         room.setProduct(product);
         room.setDate(date);
+        room.setUserId(UserService.user.getId());
         roomService.saveRoom(room);
         return "redirect:/home/board-view";
     }

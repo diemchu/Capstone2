@@ -19,10 +19,11 @@ public class JoinRoomController {
     private JoinRoomService joinRoomService;
 
     @PostMapping("/join-room")
-    public ResponseEntity<?> joinRoom(@RequestBody Map<String, Long> payload) {
-        Long roomId = payload.get("roomId");
-        Long userId = payload.get("userId");
-        boolean success = joinRoomService.joinRoom(roomId,userId);
+    public ResponseEntity<?> joinRoom(@RequestBody Map<String, Object> payload) {
+        Long roomId = Long.parseLong((String) payload.get("roomId"));
+        Long userId = Long.parseLong((String) payload.get("userId"));
+        String roomName = (String) payload.get("roomName");
+        boolean success = joinRoomService.joinRoom(roomId, userId, roomName);
         if (success) {
             return ResponseEntity.ok(Map.of("success", true));
         } else {
@@ -31,4 +32,3 @@ public class JoinRoomController {
         }
     }
 }
-

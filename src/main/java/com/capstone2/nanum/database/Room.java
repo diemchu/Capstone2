@@ -21,5 +21,6 @@ public class Room {
     private String deliveryLocation;
     private String product;
     private String date;
+    private Long userId;
 
 }

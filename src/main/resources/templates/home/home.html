@@ -169,7 +169,9 @@
 <div id="container">
     <aside>
         <img src="/image/man.jpeg" alt="사용자 이미지" class="user-image">
-        <div class="nickname">사용자 이름</div>
+        <div class="nickname">[[${nickname}]]</div>
+        <p> [[${nickname}]]</p>
+
         <a th:href="@{/home/user-info-view}" class="edit-profile">프로필 수정</a>
         <a th:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
         <a th:href="@{/room/taxiroom-list-view}" class="tag">택시비</a>

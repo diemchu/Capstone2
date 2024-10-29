@@ -3,6 +3,7 @@ package com.capstone2.nanum.controller;
 
 import com.capstone2.nanum.database.Room;
 import com.capstone2.nanum.services.RoomService;
+import com.capstone2.nanum.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,9 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public  String home(){
+    public  String home(Model model){
+        System.out.println(UserService.user.getName());
+        model.addAttribute("nickname", UserService.user.getName());
         return  "home/home";
     }
     @GetMapping("/board-view")
