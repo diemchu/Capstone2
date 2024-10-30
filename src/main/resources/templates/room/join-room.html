@@ -155,6 +155,34 @@
             width: 100px; /* 원하는 크기로 변경 */
             height: auto; /* 비율 유지 */
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #eaeaea;
+        }
+
+        footer {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -162,8 +190,8 @@
     <img src="/image/app_logo.jpeg" alt="웹사이트 로고" class="logo">
     <nav class="navbar">
         <a th:href="@{/room/create-room-view}">방 생성하기</a>
-        <a th:href="@{/room/join-room-view}">방 참여하기</a>
-        <a th:href="@{/home/board-view}">게시판</a>
+        <a th:href="@{/room/join-room-view}">게시판</a>
+        <a th:href="@{/home/board-view}">방 참여하기</a>
     </nav>
 </header>
 
@@ -185,11 +213,36 @@
             <input type="text" id="search-input" placeholder="방 이름 검색" oninput="filterRooms()">
         </div>
 
-        <!-- 방 리스트를 보여줄 부분 -->
-        <div id="room-list"></div>
-
-        <!-- 페이지네이션 버튼 -->
-        <div id="pagination"></div>
+        <table>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>방 이름</th>
+                <th>가테고리</th>
+                <th>날짜</th>
+                <th>최대 인원</th>
+                <th>배달 받을 위치</th>
+                <th>출발 위치</th>
+                <th>도착 위치</th>
+                <th>상세 설명</th>
+                <th>주문 항목</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="room : ${rooms}" th:if="${room != null}">
+                <td th:if="${room?.id != null}" th:text="${room?.id}"></td>
+                <td th:if="${room?.roomName != null}" th:text="${room?.roomName}"></td>
+                <td th:if="${room?.category != null}" th:text="${room?.category}"></td>
+                <td th:if="${room?.date != null}" th:text="${room?.date}"></td>
+                <td th:if="${room?.maxPeople != null}" th:text="${room?.maxPeople}"></td>
+                <td th:if="${room?.deliveryLocation != null}" th:text="${room?.deliveryLocation}"></td>
+                <td th:if="${room?.departure != null}" th:text="${room?.departure}"></td>
+                <td th:if="${room?.destination != null}" th:text="${room?.destination}"></td>
+                <td th:if="${room?.description != null}" th:text="${room?.description}"></td>
+                <td th:if="${room?.product != null}" th:text="${room?.product}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 

@@ -1,6 +1,8 @@
 package com.capstone2.nanum.controller;
 
+import com.capstone2.nanum.database.JoinRoom;
 import com.capstone2.nanum.database.Room;
+import com.capstone2.nanum.services.JoinRoomService;
 import com.capstone2.nanum.services.RoomService;
 import com.capstone2.nanum.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -20,12 +23,30 @@ public class RoomController {
     @Autowired
     private RoomService roomService;
 
+    @Autowired
+    private  JoinRoomService joinRoomService;
+
     @GetMapping("/create-room-view")
     public String create() {
         return "room/create-room";
     }
     @GetMapping("/join-room-view")
-    public String join_room() {
+    public String join_room(Model model) {
+        List<JoinRoom> joinRooms = joinRoomService.findUserId(UserService.user.getId());
+        System.out.println(joinRooms.size());
+        List<Room> rooms = roomService.findAllRooms();
+        System.out.println(rooms.size());
+        List<Room> result = new ArrayList<>();
+
+        for (JoinRoom joinRoom : joinRooms){
+            for (Room room : rooms){
+                if(joinRoom.getRoomId().equals(room.getId())){
+                    result.add(room);
+                }
+            }
+        }
+
+        model.addAttribute("rooms",result);
         return "room/join-room";
     }
 

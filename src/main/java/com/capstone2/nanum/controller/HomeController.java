@@ -32,6 +32,8 @@ public class HomeController {
     public String board(Model model) {
         List<Room> rooms = roomService.findAllRooms();
         model.addAttribute("rooms", rooms);
+        model.addAttribute("nickname", UserService.user.getName());
+
         return "board/board";
     }
 

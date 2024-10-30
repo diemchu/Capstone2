@@ -147,16 +147,16 @@
 <header>
     <img src="/image/app_logo.jpeg" alt="웹사이트 로고" class="logo">
     <nav class="navbar">
-        <a th:href="@{/room/create-room-view}">방 생성하기</a>
-        <a th:href="@{/room/join-room-view}">방 참여하기</a>
-        <a th:href="@{/home/board-view}">게시판</a>
+       <a th:href="@{/room/create-room-view}">방 생성하기</a>
+        <a th:href="@{/room/join-room-view}">게시판</a>
+        <a th:href="@{/home/board-view}">방 참여하기</a>
     </nav>
 </header>
 
 <div id="container">
     <aside>
         <img src="#" alt="사용자 이미지" class="user-image">
-        <div class="nickname">사용자 이름</div>
+        <div class="nickname">[[${nickname}]]</div>
         <a th:href="@{/home/user-info-view}" class="edit-profile">프로필 수정</a>
         <a th:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
         <a th:href="@{/room/taxiroom-list-view}" class="tag">택시비</a>
@@ -285,6 +285,8 @@
         alert("거절했습니다.");
     }
 }
+
+
 
 
 </script>

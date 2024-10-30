@@ -1,5 +1,6 @@
 package com.capstone2.nanum.controller;
 
+import com.capstone2.nanum.database.JoinRoom;
 import com.capstone2.nanum.services.JoinRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,10 +20,11 @@ public class JoinRoomController {
     private JoinRoomService joinRoomService;
 
     @PostMapping("/join-room")
-    public ResponseEntity<?> joinRoom(@RequestBody Map<String, Object> payload) {
-        Long roomId = Long.parseLong((String) payload.get("roomId"));
-        Long userId = Long.parseLong((String) payload.get("userId"));
-        String roomName = (String) payload.get("roomName");
+    public ResponseEntity<?> joinRoom(@RequestBody JoinRoom request) {
+        Long roomId = request.getRoomId();
+        Long userId = request.getUserId();
+        String roomName = request.getRoomName();
+
         boolean success = joinRoomService.joinRoom(roomId, userId, roomName);
         if (success) {
             return ResponseEntity.ok(Map.of("success", true));

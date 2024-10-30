@@ -13,5 +13,5 @@ public class JoinRoom {
     private Long id;
     private  Long userId;
     private Long roomId;
-    private  Long roomName;
+    private  String roomName;
 }

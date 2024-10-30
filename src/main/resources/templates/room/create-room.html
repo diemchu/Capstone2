@@ -276,20 +276,20 @@
 
 <script>
     function showCategoryFields(category) {
-        // 모든 카테고리 섹션 숨기기
-        document.getElementById('taxi-section').style.display = 'none';
-        document.getElementById('delivery-section').style.display = 'none';
-        document.getElementById('group-section').style.display = 'none';
+    // Ẩn tất cả các phần và loại bỏ thuộc tính `required`
+    document.querySelectorAll('.category-section').forEach(section => {
+        section.style.display = 'none';
+        section.querySelectorAll('input, select, textarea').forEach(input => input.required = false);
+    });
 
-        // 선택한 카테고리에 따라 섹션 보여주기
-        if (category === 'taxi') {
-            document.getElementById('taxi-section').style.display = 'block';
-        } else if (category === 'delivery') {
-            document.getElementById('delivery-section').style.display = 'block';
-        } else if (category === 'group') {
-            document.getElementById('group-section').style.display = 'block';
-        }
+    // Hiện phần được chọn và thêm `required`
+    if (category) {
+        const section = document.getElementById(category + '-section');
+        section.style.display = 'block';
+        section.querySelectorAll('input, select, textarea').forEach(input => input.required = true);
     }
+}
+
 </script>
 
 </body>

@@ -5,6 +5,8 @@ import com.capstone2.nanum.repo.JoinRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class JoinRoomService {
 
@@ -15,11 +17,15 @@ public class JoinRoomService {
             JoinRoom joinRoom = new JoinRoom();
             joinRoom.setUserId(userId);
             joinRoom.setRoomId(roomId);
-            joinRoom.setRoomName(Long.valueOf(roomName));
+            joinRoom.setRoomName(roomName);
             joinRoomRepository.save(joinRoom);
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public List<JoinRoom> findUserId(Long userId){
+        return  joinRoomRepository.findByUserId(userId) == null ? null : joinRoomRepository.findByUserId(userId);
     }
 }

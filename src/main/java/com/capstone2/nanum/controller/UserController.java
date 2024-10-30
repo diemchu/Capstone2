@@ -98,9 +98,8 @@ public class UserController {
                 redirectAttributes.addFlashAttribute("message", message);
                 return "redirect:/login/login-view";
             }else{
-                redirectAttributes.addFlashAttribute("message", message);
-                redirectAttributes.addFlashAttribute("nickname",UserService.user.getName());
-                return "home/home";
+                redirectAttributes.addFlashAttribute("nickname", user.getName());
+                return "redirect:/home/home";
             }
         }
     }
