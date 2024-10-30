@@ -227,27 +227,11 @@
             <div id="taxi-section" class="category-section">
                 <div class="form-group">
                     <label for="departure">출발지</label>
-                    <select id="departure" name="departure" required>
-                        <option value="">출발지를 선택하세요</option>
-                        <option value="#">가톨릭관동대학교 정문</option>
-                        <option value="#">강릉고속버스터미널</option>
-                        <option value="#">강릉역</option>
-                        <option value="#">안목커피거리</option>
-                        <option value="#">신영극장</option>
-                        <!-- 필요한 다른 장소들 추가 -->
-                    </select>
+                    <input type="text" id="departure" name="departure" placeholder="출발지를 입력하세요" required>
                 </div>
                 <div class="form-group">
                     <label for="destination">도착지</label>
-                    <select id="destination" name="destination" required>
-                        <option value="">도착지를 선택하세요</option>
-                        <option value="#">가톨릭관동대학교 정문</option>
-                        <option value="#">강릉고속버스터미널</option>
-                        <option value="#">강릉역</option>
-                        <option value="#">안목커피거리</option>
-                        <option value="#">신영극장</option>
-                        <!-- 필요한 다른 장소들 추가 -->
-                    </select>
+                    <input type="text" id="destination" name="destination" placeholder="도착지를 입력하세요" required>
                 </div>
             </div>
 
@@ -255,20 +239,7 @@
             <div id="delivery-section" class="category-section">
                 <div class="form-group">
                     <label for="delivery-location">배달 받을 위치</label>
-                    <select id="delivery-location" name="delivery-location" required>
-                        <option value="">위치를 선택하세요</option>
-                        <option value="#">가톨릭관동대학교 정문</option>
-                        <option value="#">가톨릭관동대학교 후문</option>
-                        <option value="#">창조관</option>
-                        <option value="#">가브리엘관</option>
-                        <option value="#">제 1생활관</option>
-                        <option value="#">제 2생활관</option>
-                        <option value="#">제 3생활관</option>
-                        <option value="#">제 4생활관</option>
-                        <option value="#">제 5생활관</option>
-                        <option value="#">제 6생활관</option>
-                        <!-- 필요한 다른 장소들 추가 -->
-                    </select>
+                    <input type="text" id="delivery-location" name="delivery-location" placeholder="배달 받을 위치를 입력하세요" required>
                 </div>
             </div>
 
@@ -319,7 +290,6 @@
             document.getElementById('group-section').style.display = 'block';
         }
     }
-
 </script>
 
 </body>
