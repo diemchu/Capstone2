@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JoinRoom Page</title>
+    <title>main page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         body {
             margin: 0;
@@ -18,7 +19,7 @@
         }
 
         .logo {
-            height: 50px;
+            height: 80px;
             float: left;
             margin-right: 20px;
         }
@@ -87,7 +88,7 @@
             font-size: 18px;
             text-decoration: none;
             color: #000;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
             display: block;
         }
 
@@ -102,25 +103,27 @@
         #main {
             flex: 1;
             padding: 20px;
-        }
-
-        /* 방 리스트와 검색창을 같은 줄에 정렬 */
-        .search-container {
             display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
-            justify-content: flex-start; /* 좌측 정렬 */
-            gap: 10px; /* 제목과 검색창 간격 */
-            margin-bottom: 20px;
         }
 
-        /* 검색창 스타일 */
-        .search-container input {
-            padding: 5px;
-            font-size: 16px;
+        .card-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
         }
 
-        /* 방 리스트 스타일 */
-        #room-list {
+        .room-list-section {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 1200px;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+
+        .room-list {
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -130,22 +133,15 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            background-color: #f9f9f9;
+            display: flex;
+            justify-content: space-between;
         }
 
-        #pagination {
-            margin-top: 20px;
-            text-align: center;
+        .room-category {
+            font-weight: bold;
         }
 
-        #pagination button {
-            padding: 5px 10px;
-            margin: 0 5px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            cursor: pointer;
-        }
-         footer {
+        footer {
             margin-top: 20px;
         }
         .footer-address li {
@@ -155,34 +151,9 @@
             width: 100px; /* 원하는 크기로 변경 */
             height: auto; /* 비율 유지 */
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
 
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-        }
 
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
 
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        tr:hover {
-            background-color: #eaeaea;
-        }
-
-        footer {
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
@@ -198,9 +169,9 @@
 <div id="container">
     <aside>
         <img src="/image/man.jpeg" alt="사용자 이미지" class="user-image">
-        <div class="nickname">사용자 이름</div>
+        <div class="nickname">[[${nickname}]]</div>
         <a th:href="@{/home/user-info-view}" class="edit-profile">프로필 수정</a>
-        <a h:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
+        <a th:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
         <a th:href="@{/room/taxiroom-list-view}" class="tag">택시비</a>
         <a th:href="@{/room/deliveryroom-view}" class="tag">배달비</a>
         <a th:href="@{/room/jointroom-list-view}" class="tag">공동구매</a>
@@ -208,41 +179,7 @@
     </aside>
 
     <div id="main">
-        <div class="search-container">
-            <h2>방 리스트</h2>
-            <input type="text" id="search-input" placeholder="방 이름 검색" oninput="filterRooms()">
-        </div>
-
-        <table>
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>방 이름</th>
-                <th>가테고리</th>
-                <th>날짜</th>
-                <th>최대 인원</th>
-                <th>배달 받을 위치</th>
-                <th>출발 위치</th>
-                <th>도착 위치</th>
-                <th>상세 설명</th>
-                <th>주문 항목</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="room : ${rooms}" th:if="${room != null}">
-                <td th:if="${room?.id != null}" th:text="${room?.id}"></td>
-                <td th:if="${room?.roomName != null}" th:text="${room?.roomName}"></td>
-                <td th:if="${room?.category != null}" th:text="${room?.category}"></td>
-                <td th:if="${room?.date != null}" th:text="${room?.date}"></td>
-                <td th:if="${room?.maxPeople != null}" th:text="${room?.maxPeople}"></td>
-                <td th:if="${room?.deliveryLocation != null}" th:text="${room?.deliveryLocation}"></td>
-                <td th:if="${room?.departure != null}" th:text="${room?.departure}"></td>
-                <td th:if="${room?.destination != null}" th:text="${room?.destination}"></td>
-                <td th:if="${room?.description != null}" th:text="${room?.description}"></td>
-                <td th:if="${room?.product != null}" th:text="${room?.product}"></td>
-            </tr>
-            </tbody>
-        </table>
+        게시판 내용
     </div>
 </div>
 
@@ -265,85 +202,8 @@
     </div>
 </footer>
 
-<script>
-    // 방 데이터 (예시) 나중에 지울 것
-    const rooms = [
-        { category: '택시', roomName: '서울', departure: '강릉', destination: '서울', participants: '1/4' },
-        { category: '배달비', roomName: '치킨 나눔', deliveryLocation: '관동대학교', participants: '2/5' },
-        { category: '공동구매', roomName: '넷플릭스', product: '넷플릭스 구독', participants: '3/6' },
-        // 더 많은 방을 추가 가능
-    ];
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-    let currentPage = 1;
-    const roomsPerPage = 20;
 
-    // 방 리스트 렌더링 함수
-    function renderRoomList(page) {
-        const roomList = document.getElementById('room-list');
-        const searchInput = document.getElementById('search-input').value.toLowerCase();
-        roomList.innerHTML = '';
-
-        const start = (page - 1) * roomsPerPage;
-        const end = start + roomsPerPage;
-        let roomsToDisplay = rooms.slice(start, end);
-
-        // 검색어가 입력된 경우 필터링
-        if (searchInput) {
-            roomsToDisplay = roomsToDisplay.filter(room => room.roomName.toLowerCase().includes(searchInput));
-        }
-
-        roomsToDisplay.forEach(room => {
-            let roomHtml = '<div class="room-item">';
-
-            if (room.category === '택시') {
-                roomHtml += `[택시] ${room.roomName} ${room.departure}->${room.destination} ${room.participants}`;
-            } else if (room.category === '배달비') {
-                roomHtml += `[배달비] ${room.roomName} ${room.deliveryLocation} ${room.participants}`;
-            } else if (room.category === '공동구매') {
-                roomHtml += `[공동구매] ${room.roomName} ${room.product} ${room.participants}`;
-            }
-
-            roomHtml += '</div>';
-            roomList.innerHTML += roomHtml;
-        });
-
-        renderPagination();
-    }
-
-    // 페이지네이션 렌더링 함수
-    function renderPagination() {
-        const pagination = document.getElementById('pagination');
-        pagination.innerHTML = '';
-
-        const totalPages = Math.ceil(rooms.length / roomsPerPage);
-
-        if (currentPage > 1) {
-            const prevButton = document.createElement('button');
-            prevButton.textContent = '이전';
-            prevButton.onclick = () => {
-                currentPage--;
-                renderRoomList(currentPage);
-            };
-            pagination.appendChild(prevButton);
-        }
-
-        if (currentPage < totalPages) {
-            const nextButton = document.createElement('button');
-            nextButton.textContent = '다음';
-            nextButton.onclick = () => {
-                currentPage++;
-                renderRoomList(currentPage);
-            };
-            pagination.appendChild(nextButton);
-        }
-    }
-
-    // 검색 시 즉시 결과 반영
-    function filterRooms() {
-        renderRoomList(1);  // 검색 시 첫 번째 페이지부터 다시 시작
-    }
-
-    renderRoomList(1);
-</script>
 </body>
 </html>
