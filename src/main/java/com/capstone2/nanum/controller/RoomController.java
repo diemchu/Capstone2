@@ -45,7 +45,7 @@ public class RoomController {
                 }
             }
         }
-
+        System.out.println("size = " + result.size());
         model.addAttribute("rooms",result);
         return "room/join-room";
     }

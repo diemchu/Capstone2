@@ -33,6 +33,7 @@ public class HomeController {
         List<Room> rooms = roomService.findAllRooms();
         model.addAttribute("rooms", rooms);
         model.addAttribute("nickname", UserService.user.getName());
+        model.addAttribute("currentUserId",UserService.user.getId());
 
         return "board/board";
     }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,48 +8,52 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
         }
+
         header {
             padding: 10px 20px;
             text-align: center;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: white;
-            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
+            position: relative;
+            margin-top: 20px;
         }
+
         .logo {
             height: 50px;
             float: left;
             margin-right: 20px;
         }
+
         .navbar {
             display: inline-block;
             text-align: center;
+            justify-content: center;
         }
+
         .navbar a {
             margin: 0 15px;
             text-decoration: none;
             color: #000;
         }
+
+        footer {
+            padding: 10px 20px;
+            text-align: center;
+        }
+
         #container {
             display: flex;
-            margin-top: 80px;
-            flex: 1;
+            border: 1px solid #222;
+            height: calc(100vh - 50px);
+            margin-top: 50px;
         }
+
         aside {
-            width: 220px;
+            width: 200px;
             padding: 20px;
-            background-color: #ffffff;
+            background-color: #f4f4f4;
             border-right: 1px solid #ccc;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            height: calc(100vh - 80px);
-            overflow-y: auto;
         }
+
         .user-image {
             width: 80px;
             height: 80px;
@@ -62,118 +66,80 @@
             margin-bottom: 20px;
         }
 
-        .edit-profile {
+        .edit-profile, .room-link, .tag, .logout {
             font-size: 18px;
             text-decoration: none;
             color: #000;
             margin-bottom: 10px;
-            display: block;
-        }
-
-        .room-link {
-            font-size: 24px;
-            font-weight: bold;
-            text-decoration: none;
-            color: #000;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .tag {
-            font-size: 18px;
-            text-decoration: none;
-            color: #000;
-            margin-bottom: 15px;
             display: block;
         }
 
         .logout {
-            font-size: 18px;
-            text-decoration: none;
             color: red;
             margin-top: 20px;
-            display: block;
         }
+
         #main {
             flex: 1;
-            margin-left: 20px; /* 좌측으로 더 붙이기 */
-            margin-top: 10px;
             padding: 20px;
             overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: flex-start;
-            height: calc(100% - 90px);
         }
-        footer {
-            padding: 10px 20px;
-            text-align: center;
-            background-color: #f8f8f8;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.1);
-        }
-        .board {
-            width: 100%;
-            max-width: 800px;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        .board h1 {
+
+        #button-container {
             margin-bottom: 20px;
-            font-size: 1.5em;
-            color: #333;
         }
-        .post-list {
+
+        .filter-button {
+            margin: 0 10px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .filter-button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        .post-list th, .post-list td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-        .post-list th {
-            background-color: #f8f8f8;
-            font-weight: bold;
-        }
-        .post-list td a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-        .page-nav {
-            text-align: center;
             margin-top: 20px;
         }
-        .page-nav a {
-            margin: 0 5px;
-            padding: 5px 10px;
-            text-decoration: none;
-            color: #007BFF;
+
+        th, td {
             border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 10px;
+            text-align: left;
         }
-        .page-nav a:hover {
-            background-color: #f0f0f0;
-            color: #333;
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
         }
-        .write-button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
-            margin-top: 15px;
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
-        .write-button:hover {
-            background-color: #0056b3;
+
+        tr:hover {
+            background-color: #eaeaea;
+        }
+
+        footer {
+            margin-top: 20px;
+        }
+
+        .footer-address li {
+            list-style-type: none;
+        }
+
+        .big {
+            width: 100px;
+            height: auto;
         }
     </style>
 </head>
@@ -202,17 +168,37 @@
 
     <main id="main">
         <div class="board">
-            <h1>게시판</h1>
-            <table class="post-list">
+            <h1>참여한 방 정보</h1>
+
+            <table>
                 <thead>
                 <tr>
-                    <th>번호</th>
+                    <th>Id</th>
+                    <th>방 이름</th>
+                    <th>가테고리</th>
                     <th>날짜</th>
-                    <th>제목</th>
-                    <th>조회수</th>
+                    <th>최대 인원</th>
+                    <th>배달 받을 위치</th>
+                    <th>출발 위치</th>
+                    <th>도착 위치</th>
+                    <th>상세 설명</th>
+                    <th>주문 항목</th>
                 </tr>
                 </thead>
-                <tbody id="postList">
+                <tbody>
+                <tr th:each="room : ${rooms}">
+<!--                    th:attr="data-id=${room?.id},data-room-name=${room.roomName} ,user-id = ${currentUserId}" onclick="confirmParticipation(this)">-->
+                    <td th:if="${room?.id != null}" th:text="${room?.id}"></td>
+                    <td th:if="${room?.roomName != null}" th:text="${room?.roomName}"></td>
+                    <td th:if="${room?.category != null}" th:text="${room?.category}"></td>
+                    <td th:if="${room?.date != null}" th:text="${room?.date}"></td>
+                    <td th:if="${room?.maxPeople != null}" th:text="${room?.maxPeople}"></td>
+                    <td th:if="${room?.deliveryLocation != null}" th:text="${room?.deliveryLocation}"></td>
+                    <td th:if="${room?.departure != null}" th:text="${room?.departure}"></td>
+                    <td th:if="${room?.destination != null}" th:text="${room?.destination}"></td>
+                    <td th:if="${room?.description != null}" th:text="${room?.description}"></td>
+                    <td th:if="${room?.product != null}" th:text="${room?.product}"></td>
+                </tr>
                 </tbody>
             </table>
             <div class="page-nav">

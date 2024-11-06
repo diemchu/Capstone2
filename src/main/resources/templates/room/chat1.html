@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Room</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+    }
+    .chat-container {
+        width: 60%;
+        margin: 50px auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        overflow-y: auto;
+        max-height: 500px;
+    }
+    .message {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+    .message .user {
+        font-weight: bold;
+        color: #333;
+    }
+    .message .text {
+        padding: 10px;
+        background-color: #e1f5fe;
+        border-radius: 10px;
+        display: inline-block;
+        max-width: 80%;
+        margin-top: 5px;
+    }
+    .message.own .text {
+        background-color: #c8e6c9;
+        margin-left: auto;
+    }
+    .timestamp {
+        font-size: 0.8em;
+        color: #777;
+        margin-top: 5px;
+        text-align: right;
+    }
+    .input-container {
+        margin-top: 20px;
+        display: flex;
+    }
+    .input-container input[type="text"] {
+        flex: 1;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-right: 10px;
+    }
+    .input-container button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .input-container button:hover {
+        background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<div class="chat-container" id="chatBox">
+  <!-- Template for messages; replace dynamically with data -->
+</div>
+
+<div class="input-container">
+  <input type="text" id="messageInput" placeholder="Type your message here..." />
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+  // Sample data to simulate messages from the database
+  const messages = [
+      { user: 'John', text: 'Hello, how are you?', timestamp: '10:15 AM' },
+      { user: 'Nam', text: 'I am good, thanks! What about you?', timestamp: '10:16 AM' },
+      { user: 'John', text: 'I am doing great as well.', timestamp: '10:17 AM' },
+  ];
+
+  const chatBox = document.getElementById('chatBox');
+
+  // Function to render messages
+  function renderMessages() {
+      chatBox.innerHTML = ''; // Clear previous messages
+      messages.forEach(message => {
+          const messageElement = document.createElement('div');
+          messageElement.classList.add('message');
+          if (message.user === 'Nam') {
+              messageElement.classList.add('own'); // Different style for 'Nam'
+          }
+
+          messageElement.innerHTML = `
+              <div class="user">${message.user}</div>
+              <div class="text">${message.text}</div>
+              <div class="timestamp">${message.timestamp}</div>
+          `;
+          chatBox.appendChild(messageElement);
+      });
+      chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to bottom
+  }
+
+  // Function to handle sending a message
+  function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const messageText = input.value.trim();
+
+      if (messageText) {
+          const newMessage = {
+              user: 'Nam', // This can be dynamically set based on the logged-in user
+              text: messageText,
+              timestamp: new Date().toLocaleTimeString(),
+          };
+          messages.push(newMessage);
+          renderMessages();
+          input.value = ''; // Clear input after sending
+      }
+  }
+
+  // Initial rendering
+  renderMessages();
+</script>
+</body>
+</html>
