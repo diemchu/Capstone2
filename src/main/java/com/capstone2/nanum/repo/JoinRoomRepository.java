@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface  JoinRoomRepository  extends JpaRepository< JoinRoom,Long> {
     List<JoinRoom> findByUserId(Long userId); // Sửa thành findByUserId
+    JoinRoom findById(long id);
 }

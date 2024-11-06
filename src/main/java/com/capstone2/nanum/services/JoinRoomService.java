@@ -12,11 +12,12 @@ public class JoinRoomService {
 
     @Autowired
     private JoinRoomRepository joinRoomRepository;
-    public boolean joinRoom(Long roomId, Long userId, String roomName) {
+    public boolean joinRoom(Long roomId, Long userId,Long roomManagerId, String roomName) {
         try {
             JoinRoom joinRoom = new JoinRoom();
             joinRoom.setUserId(userId);
             joinRoom.setRoomId(roomId);
+            joinRoom.setRoomManagerId(roomManagerId);
             joinRoom.setRoomName(roomName);
             joinRoomRepository.save(joinRoom);
             return true;

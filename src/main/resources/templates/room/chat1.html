@@ -74,63 +74,108 @@
 </head>
 <body>
 <div class="chat-container" id="chatBox">
-  <!-- Template for messages; replace dynamically with data -->
+  <!-- Tin nhắn sẽ được render tại đây -->
 </div>
+<p id="roomId" th:text="${chatRoomId}" style="display: none;"></p>
+<p id="senderId" th:text="${senderId}" style="display: none;"></p>
+<p id="receiverId" th:text="${receiverId}" style="display: none;"></p>
 
 <div class="input-container">
   <input type="text" id="messageInput" placeholder="Type your message here..." />
-  <button onclick="sendMessage()">Send</button>
+  <button id="sendButton">Send</button>
 </div>
 
 <script>
-  // Sample data to simulate messages from the database
-  const messages = [
-      { user: 'John', text: 'Hello, how are you?', timestamp: '10:15 AM' },
-      { user: 'Nam', text: 'I am good, thanks! What about you?', timestamp: '10:16 AM' },
-      { user: 'John', text: 'I am doing great as well.', timestamp: '10:17 AM' },
-  ];
+   const roomId = document.getElementById('roomId').textContent;
+   const senderId = document.getElementById('senderId').textContent;
+   const receiverId = document.getElementById('receiverId').textContent;
+    // Kiểm tra giá trị của roomId, senderId, receiverId
+    console.log(roomId, senderId, receiverId);
 
-  const chatBox = document.getElementById('chatBox');
+    // Đảm bảo rằng không có giá trị null hoặc undefined trong JavaScript
+    if (roomId && senderId && receiverId) {
+        console.log("Values are correctly loaded.");
+    } else {
+        console.error("Missing values: ", roomId, senderId, receiverId);
+    }
 
-  // Function to render messages
-  function renderMessages() {
-      chatBox.innerHTML = ''; // Clear previous messages
-      messages.forEach(message => {
-          const messageElement = document.createElement('div');
-          messageElement.classList.add('message');
-          if (message.user === 'Nam') {
-              messageElement.classList.add('own'); // Different style for 'Nam'
-          }
 
-          messageElement.innerHTML = `
-              <div class="user">${message.user}</div>
-              <div class="text">${message.text}</div>
-              <div class="timestamp">${message.timestamp}</div>
-          `;
-          chatBox.appendChild(messageElement);
-      });
-      chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to bottom
-  }
+    // Lấy lịch sử chat khi trang được tải
+    window.onload = function() {
+        fetchMessages();
+    };
+  
+    // Hàm fetch tin nhắn từ server
+    function fetchMessages() {
+    fetch(`/api/chat/history/${senderId}/${receiverId}`)
+        .then(response => response.json())
+        .then(messages => {
+            console.log("Messages from server:", messages); // Kiểm tra dữ liệu
+            if (Array.isArray(messages)) { // Kiểm tra xem messages có phải là mảng không
+                renderMessages(messages);
+            } else {
+                console.error("Received messages is not an array:", messages);
+            }
+        })
+        .catch(error => console.error('Error fetching messages:', error));
+}
+  
+    // Hàm render tin nhắn vào chatBox
+    function renderMessages(messages) {
+        const chatBox = document.getElementById('chatBox');
+        chatBox.innerHTML = ''; // Xóa các tin nhắn cũ
+  
+        messages.forEach(message => {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            
+            if (message.senderId === senderId) {
+                messageElement.classList.add('own'); // Thêm class nếu là tin nhắn của người dùng
+            }
+  
+            messageElement.innerHTML = `
+                <div class="user">${message.senderName}</div>
+                <div class="text">${message.text}</div>
+                <div class="timestamp">${new Date(message.timestamp).toLocaleTimeString()}</div>
+            `;
+            chatBox.appendChild(messageElement);
+        });
+        chatBox.scrollTop = chatBox.scrollHeight; // Tự động cuộn xuống cuối
+    }
+  
+    window.onload = function() {
+        document.getElementById("sendButton").addEventListener("click", sendMessage);
+        fetchMessages();
+    };
 
-  // Function to handle sending a message
-  function sendMessage() {
-      const input = document.getElementById('messageInput');
-      const messageText = input.value.trim();
+    function sendMessage() {
+        const input = document.getElementById('messageInput');
+        const messageText = input.value.trim();
 
-      if (messageText) {
-          const newMessage = {
-              user: 'Nam', // This can be dynamically set based on the logged-in user
-              text: messageText,
-              timestamp: new Date().toLocaleTimeString(),
-          };
-          messages.push(newMessage);
-          renderMessages();
-          input.value = ''; // Clear input after sending
-      }
-  }
+        if (messageText) {
+            const newMessage = {
+                roomId: roomId,
+                senderId: senderId, 
+                receiverId: receiverId, 
+                text: messageText,
+                timestamp: new Date().toISOString()
+            };
 
-  // Initial rendering
-  renderMessages();
-</script>
-</body>
-</html>
+            fetch('/api/chat/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newMessage)
+            })
+            .then(response => response.json())
+            .then(savedMessage => {
+                renderMessages([savedMessage]); // Hiển thị tin nhắn mới ngay lập tức
+                input.value = ''; // Xóa ô nhập sau khi gửi
+            })
+            .catch(error => console.error('Error sending message:', error));
+        }
+    }
+  </script>
+  </body>
+  </html>

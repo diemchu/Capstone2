@@ -23,9 +23,10 @@ public class JoinRoomController {
     public ResponseEntity<?> joinRoom(@RequestBody JoinRoom request) {
         Long roomId = request.getRoomId();
         Long userId = request.getUserId();
+        Long roomManagerId = request.getRoomManagerId();
         String roomName = request.getRoomName();
 
-        boolean success = joinRoomService.joinRoom(roomId, userId, roomName);
+        boolean success = joinRoomService.joinRoom(roomId, userId,roomManagerId, roomName);
         if (success) {
             return ResponseEntity.ok(Map.of("success", true));
         } else {

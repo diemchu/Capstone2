@@ -186,8 +186,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="room : ${rooms}">
-<!--                    th:attr="data-id=${room?.id},data-room-name=${room.roomName} ,user-id = ${currentUserId}" onclick="confirmParticipation(this)">-->
+                <tr th:each="room : ${rooms}"
+                    th:attr="data-id=${room?.id},data-room-name=${room.roomName}" onclick="confirmParticipation(this)">
                     <td th:if="${room?.id != null}" th:text="${room?.id}"></td>
                     <td th:if="${room?.roomName != null}" th:text="${room?.roomName}"></td>
                     <td th:if="${room?.category != null}" th:text="${room?.category}"></td>
@@ -243,6 +243,42 @@
 
         loadPosts();
     });
+
+    function confirmParticipation(row) {
+    const roomId = row.getAttribute("data-id");
+    const roomName = row.getAttribute("data-room-name"); 
+    const confirmation = confirm(`채팅방 "${roomName}" 이동했습니다`);
+    if (confirmation) {
+        fetch(`/api/chat/chat-view`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                roomId: roomId,
+            })
+        })
+        .then(response => {
+            if (!response.ok) { // Kiểm tra xem có lỗi HTTP không
+                throw new Error("Network response was not ok");
+            }
+            return response.text();  // Trả về HTML dưới dạng text
+        })
+        .then(html => {
+            // Hiển thị trang mới
+            document.open();
+            document.write(html);
+            document.close();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("서버 오류가 발생했습니다.");
+        });
+    }
+}
+
+
+
 </script>
 
 </body>

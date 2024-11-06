@@ -193,7 +193,7 @@
             </thead>
             <tbody>
                 <tr th:each="room : ${rooms}"
-                    th:attr="data-id=${room?.id},data-room-name=${room.roomName} ,user-id = ${currentUserId}" onclick="confirmParticipation(this)">
+                    th:attr="data-id=${room?.id},data-room-name=${room.roomName} ,user-id = ${currentUserId} , room-manager-id=${room.userId}"  onclick="confirmParticipation(this)">
                     <td th:if="${room?.id != null}" th:text="${room?.id}"></td>
                     <td th:if="${room?.roomName != null}" th:text="${room?.roomName}"></td>
                     <td th:if="${room?.category != null}" th:text="${room?.category}"></td>
@@ -254,6 +254,7 @@
     const roomId = row.getAttribute("data-id");
     const roomName = row.getAttribute("data-room-name");
     const userId = row.getAttribute("user-id");
+    const roomManagerId=row.getAttribute("room-manager-id");
     console.log(`roomId: ${roomId}, roomName: ${roomName} , userId : ${userId}`);
 
     const confirmation = confirm(`채팅방 "${roomName}" 참여하시겠습니까?`);
@@ -266,7 +267,8 @@
             body: JSON.stringify({
                 roomId: roomId,
                 roomName: roomName,
-                userId: userId
+                userId: userId,
+                roomManagerId:roomManagerId
             })
         })
         .then(response => response.json())
@@ -284,6 +286,9 @@
     } else {
         alert("거절했습니다.");
     }
+
+
+   
 }
 
 
