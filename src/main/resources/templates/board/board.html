@@ -1,20 +1,28 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>broad page</title>
+    <title>게시판</title>
     <style>
+        /* 스타일 그대로 유지 */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
 
         header {
             padding: 10px 20px;
             text-align: center;
-            position: relative;
-            margin-top: 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
         }
 
         .logo {
@@ -26,7 +34,6 @@
         .navbar {
             display: inline-block;
             text-align: center;
-            justify-content: center;
         }
 
         .navbar a {
@@ -35,265 +42,318 @@
             color: #000;
         }
 
-        footer {
-            padding: 10px 20px;
-            text-align: center;
-        }
-
         #container {
             display: flex;
-            border: 1px solid #222;
-            height: calc(100vh - 50px);
-            margin-top: 50px;
+            height: calc(100vh - 80px);
+            padding-top: 80px;
+            overflow: hidden;
         }
 
         aside {
-            width: 200px;
+            width: 220px;
             padding: 20px;
-            background-color: #f4f4f4;
+            background-color: #ffffff;
             border-right: 1px solid #ccc;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
         }
-
         .user-image {
             width: 80px;
             height: 80px;
             border-radius: 50%;
             margin-bottom: 10px;
         }
-
         .nickname {
             font-size: 18px;
             margin-bottom: 20px;
         }
-
-        .edit-profile, .room-link, .tag, .logout {
+        .edit-profile {
             font-size: 18px;
             text-decoration: none;
             color: #000;
             margin-bottom: 10px;
             display: block;
         }
-
+        .room-link {
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #000;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .tag {
+            font-size: 18px;
+            text-decoration: none;
+            color: #000;
+            margin-bottom: 15px;
+            display: block;
+        }
         .logout {
+            font-size: 18px;
+            text-decoration: none;
             color: red;
             margin-top: 20px;
+            display: block;
         }
 
-        #main {
+        main {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        #button-container {
-            margin-bottom: 20px;
-        }
-
-        .filter-button {
-            margin: 0 10px;
-            padding: 10px 15px;
+        .board-header {
+            width: 100%;
             background-color: #007bff;
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
+            padding: 20px;
+            font-size: 24px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 10px;
         }
 
-        .filter-button:hover {
-            background-color: #0056b3;
-        }
-
-        table {
+        .board-items-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
             width: 100%;
-            border-collapse: collapse;
             margin-top: 20px;
         }
 
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
+        .board-item {
+            background-color: #ffffff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            color: #333;
         }
 
-        th {
-            background-color: #f2f2f2;
+        .board-item a {
+            text-decoration: none;
+            color: #333;
             font-weight: bold;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        tr:hover {
-            background-color: #eaeaea;
+        .board-item .details {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
         }
 
         footer {
+            padding: 10px 20px;
+            text-align: center;
+            background-color: #f8f8f8;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-post-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .add-post-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
             margin-top: 20px;
         }
 
-        .footer-address li {
-            list-style-type: none;
+        .page-number {
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
         }
 
-        .big {
-            width: 100px;
-            height: auto;
+        .page-number.active {
+            font-weight: bold;
+            color: #007bff;
         }
+
+        .pagination-btn {
+            padding: 5px 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+
+        .pagination-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
     </style>
 </head>
 <body>
+
 <header>
     <img src="/image/app_logo.jpeg" alt="웹사이트 로고" class="logo">
     <nav class="navbar">
-       <a th:href="@{/room/create-room-view}">방 생성하기</a>
-        <a th:href="@{/room/join-room-view}">게시판</a>
-        <a th:href="@{/home/board-view}">방 참여하기</a>
+        <a href="/room/create-room-view">방 생성하기</a>
+        <a href="/room/join-room-view">게시판</a>
+        <a href="/home/board-view">방 생성하기</a>
     </nav>
 </header>
 
 <div id="container">
     <aside>
-        <img src="#" alt="사용자 이미지" class="user-image">
-        <div class="nickname">[[${nickname}]]</div>
-        <a th:href="@{/home/user-info-view}" class="edit-profile">프로필 수정</a>
-        <a th:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
-        <a th:href="@{/room/taxiroom-list-view}" class="tag">택시비</a>
-        <a th:href="@{/room/deliveryroom-view}" class="tag">배달비</a>
-        <a th:href="@{/room/jointroom-list-view}" class="tag">공동구매</a>
-        <a th:href="@{/login/login-view}" class="logout">로그아웃</a>
+        <img src="/image/user.png" alt="유저 이미지" class="user-image">
+        <div class="nickname">사용자 닉네임</div>
+        <a href="user-info.html" class="edit-profile">프로필 수정</a>
+        <a href="join-room.html" class="room-link">참여한 방</a>
+        <a href="#" class="tag">택시비</a>
+        <a href="#" class="tag">배달비</a>
+        <a href="#" class="tag">공동구매</a>
+        <a href="login.html" class="logout">로그아웃</a>
     </aside>
 
-    <div id="main">
-        <h2>[[${currentUserId}]]</h2>
-        <div id="button-container">
-            <a th:href="@{/room/select-taxi-room(category='taxi')}" class="filter-button">택시</a>
-            <a th:href="@{/room/select-delivery-room(category='delivery')}" class="filter-button">배달비</a>
-            <a th:href="@{/room/select-group-room(category='group')}" class="filter-button">공동 구매</a>
-            <a th:href="@{/home/board-view}" class="filter-button">모두 보기</a>
-
+    <main>
+        <div><h2>게시판</h2></div>
+        <div class="board-items-container" id="board-items">
+            <!-- 게시글 항목들이 여기에 동적으로 추가됩니다 -->
         </div>
+        <button class="add-post-btn" onclick="window.location.href = 'write.html';">글쓰기</button>
 
-
-        <table>
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>방 이름</th>
-                <th>가테고리</th>
-                <th>날짜</th>
-                <th>최대 인원</th>
-                <th>배달 받을 위치</th>
-                <th>출발 위치</th>
-                <th>도착 위치</th>
-                <th>상세 설명</th>
-                <th>주문 항목</th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr th:each="room : ${rooms}"
-                    th:attr="data-id=${room?.id},data-room-name=${room.roomName} ,user-id = ${currentUserId} , room-manager-id=${room.userId}"  onclick="confirmParticipation(this)">
-                    <td th:if="${room?.id != null}" th:text="${room?.id}"></td>
-                    <td th:if="${room?.roomName != null}" th:text="${room?.roomName}"></td>
-                    <td th:if="${room?.category != null}" th:text="${room?.category}"></td>
-                    <td th:if="${room?.date != null}" th:text="${room?.date}"></td>
-                    <td th:if="${room?.maxPeople != null}" th:text="${room?.maxPeople}"></td>
-                    <td th:if="${room?.deliveryLocation != null}" th:text="${room?.deliveryLocation}"></td>
-                    <td th:if="${room?.departure != null}" th:text="${room?.departure}"></td>
-                    <td th:if="${room?.destination != null}" th:text="${room?.destination}"></td>
-                    <td th:if="${room?.description != null}" th:text="${room?.description}"></td>
-                    <td th:if="${room?.product != null}" th:text="${room?.product}"></td>
-                </tr>
-                </tbody>
-        </table>
-    </div>
+        <div class="pagination" id="pagination">
+            <!-- 페이지 번호와 버튼이 동적으로 추가됩니다 -->
+        </div>
+    </main>
 </div>
 
 <footer>
-    <div class="footer-contact">
-        <div class="footer-logo">
-            <img src="/image/ft-logo.png" alt="가톨릭관동대학교 CATHOLIC KWANDONG UNIVERSITY" class="big">
-        </div>
-        <div class="footer-info">
-            <ul class="footer-address">
-                <li>(25601) 강릉시 범일로 579번길 24 (내곡동)</li>
-                <li>TEL : (033) 649 - 7114</li>
-                <li>FAX : (033) 641 - 1010</li>
-                <li>입학 TEL : 033-649-7000 (평일 : 09:00 ~ 17:00)</li>
-            </ul>
-            <div class="footer-copyright">
-                Copyright© CATHOLIC KWANDONG UNIVERSITY. All Rights Reserved
-            </div>
-        </div>
+    <div class="footer-address">
+        <ul>
+            <li>학교 주소: 강원도 강릉시 죽헌길 50</li>
+            <li>전화번호: 033-649-7000</li>
+            <li>팩스: 033-649-7100</li>
+        </ul>
     </div>
+    <img class="big" src="/image/kwandong_logo.png" alt="Catholic Kwandong University">
 </footer>
 
 <script>
-    function filterData(category) {
-        const rows = document.querySelectorAll("tbody tr");
-        rows.forEach(row => {
-            const roomCategory = row.cells[1].innerText;
-            if (roomCategory === category) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
+    let currentPage = 1;
+    const postsPerPage = 12;
+
+    function getPosts() {
+        return JSON.parse(localStorage.getItem("posts")) || [];
+    }
+
+    function savePosts(posts) {
+        localStorage.setItem("posts", JSON.stringify(posts));
+    }
+
+    function deletePost(index) {
+        const posts = getPosts();
+        const postIndex = (currentPage - 1) * postsPerPage + index; // 전체 게시물 배열에서 해당 인덱스 계산
+        posts.splice(postIndex, 1); // 선택한 게시물 삭제
+        savePosts(posts); // 업데이트된 게시물 목록을 저장
+        renderBoard(); // 게시판 다시 렌더링
+    }
+
+    function renderBoard() {
+        const boardItems = document.getElementById("board-items");
+        boardItems.innerHTML = "";
+
+        const posts = getPosts();
+        const startIndex = (currentPage - 1) * postsPerPage;
+        const endIndex = startIndex + postsPerPage;
+        const currentPosts = posts.slice(startIndex, endIndex);
+
+        currentPosts.forEach((post, index) => {
+            const item = document.createElement("div");
+            item.classList.add("board-item");
+            item.innerHTML = `
+                <a href="story.html?id=${post.id}" class="title">${post.title}</a>
+                <div class="details">
+                    <span>작성자: ${post.author}</span>
+                    <span>조회수: ${post.views}</span>
+                </div>
+                <button onclick="deletePost(${index})" class="delete-btn">삭제</button>
+            `;
+            boardItems.appendChild(item);
+        });
+
+        renderPagination(posts.length);
+    }
+
+    function renderPagination(totalPosts) {
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";
+
+        const totalPages = Math.ceil(totalPosts / postsPerPage);
+
+        const prevButton = document.createElement("button");
+        prevButton.textContent = "이전 페이지";
+        prevButton.classList.add("pagination-btn");
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderBoard();
             }
         });
-    }
+        pagination.appendChild(prevButton);
 
-    function resetFilter() {
-        const rows = document.querySelectorAll("tbody tr");
-        rows.forEach(row => {
-            row.style.display = "";
-        });
-
-    }
-
-    function confirmParticipation(row) {
-    const roomId = row.getAttribute("data-id");
-    const roomName = row.getAttribute("data-room-name");
-    const userId = row.getAttribute("user-id");
-    const roomManagerId=row.getAttribute("room-manager-id");
-    console.log(`roomId: ${roomId}, roomName: ${roomName} , userId : ${userId}`);
-
-    const confirmation = confirm(`채팅방 "${roomName}" 참여하시겠습니까?`);
-    if (confirmation) {
-        fetch(`/api/join-room`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                roomId: roomId,
-                roomName: roomName,
-                userId: userId,
-                roomManagerId:roomManagerId
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert(`참여했습니다 ID: "${roomId}"`);
-            } else {
-                alert("참여 중 오류가 발생했습니다.");
+        for (let i = 1; i <= totalPages; i++) {
+            const pageNumber = document.createElement("span");
+            pageNumber.textContent = i;
+            pageNumber.classList.add("page-number");
+            if (i === currentPage) {
+                pageNumber.classList.add("active");
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("서버 오류가 발생했습니다.");
+            pageNumber.addEventListener("click", () => {
+                currentPage = i;
+                renderBoard();
+            });
+            pagination.appendChild(pageNumber);
+        }
+
+        const nextButton = document.createElement("button");
+        nextButton.textContent = "다음 페이지";
+        nextButton.classList.add("pagination-btn");
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener("click", () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderBoard();
+            }
         });
-    } else {
-        alert("거절했습니다.");
+        pagination.appendChild(nextButton);
     }
 
-
-   
-}
-
-
-
-
+    renderBoard();
 </script>
+
+
+
 </body>
 </html>

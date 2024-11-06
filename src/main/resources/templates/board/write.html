@@ -1,31 +1,143 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>글쓰기</title>
     <style>
-        /* 페이지 레이아웃 스타일 */
-        body { margin: 0; font-family: Arial, sans-serif; }
-        #container { display: flex; height: 100vh; }
-        aside { width: 200px; padding: 20px; background-color: #f4f4f4; border-right: 1px solid #ccc; }
-        #main { flex: 1; padding: 20px; overflow-y: auto; }
-        header, footer { padding: 10px 20px; text-align: center; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            padding: 10px 20px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .logo {
+            height: 50px;
+            float: left;
+            margin-right: 20px;
+        }
+        .navbar {
+            display: inline-block;
+            text-align: center;
+        }
+        .navbar a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #000;
+        }
+
+        #container {
+            display: flex;
+            height: calc(100vh - 80px);
+            padding-top: 80px;
+            overflow: hidden;
+        }
+
+        aside {
+            width: 220px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-right: 1px solid #ccc;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+        .user-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .nickname {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .edit-profile {
+            font-size: 18px;
+            text-decoration: none;
+            color: #000;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .room-link {
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #000;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .tag {
+            font-size: 18px;
+            text-decoration: none;
+            color: #000;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .logout {
+            font-size: 18px;
+            text-decoration: none;
+            color: red;
+            margin-top: 20px;
+            display: block;
+        }
+
+        footer {
+            padding: 10px 20px;
+            text-align: center;
+            background-color: #f8f8f8;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.1);
+        }
 
         /* 글쓰기 폼 스타일 */
-        .write-form { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; }
-        .write-form h1 { text-align: center; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; }
-        .form-group input, .form-group textarea {
-            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;
+        main {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f9f9f9;
+            overflow-y: auto;
         }
-        .form-group textarea { height: 200px; resize: vertical; }
-        .form-actions { text-align: center; }
-        .form-actions button {
-            padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;
+        .write-form {
+            display: flex;
+            flex-direction: column;
         }
-        .form-actions button:hover { background-color: #0056b3; }
+        .write-form label {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .write-form input, .write-form textarea {
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .write-form button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .write-form button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -33,38 +145,33 @@
 <header>
     <img src="/image/app_logo.jpeg" alt="웹사이트 로고" class="logo">
     <nav class="navbar">
-        <a th:href="@{/room/create-room-view}">방 생성하기</a>
-        <a th:href="@{/room/join-room-view}">방 참여하기</a>
-        <a th:href="@{/home/board-view}">게시판</a>
+        <a href="/room/create-room-view">방 생성하기</a>
+        <a href="/room/join-room-view">게시판</a>
+        <a href="/home/board-view">방 생성하기</a>
     </nav>
 </header>
 
 <div id="container">
     <aside>
-        <img src="/image/man.jpeg" alt="사용자 이미지" class="user-image">
-        <div class="nickname">사용자 이름</div>
-        <a href="/user-info" class="edit-profile">프로필 수정</a>
-        <a href="/join-room" class="room-link">참여한 방</a>
-        <a href="/textroom-list" class="tag">택시비</a>
-        <a href="/deliveryroom-list" class="tag">배달비</a>
-        <a href="/jointroom-list" class="tag">공동구매</a>
-        <a href="/login/view" class="logout">로그아웃</a>
+        <img src="/image/user.png" alt="유저 이미지" class="user-image">
+        <div class="nickname">사용자 닉네임</div>
+        <a href="user-info.html" class="edit-profile">프로필 수정</a>
+        <a href="join-room.html" class="room-link">참여한 방</a>
+        <a href="#" class="tag">택시비</a>
+        <a href="#" class="tag">배달비</a>
+        <a href="#" class="tag">공동구매</a>
+        <a href="login.html" class="logout">로그아웃</a>
     </aside>
+    <main>
+        <h1>글쓰기</h1>
+        <form class="write-form" id="post-form" action="/submit-post" method="POST">
+            <label for="post-title">제목</label>
+            <input type="text" id="post-title" name="title" required placeholder="글 제목을 입력하세요">
 
-    <main id="main">
-        <form class="write-form" onsubmit="savePost(event)">
-            <h1>새 글 작성하기</h1>
-            <div class="form-group">
-                <label for="title">제목</label>
-                <input type="text" id="title" required>
-            </div>
-            <div class="form-group">
-                <label for="content">내용</label>
-                <textarea id="content" required></textarea>
-            </div>
-            <div class="form-actions">
-                <button type="submit">저장</button>
-            </div>
+            <label for="post-content">내용</label>
+            <textarea id="post-content" name="content" rows="10" required placeholder="글 내용을 입력하세요"></textarea>
+
+            <button type="submit">게시글 작성</button>
         </form>
     </main>
 </div>
@@ -81,31 +188,33 @@
 </footer>
 
 <script>
-    // 글 저장 함수
-    function savePost(event) {
-        event.preventDefault();
+    // 폼 제출 후 로컬 스토리지에 데이터 저장하고 페이지 전환 처리
+    const form = document.getElementById('post-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();  // 기본 폼 제출 방지
 
-        const title = document.getElementById('title').value;
-        const content = document.getElementById('content').value;
+        const title = document.getElementById('post-title').value;
+        const content = document.getElementById('post-content').value;
 
-        // 현재 날짜 가져오기
-        const date = new Date().toISOString().split('T')[0];
-
-        // 게시글 객체 생성
-        const post = { title, content, date, views: 0 };
+        // 게시글 데이터를 객체로 생성
+        const post = {
+            title: title,
+            content: content,
+            date: new Date().toLocaleString()
+        };
 
         // 기존 게시글 목록 불러오기
         const posts = JSON.parse(localStorage.getItem('posts')) || [];
 
-        // 새로운 게시글 추가
+        // 새 게시글 추가
         posts.push(post);
 
-        // 업데이트된 게시글 목록 저장
+        // 로컬 스토리지에 게시글 목록 저장
         localStorage.setItem('posts', JSON.stringify(posts));
 
-        // 글쓰기 완료 후 게시판 페이지로 이동
-        window.location.href = 'index.html';
-    }
+        // 게시판 페이지로 이동
+        window.location.href = 'board.html';
+    });
 </script>
 
 </body>
