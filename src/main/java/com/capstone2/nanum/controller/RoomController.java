@@ -58,9 +58,9 @@ public class RoomController {
     public String deliveryroom() {
         return "room/deliveryroom-list";
     }
-    @GetMapping("/jointroom-list-view")
+    @GetMapping("/join-room-list-view")
     public String jointroom() {
-        return "room/jointroom-list";
+        return "room/join-room-list";
     }
 
     @PostMapping("/create-room")
