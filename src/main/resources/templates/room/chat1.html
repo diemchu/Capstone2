@@ -74,7 +74,6 @@
 </head>
 <body>
 <div class="chat-container" id="chatBox">
-  <!-- Tin nhắn sẽ được render tại đây -->
 </div>
 <p id="roomId" th:text="${chatRoomId}" style="display: none;"></p>
 <p id="senderId" th:text="${senderId}" style="display: none;"></p>
@@ -151,6 +150,7 @@
     function sendMessage() {
         const input = document.getElementById('messageInput');
         const messageText = input.value.trim();
+        console.log(messageText);
 
         if (messageText) {
             const newMessage = {
