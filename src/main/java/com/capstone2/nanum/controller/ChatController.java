@@ -24,13 +24,11 @@ public class ChatController {
     @Autowired
     private JoinRoomRepository joinRoomRepository;
 
-    // API để lấy thông tin chat room và trả về view
-    @GetMapping("/get-view/{roomId}")
-    public String getView(@PathVariable Long roomId, Model model) {
+    @GetMapping("/chat-view")
+    public String chatView(@RequestParam("roomId") Long roomId, Model model) {
         Long senderId = UserService.user.getId();
         Long receiverId = null;
         JoinRoom joinRoom = joinRoomRepository.findById(roomId).orElse(null);
-
         if (joinRoom != null) {
             if (senderId.equals(joinRoom.getUserId())) {
                 receiverId = joinRoom.getRoomManagerId();
@@ -51,13 +49,34 @@ public class ChatController {
     @GetMapping("/history/{roomId}")
     public ResponseEntity<List<Message>> getChatHistory(@PathVariable Long roomId) {
         List<Message> messages = messageRepository.findByRoomId(roomId);
+        if (messages.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(messages);
+        }
+
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 
-    // API để gửi tin nhắn và lưu vào database
     @PostMapping("/send")
-    public ResponseEntity<Message> sendMessage(@RequestBody Message message) {
+    public ResponseEntity<?> sendMessage(@RequestBody Message message) {
+
+        System.out.println(message.getMessageText());
+        System.out.println(message.getSenderId());
+        System.out.println(message.getReceiverId());
         Message savedMessage = messageRepository.save(message);
         return new ResponseEntity<>(savedMessage, HttpStatus.CREATED);
+
+//        try {
+//            // Kiểm tra dữ liệu đầu vào
+//            if (message.getRoomId() == null || message.getSenderId() == null || message.getMessageText().isEmpty()) {
+//                return new ResponseEntity<>("Invalid message data", HttpStatus.BAD_REQUEST);
+//            }
+//
+//            // Lưu tin nhắn vào database
+//            Message savedMessage = messageRepository.save(message);
+//            return new ResponseEntity<>(savedMessage, HttpStatus.CREATED);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return new ResponseEntity<>("Error saving message", HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
     }
 }

@@ -1,5 +1,6 @@
 package com.capstone2.nanum.database;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +19,7 @@ public class Message {
     private Long senderId;
     private Long receiverId;
     private Long roomId;
+    @JsonProperty("text")
     private String messageText;
     private LocalDateTime timestamp = LocalDateTime.now();
     private boolean isRead = false;

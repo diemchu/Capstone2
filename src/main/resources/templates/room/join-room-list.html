@@ -166,12 +166,12 @@
     </aside>
 
     <div id="main">
-        <h2>[[${currentUserId}]]</h2>
+        <h2>방 참여하기</h2>
         <div id="button-container">
             <a th:href="@{/room/select-taxi-room(category='taxi')}" class="filter-button">택시</a>
             <a th:href="@{/room/select-delivery-room(category='delivery')}" class="filter-button">배달비</a>
             <a th:href="@{/room/select-group-room(category='group')}" class="filter-button">공동 구매</a>
-            <a th:href="@{/home/board-view}" class="filter-button">모두 보기</a>
+            <a th:href="@{/room/join-room-list-view}" class="filter-button">모두 보기</a>
 
         </div>
         <table>

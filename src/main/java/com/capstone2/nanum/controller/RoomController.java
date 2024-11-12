@@ -26,6 +26,17 @@ public class RoomController {
     @Autowired
     private  JoinRoomService joinRoomService;
 
+
+    @GetMapping("/join-room-list-view")
+    public String join_rooms_list(Model model) {
+        List<Room> rooms = roomService.findAllRooms();
+        model.addAttribute("rooms", rooms);
+        model.addAttribute("nickname", UserService.user.getName());
+        model.addAttribute("currentUserId",UserService.user.getId());
+        return "room/join-room-list";
+    }
+
+
     @GetMapping("/create-room-view")
     public String create() {
         return "room/create-room";
@@ -58,10 +69,10 @@ public class RoomController {
     public String deliveryroom() {
         return "room/deliveryroom-list";
     }
-    @GetMapping("/join-room-list-view")
-    public String jointroom() {
-        return "room/join-room-list";
-    }
+//    @GetMapping("/join-room-list-view")
+//    public String jointroom() {
+//        return "room/join-room-list";
+//    }
 
     @PostMapping("/create-room")
     public String createRoom(
@@ -88,7 +99,7 @@ public class RoomController {
         room.setDate(date);
         room.setUserId(UserService.user.getId());
         roomService.saveRoom(room);
-        return "redirect:/home/board-view";
+        return "redirect:/room/join-room-list-view";
     }
 
 
@@ -97,7 +108,7 @@ public class RoomController {
     public  String selectTaxiRoom(@RequestParam("category") String category  ,Model model){
         List<Room> rooms  = roomService.findByCategory(category);
         model.addAttribute("rooms",rooms);
-        return "board/board";
+        return "room/join-room-list";
     }
 
     //select delivery
@@ -105,7 +116,8 @@ public class RoomController {
     public  String selectDeliveryRoom(@RequestParam("category") String category  ,Model model){
         List<Room> rooms  = roomService.findByCategory(category);
         model.addAttribute("rooms",rooms);
-        return "board/board";
+        return "room/join-room-list";
+
     }
 
 
@@ -114,6 +126,6 @@ public class RoomController {
     public  String selectGroupRoom(@RequestParam("category") String category  ,Model model){
         List<Room> rooms  = roomService.findByCategory(category);
         model.addAttribute("rooms",rooms);
-        return "board/board";
+        return "room/join-room-list";
     }
 }

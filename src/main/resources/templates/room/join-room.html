@@ -243,39 +243,34 @@
 
         loadPosts();
     });
-
     function confirmParticipation(row) {
-    const roomId = row.getAttribute("data-id");
-    const roomName = row.getAttribute("data-room-name"); 
-    const confirmation = confirm(`채팅방 "${roomName}" 이동했습니다`);
-    if (confirmation) {
-        fetch(`/api/chat/chat-view`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                roomId: roomId,
+        const roomId = row.getAttribute("data-id");
+        const roomName = row.getAttribute("data-room-name");
+        const confirmation = confirm(`채팅방 "${roomName}" 이동하시겠습니까?`);
+        if (confirmation) {
+            fetch(`/api/chat/chat-view?roomId=${roomId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             })
-        })
-        .then(response => {
-            if (!response.ok) { // Kiểm tra xem có lỗi HTTP không
-                throw new Error("Network response was not ok");
-            }
-            return response.text();  // Trả về HTML dưới dạng text
-        })
-        .then(html => {
-            // Hiển thị trang mới
-            document.open();
-            document.write(html);
-            document.close();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("서버 오류가 발생했습니다.");
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.text();
+            })
+            .then(html => {
+                document.open();
+                document.write(html);
+                document.close();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("서버 오류가 발생했습니다.");
+            });
+        }
     }
-}
 
 
 
