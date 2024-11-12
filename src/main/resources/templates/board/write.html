@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>글쓰기</title>
+    <title>메인 페이지</title>
     <style>
         body {
             margin: 0;
@@ -100,45 +100,93 @@
             position: fixed;
             bottom: 0;
             width: 100%;
-            box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px -1px
+            5px rgba(0, 0, 0, 0.1);
         }
 
-        /* 글쓰기 폼 스타일 */
         main {
-            flex-grow: 1;
-            padding: 20px;
-            background-color: #f9f9f9;
-            overflow-y: auto;
-        }
-        .write-form {
+            flex: 1;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            background-color: #f5f5f5;
+            padding: 40px;
+            box-sizing: border-box;
+            overflow-y: auto;
         }
-        .write-form label {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-        .write-form input, .write-form textarea {
-            padding: 10px;
-            margin-bottom: 15px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+
+        .form-container {
             width: 100%;
+            max-width: 800px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
-        .write-form button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
+
+        .form-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #write-form label {
+            font-size: 18px;
+            color: #333;
+            margin-top: 15px;
+            display: block;
+        }
+
+        #write-form input[type="text"],
+        #write-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
             font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
         }
-        .write-form button:hover {
+
+        #write-form textarea {
+            resize: vertical;
+            min-height: 200px;
+        }
+
+        .char-limit {
+            font-size: 14px;
+            color: #888;
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        #write-form input[type="text"]:focus,
+        #write-form textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        #write-form button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            align-self: flex-end;
+        }
+
+        #write-form button:hover {
             background-color: #0056b3;
         }
+
     </style>
+
 </head>
 <body>
 
@@ -153,26 +201,27 @@
 
 <div id="container">
     <aside>
-        <img src="/image/man.jpeg" alt="사용자 이미지" class="user-image">
-        <div class="nickname">[[${nickname}]]</div>
-        <a th:href="@{/home/user-info-view}" class="edit-profile">프로필 수정</a>
-        <a th:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
-        <a th:href="@{/room/taxiroom-list-view}" class="tag">택시비</a>
-        <a th:href="@{/room/deliveryroom-view}" class="tag">배달비</a>
-        <a th:href="@{/room/jointroom-list-view}" class="tag">공동구매</a>
-        <a th:href="@{/login/login-view}" class="logout">로그아웃</a>
+        <img src="/image/user.png" alt="유저 이미지" class="user-image">
+        <div class="nickname">사용자 닉네임</div>
+        <a href="user-info.html" class="edit-profile">프로필 수정</a>
+        <a href="join-room.html" class="room-link">참여한 방</a>
+        <a href="#" class="tag">택시비</a>
+        <a href="#" class="tag">배달비</a>
+        <a href="#" class="tag">공동구매</a>
+        <a href="login.html" class="logout">로그아웃</a>
     </aside>
     <main>
-        <h1>글쓰기</h1>
-        <form class="write-form" id="post-form" action="/submit-post" method="POST">
-            <label for="post-title">제목</label>
-            <input type="text" id="post-title" name="title" required placeholder="글 제목을 입력하세요">
-
-            <label for="post-content">내용</label>
-            <textarea id="post-content" name="content" rows="10" required placeholder="글 내용을 입력하세요"></textarea>
-
-            <button type="submit">게시글 작성</button>
-        </form>
+        <div class="form-container">
+            <div class="form-title">글쓰기</div>
+            <form id="write-form">
+                <label for="title">제목:</label>
+                <input type="text" id="title" required>
+                <label for="content">내용:</label>
+                <textarea id="content" rows="10" required oninput="checkCharLimit()"></textarea>
+                <div class="char-limit" id="char-limit">최대 글자 수는 300자입니다.</div>
+                <button type="button" onclick="savePost()">저장하기</button>
+            </form>
+        </div>
     </main>
 </div>
 
@@ -188,33 +237,28 @@
 </footer>
 
 <script>
-    // 폼 제출 후 로컬 스토리지에 데이터 저장하고 페이지 전환 처리
-    const form = document.getElementById('post-form');
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();  // 기본 폼 제출 방지
+    function checkCharLimit() {
+        const content = document.getElementById("content");
+        const charLimit = document.getElementById("char-limit");
+        if (content.value.length > 300) {
+            content.value = content.value.substring(0, 300);
+        }
+        charLimit.textContent = `최대 글자 수는 300자입니다. (현재 ${content.value.length}자)`;
+    }
 
-        const title = document.getElementById('post-title').value;
-        const content = document.getElementById('post-content').value;
+    function savePost() {
+        const title = document.getElementById("title").value;
+        const content = document.getElementById("content").value;
+        const nickname = "작성자 닉네임"; // 닉네임은 로그인 정보에서 가져올 수 있습니다
+        const date = new Date().toLocaleDateString();
 
-        // 게시글 데이터를 객체로 생성
-        const post = {
-            title: title,
-            content: content,
-            date: new Date().toLocaleString()
-        };
-
-        // 기존 게시글 목록 불러오기
-        const posts = JSON.parse(localStorage.getItem('posts')) || [];
-
-        // 새 게시글 추가
+        const post = { title, content, nickname, date };
+        const posts = JSON.parse(localStorage.getItem("posts")) || [];
         posts.push(post);
+        localStorage.setItem("posts", JSON.stringify(posts));
 
-        // 로컬 스토리지에 게시글 목록 저장
-        localStorage.setItem('posts', JSON.stringify(posts));
-
-        // 게시판 페이지로 이동
-        window.location.href = 'board.html';
-    });
+        location.href = "board.html";
+    }
 </script>
 
 </body>

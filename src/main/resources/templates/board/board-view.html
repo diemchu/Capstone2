@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>게시글 상세 보기</title>
+  <title>게시물 보기</title>
   <style>
-    /* 기본 스타일은 그대로 유지 */
     body {
         margin: 0;
         font-family: Arial, sans-serif;
@@ -24,6 +23,20 @@
         box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
         z-index: 1000;
     }
+    .logo {
+        height: 50px;
+        float: left;
+        margin-right: 20px;
+    }
+    .navbar {
+        display: inline-block;
+        text-align: center;
+    }
+    .navbar a {
+        margin: 0 15px;
+        text-decoration: none;
+        color: #000;
+    }
 
     #container {
         display: flex;
@@ -37,71 +50,53 @@
         padding: 20px;
         background-color: #ffffff;
         border-right: 1px solid #ccc;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         overflow-y: auto;
+    }
+    .user-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+    }
+    .nickname {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+    .edit-profile {
+        font-size: 18px;
+        text-decoration: none;
+        color: #000;
+        margin-bottom: 10px;
+        display: block;
+    }
+    .room-link {
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #000;
+        margin-bottom: 10px;
+        display: block;
+    }
+    .tag {
+        font-size: 18px;
+        text-decoration: none;
+        color: #000;
+        margin-bottom: 15px;
+        display: block;
+    }
+    .logout {
+        font-size: 18px;
+        text-decoration: none;
+        color: red;
+        margin-top: 20px;
+        display: block;
     }
 
     main {
         flex: 1;
         padding: 20px;
         overflow-y: auto;
-    }
-
-    .post-title {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    .post-content {
-        font-size: 18px;
-        line-height: 1.6;
-        margin-bottom: 20px;
-        white-space: pre-wrap; /* 줄 바꿈을 유지 */
-    }
-
-    .comment-section {
-        margin-top: 30px;
-    }
-
-    .comment-title {
-        font-size: 20px;
-        margin-bottom: 10px;
-    }
-
-    .comment-list {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .comment-item {
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-        font-size: 16px;
-    }
-
-    .comment-form textarea {
-        width: 100%;
-        padding: 10px;
-        font-size: 16px;
-        margin-bottom: 10px;
-        resize: vertical;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-    }
-
-    .comment-form button {
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .comment-form button:hover {
-        background-color: #0056b3;
     }
 
     footer {
@@ -111,21 +106,109 @@
         position: fixed;
         bottom: 0;
         width: 100%;
+        box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.1);
     }
-    .post-title {
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .post-author {
-        font-size: 18px;
-        color: #777;
-    }
-
-    .post-content {
+    #comment-form {
         margin-top: 20px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #comment-form label {
         font-size: 16px;
+        font-weight: bold;
         color: #333;
+    }
+
+    #comment-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        resize: vertical;
+        box-sizing: border-box;
+        max-height: 100px;
+    }
+
+    #comment-form button {
+        margin-top: 10px;
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    #comment-form button:hover {
+        background-color: #0056b3;
+    }
+
+    /* 댓글 영역 스타일 */
+    #comments {
+        margin-top: 20px;
+    }
+
+    #comments div {
+        background-color: #f1f1f1;
+        padding: 12px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #comments p {
+        font-size: 14px;
+        color: #333;
+        margin: 0;
+        flex-grow: 1;
+    }
+
+    /* 좋아요, 싫어요 버튼 스타일 */
+    .reaction-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .reaction-buttons button {
+        background-color: #e0e0e0;
+        border: none;
+        color: #333;
+        padding: 5px 10px;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .reaction-buttons button:hover {
+        background-color: #ccc;
+    }
+
+    .reaction-buttons span {
+        font-size: 14px;
+        margin-left: 5px;
+    }
+
+    /* 삭제 버튼 스타일 */
+    #comments button.delete {
+        background-color: #ff5c5c;
+        color: white;
+        font-size: 12px;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #comments button.delete:hover {
+        background-color: #ff2b2b;
     }
   </style>
 </head>
@@ -142,19 +225,30 @@
 
 <div id="container">
   <aside>
-    <img src="/image/man.jpeg" alt="사용자 이미지" class="user-image">
-    <div class="nickname">[[${nickname}]]</div>
-    <a th:href="@{/home/user-info-view}" class="edit-profile">프로필 수정</a>
-    <a th:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
-    <a th:href="@{/room/taxiroom-list-view}" class="tag">택시비</a>
-    <a th:href="@{/room/deliveryroom-view}" class="tag">배달비</a>
-    <a th:href="@{/room/jointroom-list-view}" class="tag">공동구매</a>
-    <a th:href="@{/login/login-view}" class="logout">로그아웃</a>
+    <img src="/image/user.png" alt="유저 이미지" class="user-image">
+    <div class="nickname">사용자 닉네임</div>
+    <a href="user-info.html" class="edit-profile">프로필 수정</a>
+    <a href="join-room.html" class="room-link">참여한 방</a>
+    <a href="#" class="tag">택시비</a>
+    <a href="#" class="tag">배달비</a>
+    <a href="#" class="tag">공동구매</a>
+    <a href="login.html" class="logout">로그아웃</a>
   </aside>
-
-  <div id="post-details">
-    <!-- 게시물 내용이 여기에 동적으로 삽입됩니다 -->
-  </div>
+  <main>
+    <h1>게시물 보기</h1>
+    <div id="post-details">
+      <!-- 게시물 제목과 내용을 여기에 표시 -->
+    </div>
+    <h2>댓글</h2>
+    <div id="comments">
+      <!-- 댓글 목록이 여기에 추가됩니다 -->
+    </div>
+    <form id="comment-form">
+      <label for="comment">댓글 작성:</label><br>
+      <textarea id="comment" rows="3" required></textarea><br>
+      <button type="button" onclick="addComment()">댓글 달기</button>
+    </form>
+  </main>
 </div>
 
 <footer>
@@ -167,29 +261,104 @@
   </div>
   <img class="big" src="/image/kwandong_logo.png" alt="Catholic Kwandong University">
 </footer>
+
 <script>
-  // URL에서 'id' 쿼리 파라미터 가져오기
-  const urlParams = new URLSearchParams(window.location.search);
-  const postId = urlParams.get('id'); // ?id=1에서 id를 가져옵니다.
+  document.addEventListener("DOMContentLoaded", function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const postIndex = urlParams.get("postIndex");
+      const posts = JSON.parse(localStorage.getItem("posts")) || [];
 
-  // 게시글 데이터를 로컬 스토리지에서 불러오기
-  const posts = JSON.parse(localStorage.getItem('posts')) || [];
+      if (!postIndex || !posts[postIndex]) {
+          alert("존재하지 않는 게시물입니다.");
+          window.location.href = "/home/board-view"; // 게시물 목록으로 리디렉션
+          return;
+      }
 
-  // 게시글 찾기
-  const post = posts.find(p => p.id === parseInt(postId));
+      const post = posts[postIndex];
+      document.getElementById("post-details").innerHTML = `
+          <h2>${post.title}</h2>
+          <p>${post.nickname} - ${post.date}</p>
+          <p>${post.content}</p>
+      `;
 
-  if (post) {
-    // 게시글 정보 표시
-    document.getElementById('story-details').innerHTML = `
-      <h2>${post.title}</h2>
-      <p>작성자: ${post.author}</p>
-      <p>작성일: ${post.date}</p>
-      <p>내용: ${post.content}</p>
-    `;
-  } else {
-    document.getElementById('story-details').innerHTML = "<p>해당 게시글을 찾을 수 없습니다.</p>";
+      loadComments(postIndex);
+  });
+
+  function loadComments(postIndex) {
+      const comments = JSON.parse(localStorage.getItem(`comments_${postIndex}`)) || [];
+      const commentsDiv = document.getElementById("comments");
+      commentsDiv.innerHTML = ""; // 기존 댓글 목록 초기화
+
+      comments.forEach((comment, index) => {
+          const commentDiv = document.createElement("div");
+
+          commentDiv.innerHTML = `
+              <p>${comment.text}</p>
+              <div class="reaction-buttons">
+                  <button onclick="likeComment(${postIndex}, ${index})">좋아요</button>
+                  <span id="like-count-${index}">${comment.likes}</span>
+                  <button onclick="dislikeComment(${postIndex}, ${index})">싫어요</button>
+                  <span id="dislike-count-${index}">${comment.dislikes}</span>
+                  <button class="delete" onclick="deleteComment(${postIndex}, ${index})">삭제</button>
+              </div>
+          `;
+          commentsDiv.appendChild(commentDiv);
+      });
+  }
+
+  function addComment() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const postIndex = urlParams.get("postIndex");
+      const commentText = document.getElementById("comment").value.trim();
+
+      if (!commentText) {
+          alert("댓글 내용을 입력해주세요.");
+          return;
+      }
+
+      if (commentText.length > 100) {
+          alert("댓글은 100자 이하로 작성해주세요.");
+          return;
+      }
+
+      const comments = JSON.parse(localStorage.getItem(`comments_${postIndex}`)) || [];
+      const newComment = {
+          text: commentText,
+          likes: 0,
+          dislikes: 0
+      };
+      comments.push(newComment);
+      localStorage.setItem(`comments_${postIndex}`, JSON.stringify(comments));
+
+      document.getElementById("comment").value = "";
+      loadComments(postIndex);
+  }
+
+  function likeComment(postIndex, commentIndex) {
+      const comments = JSON.parse(localStorage.getItem(`comments_${postIndex}`)) || [];
+      comments[commentIndex].likes += 1;
+      localStorage.setItem(`comments_${postIndex}`, JSON.stringify(comments));
+
+      document.getElementById(`like-count-${commentIndex}`).textContent = comments[commentIndex].likes;
+  }
+
+  function dislikeComment(postIndex, commentIndex) {
+      const comments = JSON.parse(localStorage.getItem(`comments_${postIndex}`)) || [];
+      comments[commentIndex].dislikes += 1;
+      localStorage.setItem(`comments_${postIndex}`, JSON.stringify(comments));
+
+      document.getElementById(`dislike-count-${commentIndex}`).textContent = comments[commentIndex].dislikes;
+  }
+
+  function deleteComment(postIndex, commentIndex) {
+      const comments = JSON.parse(localStorage.getItem(`comments_${postIndex}`)) || [];
+      comments.splice(commentIndex, 1);
+      localStorage.setItem(`comments_${postIndex}`, JSON.stringify(comments));
+
+      loadComments(postIndex);
   }
 </script>
+
 
 </body>
 </html>

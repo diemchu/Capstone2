@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시판</title>
+    <title>메인 페이지</title>
     <style>
-        /* 스타일 그대로 유지 */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -24,18 +23,15 @@
             box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
-
         .logo {
             height: 50px;
             float: left;
             margin-right: 20px;
         }
-
         .navbar {
             display: inline-block;
             text-align: center;
         }
-
         .navbar a {
             margin: 0 15px;
             text-decoration: none;
@@ -98,59 +94,15 @@
         }
 
         main {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            width: 90%; /* 기존 너비보다 더 넓게 설정 */
+            max-width: 1200px; /* 최대 너비를 설정하여 너무 넓어지지 않도록 제한 */
+            margin: 0 auto; /* 가운데 정렬 */
+            padding: 20px; /* 내부 여백 추가 */
         }
 
-        .board-header {
-            width: 100%;
-            background-color: #007bff;
-            color: white;
-            padding: 20px;
-            font-size: 24px;
-            text-align: center;
-            font-weight: bold;
-            border-radius: 10px;
-        }
 
-        .board-items-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            width: 100%;
+        .pagination {
             margin-top: 20px;
-        }
-
-        .board-item {
-            background-color: #ffffff;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-radius: 10px;
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-            font-size: 16px;
-            color: #333;
-        }
-
-        .board-item a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .board-item .details {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
         }
 
         footer {
@@ -163,53 +115,87 @@
             box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .add-post-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #007bff;
+        .footer-address ul {
+            padding: 0;
+            list-style-type: none;
+        }
+        main h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #post-list div {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #post-list div a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        #post-list div h2 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        #post-list div p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        #post-list button {
+            background-color: #ff4d4d;
             color: white;
             border: none;
-            cursor: pointer;
-            font-size: 16px;
+            padding: 8px 12px;
             border-radius: 5px;
-        }
-
-        .add-post-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .pagination {
-            display: flex;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .page-number {
-            margin: 0 10px;
-            font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
-        .page-number.active {
-            font-weight: bold;
-            color: #007bff;
+        #post-list button:hover {
+            background-color: #ff1a1a;
         }
 
-        .pagination-btn {
+        .pagination button {
+            margin: 0 5px;
             padding: 5px 10px;
             border: none;
-            background-color: #007bff;
-            color: white;
+            background-color: #ddd;
             cursor: pointer;
             border-radius: 5px;
-            margin: 0 5px;
+            transition: background-color 0.3s;
         }
 
-        .pagination-btn:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
+        .pagination button.active {
+            background-color: #007bff;
+            color: white;
         }
 
+        .pagination button:hover {
+            background-color: #ccc;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -218,8 +204,8 @@
     <img src="/image/app_logo.jpeg" alt="웹사이트 로고" class="logo">
     <nav class="navbar">
         <a href="/room/create-room-view">방 생성하기</a>
-        <a href="/room/join-room-view">방 참여하기</a>
-        <a href="/home/board-view">게시판</a>
+        <a href="/room/join-room-view">게시판</a>
+        <a href="/home/board-view">방 생성하기</a>
     </nav>
 </header>
 
@@ -236,14 +222,13 @@
     </aside>
 
     <main>
-        <div><h2>게시판</h2></div>
-        <div class="board-items-container" id="board-items">
-            <!-- 게시글 항목들이 여기에 동적으로 추가됩니다 -->
+        <h1>게시판</h1>
+        <div id="post-list">
+            <!-- 게시물 목록이 동적으로 추가됩니다 -->
         </div>
-        <button class="add-post-btn" onclick="window.location.href = 'write.html';">글쓰기</button>
-
+        <button onclick="location.href='write.html'">글쓰기</button>
         <div class="pagination" id="pagination">
-            <!-- 페이지 번호와 버튼이 동적으로 추가됩니다 -->
+            <!-- 페이지 번호 버튼이 동적으로 추가됩니다 -->
         </div>
     </main>
 </div>
@@ -260,100 +245,69 @@
 </footer>
 
 <script>
-    let currentPage = 1;
-    const postsPerPage = 12;
+    document.addEventListener("DOMContentLoaded", function() {
+        const postsPerPage = 4; // 페이지당 게시물 수
+        const postList = JSON.parse(localStorage.getItem("posts")) || [];
+        let currentPage = 1;
 
-    function getPosts() {
-        return JSON.parse(localStorage.getItem("posts")) || [];
-    }
+        function renderPosts(page) {
+            const postListDiv = document.getElementById("post-list");
+            postListDiv.innerHTML = ""; // 초기화
+            const start = (page - 1) * postsPerPage;
+            const end = start + postsPerPage;
+            const postsToShow = postList.slice(start, end);
 
-    function savePosts(posts) {
-        localStorage.setItem("posts", JSON.stringify(posts));
-    }
-
-    function deletePost(index) {
-        const posts = getPosts();
-        const postIndex = (currentPage - 1) * postsPerPage + index; // 전체 게시물 배열에서 해당 인덱스 계산
-        posts.splice(postIndex, 1); // 선택한 게시물 삭제
-        savePosts(posts); // 업데이트된 게시물 목록을 저장
-        renderBoard(); // 게시판 다시 렌더링
-    }
-
-    function renderBoard() {
-        const boardItems = document.getElementById("board-items");
-        boardItems.innerHTML = "";
-
-        const posts = getPosts();
-        const startIndex = (currentPage - 1) * postsPerPage;
-        const endIndex = startIndex + postsPerPage;
-        const currentPosts = posts.slice(startIndex, endIndex);
-
-        currentPosts.forEach((post, index) => {
-            const item = document.createElement("div");
-            item.classList.add("board-item");
-            item.innerHTML = `
-                <a href="checkboard.html?id=${post.id}" class="title">${post.title}</a>
-                <div class="details">
-                    <span>작성자: ${post.author}</span>
-                    <span>조회수: ${post.views}</span>
-                </div>
-                <button onclick="deletePost(${index})" class="delete-btn">삭제</button>
-            `;
-            boardItems.appendChild(item);
-        });
-
-        renderPagination(posts.length);
-    }
-
-    function renderPagination(totalPosts) {
-        const pagination = document.getElementById("pagination");
-        pagination.innerHTML = "";
-
-        const totalPages = Math.ceil(totalPosts / postsPerPage);
-
-        const prevButton = document.createElement("button");
-        prevButton.textContent = "이전 페이지";
-        prevButton.classList.add("pagination-btn");
-        prevButton.disabled = currentPage === 1;
-        prevButton.addEventListener("click", () => {
-            if (currentPage > 1) {
-                currentPage--;
-                renderBoard();
-            }
-        });
-        pagination.appendChild(prevButton);
-
-        for (let i = 1; i <= totalPages; i++) {
-            const pageNumber = document.createElement("span");
-            pageNumber.textContent = i;
-            pageNumber.classList.add("page-number");
-            if (i === currentPage) {
-                pageNumber.classList.add("active");
-            }
-            pageNumber.addEventListener("click", () => {
-                currentPage = i;
-                renderBoard();
+            postsToShow.forEach((post, index) => {
+                const postDiv = document.createElement("div");
+                postDiv.innerHTML = `
+                    <a href="board-view.html?postIndex=${index}">
+                        <h2>${post.title}</h2>
+                        <p>${post.nickname} - ${post.date}</p>
+                    </a>
+                    <button onclick="confirmDelete(${index})">삭제</button>
+                `;
+                postListDiv.appendChild(postDiv);
             });
-            pagination.appendChild(pageNumber);
         }
 
-        const nextButton = document.createElement("button");
-        nextButton.textContent = "다음 페이지";
-        nextButton.classList.add("pagination-btn");
-        nextButton.disabled = currentPage === totalPages;
-        nextButton.addEventListener("click", () => {
-            if (currentPage < totalPages) {
-                currentPage++;
-                renderBoard();
+        function renderPagination() {
+            const paginationDiv = document.getElementById("pagination");
+            paginationDiv.innerHTML = ""; // 초기화
+            const pageCount = Math.ceil(postList.length / postsPerPage);
+
+            for (let i = 1; i <= pageCount; i++) {
+                const pageButton = document.createElement("button");
+                pageButton.textContent = i;
+                pageButton.classList.toggle("active", i === currentPage);
+                pageButton.addEventListener("click", () => {
+                    currentPage = i;
+                    renderPosts(currentPage);
+                    renderPagination();
+                });
+                paginationDiv.appendChild(pageButton);
             }
-        });
-        pagination.appendChild(nextButton);
-    }
+        }
 
-    renderBoard();
+        window.confirmDelete = function(index) {
+            const confirmed = confirm("정말로 이 게시물을 삭제하시겠습니까?");
+            if (confirmed) {
+                deletePost(index);
+            }
+        };
+
+        function deletePost(index) {
+            const start = (currentPage - 1) * postsPerPage;
+            const actualIndex = start + index;
+            postList.splice(actualIndex, 1);
+            localStorage.setItem("posts", JSON.stringify(postList));
+            renderPosts(currentPage);
+            renderPagination();
+        }
+
+        renderPosts(currentPage);
+        renderPagination();
+    });
 </script>
-
-
 
 </body>
 </html>
