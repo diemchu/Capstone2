@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -196,6 +196,44 @@
         button:hover {
             background-color: #0056b3;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .delete-button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .delete-button:hover {
+            background-color: #ff1a1a;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+
     </style>
 </head>
 <body>
@@ -223,13 +261,28 @@
 
     <main>
         <h1>게시판</h1>
-        <div id="post-list">
-            <!-- 게시물 목록이 동적으로 추가됩니다 -->
-        </div>
-        <button onclick="location.href='write.html'">글쓰기</button>
-        <div class="pagination" id="pagination">
-            <!-- 페이지 번호 버튼이 동적으로 추가됩니다 -->
-        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Sử dụng Thymeleaf để hiển thị dữ liệu bài viết -->
+            <tr th:each="post : ${posts}">
+                <td th:text="${post.title}"></td>
+                <td th:text="${post.nickname}"></td>
+                <td th:text="${post.date}"></td>
+                <td>
+                    <button th:onclick="'deletePost(' + ${post.id} + ')'" class="delete-button">삭제</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button onclick="location.href='/board/write'">글쓰기</button>
     </main>
 </div>
 
@@ -307,6 +360,11 @@
         renderPosts(currentPage);
         renderPagination();
     });
+
+
+
+
+
 </script>
 
 </body>

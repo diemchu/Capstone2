@@ -1,7 +1,9 @@
 package com.capstone2.nanum.controller;
 
 
+import com.capstone2.nanum.database.Post;
 import com.capstone2.nanum.database.Room;
+import com.capstone2.nanum.services.PostService;
 import com.capstone2.nanum.services.RoomService;
 import com.capstone2.nanum.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class HomeController {
         this.roomService = roomService;
     }
 
+    @Autowired
+    private PostService postService;
+
     @GetMapping("/home")
     public  String home(Model model){
         System.out.println(UserService.user.getName());
@@ -34,7 +39,9 @@ public class HomeController {
         model.addAttribute("rooms", rooms);
         model.addAttribute("nickname", UserService.user.getName());
         model.addAttribute("currentUserId",UserService.user.getId());
-
+        List<Post> posts = postService.getAllPosts();
+        model.addAttribute("posts", posts);
+        System.out.println(posts);
         return "board/board";
     }
 

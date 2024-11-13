@@ -141,7 +141,7 @@ function renderMessages(messages) {
     window.onload = function() {
         document.getElementById("sendButton").addEventListener("click", sendMessage);
         fetchMessages();
-        setInterval(fetchMessages, 2000);
+        setInterval(fetchMessages, 3000);
     };
 
     function sendMessage() {
