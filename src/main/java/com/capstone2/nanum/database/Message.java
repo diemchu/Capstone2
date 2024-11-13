@@ -23,6 +23,7 @@ public class Message {
     private String messageText;
     private LocalDateTime timestamp = LocalDateTime.now();
     private boolean isRead = false;
+    private String senderName;
 
     // Getters and setters
 }

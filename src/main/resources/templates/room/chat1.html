@@ -78,6 +78,7 @@
 <p id="roomId" th:text="${chatRoomId}" style="display: none;"></p>
 <p id="senderId" th:text="${senderId}" style="display: none;"></p>
 <p id="receiverId" th:text="${receiverId}" style="display: none;"></p>
+<p id="senderName" th:text="${senderName}" style="display: none;"></p>
 
 <div class="input-container">
   <input type="text" id="messageInput" placeholder="Type your message here..." />
@@ -88,10 +89,9 @@
    const roomId = document.getElementById('roomId').textContent;
    const senderId = document.getElementById('senderId').textContent;
    const receiverId = document.getElementById('receiverId').textContent;
-    // Kiểm tra giá trị của roomId, senderId, receiverId
+   const senderName= document.getElementById('senderName').textContent;
     console.log(roomId, senderId, receiverId);
 
-    // Đảm bảo rằng không có giá trị null hoặc undefined trong JavaScript
     if (roomId && senderId && receiverId) {
         console.log("Values are correctly loaded.");
     } else {
@@ -99,7 +99,6 @@
     }
 
 
-    // Lấy lịch sử chat khi trang được tải
     window.onload = function() {
         fetchMessages();
     };
@@ -118,19 +117,13 @@
         })
         .catch(error => console.error('Error fetching messages:', error));
 }
-
-  
-   // Hàm render tin nhắn vào chatBox
 function renderMessages(messages) {
     const chatBox = document.getElementById('chatBox');
-    
-    // Không xóa các tin nhắn cũ, chỉ thêm tin nhắn mới vào cuối
     messages.forEach(message => {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message');
-        
         if (message.senderId === senderId) {
-            messageElement.classList.add('own'); // Thêm class nếu là tin nhắn của người dùng
+            messageElement.classList.add('own');
         }
 
         messageElement.innerHTML = `
@@ -138,18 +131,17 @@ function renderMessages(messages) {
             <div class="text">${message.text}</div>
             <div class="timestamp">${new Date(message.timestamp).toLocaleTimeString()}</div>
         `;
-        
-        // Thêm tin nhắn vào cuối cùng chatBox
+
         chatBox.appendChild(messageElement);
     });
 
-    // Cuộn xuống cuối khi có tin nhắn mới
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
     window.onload = function() {
         document.getElementById("sendButton").addEventListener("click", sendMessage);
         fetchMessages();
+        setInterval(fetchMessages, 2000);
     };
 
     function sendMessage() {
@@ -162,6 +154,7 @@ function renderMessages(messages) {
             senderId: senderId,
             receiverId: receiverId,
             text: messageText,
+            senderName : senderName,
             timestamp: new Date().toISOString()
         };
 
@@ -174,7 +167,6 @@ function renderMessages(messages) {
         })
         .then(response => {
             if (!response.ok) {
-                // Nếu có lỗi HTTP, ném lỗi
                 return response.json().then(err => {
                     throw new Error(err.message || 'Failed to send message');
                 });
@@ -182,16 +174,15 @@ function renderMessages(messages) {
             return response.json();
         })
         .then(savedMessage => {
-            // Thêm tin nhắn mới vào cuối chatBox
-            renderMessages([savedMessage]); 
-            input.value = ''; // Xóa ô nhập
+            renderMessages([savedMessage]);
+            input.value = '';
         })
         .catch(error => {
             console.error('Error sending message:', error);
-            alert("Gửi tin nhắn thất bại. Vui lòng thử lại.");
+            alert("메세지 보내기 실해했습니다.");
         });
     } else {
-        alert("Nội dung tin nhắn không được để trống.");
+        alert("메시지를 입력하세요.");
     }
 }
   </script>

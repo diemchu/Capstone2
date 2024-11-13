@@ -42,6 +42,7 @@ public class ChatController {
         model.addAttribute("senderId", senderId);
         model.addAttribute("receiverId", receiverId);
         model.addAttribute("chatRoomId", roomId);
+        model.addAttribute("senderName",UserService.user.getName());
         return "room/chat1.html";
     }
 
