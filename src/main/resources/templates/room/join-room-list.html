@@ -182,11 +182,11 @@
                 <th>가테고리</th>
                 <th>날짜</th>
                 <th>최대 인원</th>
-                <th>배달 받을 위치</th>
-                <th>출발 위치</th>
-                <th>도착 위치</th>
+                <th th:if="${category != 'taxi' && category != 'group' }">배달 받을 위치</th>
+                <th th:if="${category != 'delivery' && category != 'group'}">출발 위치</th>
+                <th th:if="${category != 'delivery' && category != 'group'}">도착 위치</th>
                 <th>상세 설명</th>
-                <th>주문 항목</th>
+                <th th:if="${category != 'taxi' && category != 'delivery' }">주문 항목</th>
             </tr>
             </thead>
             <tbody>
@@ -197,11 +197,11 @@
                 <td th:if="${room?.category != null}" th:text="${room?.category}"></td>
                 <td th:if="${room?.date != null}" th:text="${room?.date}"></td>
                 <td th:if="${room?.maxPeople != null}" th:text="${room?.maxPeople}"></td>
-                <td th:if="${room?.deliveryLocation != null}" th:text="${room?.deliveryLocation}"></td>
-                <td th:if="${room?.departure != null}" th:text="${room?.departure}"></td>
-                <td th:if="${room?.destination != null}" th:text="${room?.destination}"></td>
+                <td th:if="${category != 'group' && category != 'taxi' && room?.deliveryLocation != null}" th:text="${room?.deliveryLocation}"></td>
+                <td th:if="${category != 'delivery' && category != 'group' && room?.departure != null}" th:text="${room?.departure}"></td>
+                <td th:if="${category != 'delivery' && category != 'group' && room?.destination != null}" th:text="${room?.destination}"></td>
                 <td th:if="${room?.description != null}" th:text="${room?.description}"></td>
-                <td th:if="${room?.product != null}" th:text="${room?.product}"></td>
+                <td th:if="${category != 'taxi' &&  category != 'delivery' && room?.product != null }" th:text="${room?.product}"></td>
             </tr>
             </tbody>
         </table>

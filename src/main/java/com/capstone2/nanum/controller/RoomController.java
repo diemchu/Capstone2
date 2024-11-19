@@ -107,6 +107,7 @@ public class RoomController {
     @GetMapping("/select-taxi-room")
     public  String selectTaxiRoom(@RequestParam("category") String category  ,Model model){
         List<Room> rooms  = roomService.findByCategory(category);
+        model.addAttribute("category",category);
         model.addAttribute("rooms",rooms);
         return "room/join-room-list";
     }
@@ -115,6 +116,7 @@ public class RoomController {
     @GetMapping("/select-delivery-room")
     public  String selectDeliveryRoom(@RequestParam("category") String category  ,Model model){
         List<Room> rooms  = roomService.findByCategory(category);
+        model.addAttribute("category",category);
         model.addAttribute("rooms",rooms);
         return "room/join-room-list";
 
@@ -125,6 +127,7 @@ public class RoomController {
     @GetMapping("/select-group-room")
     public  String selectGroupRoom(@RequestParam("category") String category  ,Model model){
         List<Room> rooms  = roomService.findByCategory(category);
+        model.addAttribute("category",category);
         model.addAttribute("rooms",rooms);
         return "room/join-room-list";
     }
