@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface  JoinRoomRepository  extends JpaRepository< JoinRoom,Long> {
-    List<JoinRoom> findByUserId(Long userId); // Sửa thành findByUserId
+    List<JoinRoom> findByUserId(Long userId);
     JoinRoom findById(long id);
 }

@@ -29,7 +29,24 @@ public class RoomController {
 
     @GetMapping("/join-room-list-view")
     public String join_rooms_list(Model model) {
-        List<Room> rooms = roomService.findAllRooms();
+        List<Room> roomList = roomService.findAllRooms();
+        List<Room> rooms = new ArrayList<>();
+        Long currentUserId = UserService.user.getId();
+        List<JoinRoom> joinRoomList = joinRoomService.findUserId(currentUserId);
+        System.out.println(joinRoomList);
+
+        for (int i = 0 ; i< roomList.size();i++){
+            if(!currentUserId.equals(roomList.get(i).getUserId())){
+                rooms.add(roomList.get(i));
+            }
+        }
+        for (int i = 0; i< rooms.size() ; i++){
+            for (int j = 0 ; j< joinRoomList.size();j++){
+                if(rooms.get(i).getId().equals(joinRoomList.get(j).getRoomId())){
+                    rooms.remove(i);
+                }
+            }
+        }
         model.addAttribute("rooms", rooms);
         model.addAttribute("nickname", UserService.user.getName());
         model.addAttribute("currentUserId",UserService.user.getId());
@@ -43,21 +60,27 @@ public class RoomController {
     }
     @GetMapping("/join-room-view")
     public String join_room(Model model) {
-        List<JoinRoom> joinRooms = joinRoomService.findUserId(UserService.user.getId());
-        System.out.println(joinRooms.size());
-        List<Room> rooms = roomService.findAllRooms();
-        System.out.println(rooms.size());
-        List<Room> result = new ArrayList<>();
+        List<Room> roomList = roomService.findAllRooms();
+        List<Room> rooms = new ArrayList<>();
+        Long currentUserId = UserService.user.getId();
+        List<JoinRoom> joinRoomList = joinRoomService.findUserId(currentUserId);
 
-        for (JoinRoom joinRoom : joinRooms){
-            for (Room room : rooms){
-                if(joinRoom.getRoomId().equals(room.getId())){
-                    result.add(room);
+//        for (int i = 0 ; i< roomList.size();i++){
+//            if(currentUserId.equals(roomList.get(i).getUserId())){
+//                rooms.add(roomList.get(i));
+//            }
+//        }
+        for (int i = 0; i< roomList.size() ; i++){
+            for (int j = 0 ; j< joinRoomList.size();j++){
+                if(roomList.get(i).getId().equals(joinRoomList.get(j).getRoomId())){
+                    rooms.add(roomList.get(i));
                 }
             }
+            if(currentUserId.equals(roomList.get(i).getUserId())){
+                rooms.add(roomList.get(i));
+            }
         }
-        System.out.println("size = " + result.size());
-        model.addAttribute("rooms",result);
+        model.addAttribute("rooms",rooms);
         return "room/join-room";
     }
 

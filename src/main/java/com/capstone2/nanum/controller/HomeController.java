@@ -8,10 +8,12 @@ import com.capstone2.nanum.services.RoomService;
 import com.capstone2.nanum.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -36,6 +38,16 @@ public class HomeController {
     @GetMapping("/board-view")
     public String board(Model model) {
         List<Room> rooms = roomService.findAllRooms();
+//        List<Room> rooms = new ArrayList<>();
+//        Long currentUserId = UserService.user.getId();
+//        System.out.println(currentUserId);
+//        for (int i = 0 ; i< roomList.size();i++){
+//            System.out.println(roomList.get(i).getUserId());
+//            if(!currentUserId.equals(roomList.get(i).getUserId())){
+//                rooms.add(roomList.get(i));
+//            }
+//        }
+
         model.addAttribute("rooms", rooms);
         model.addAttribute("nickname", UserService.user.getName());
         model.addAttribute("currentUserId",UserService.user.getId());
