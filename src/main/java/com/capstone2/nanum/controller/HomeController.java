@@ -7,10 +7,14 @@ import com.capstone2.nanum.services.PostService;
 import com.capstone2.nanum.services.RoomService;
 import com.capstone2.nanum.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -62,5 +66,14 @@ public class HomeController {
         return  "home/user-info";
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable Long id) {
+        try {
+            postService.deletePostById(id);
+            return ResponseEntity.ok("Post deleted successfully.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 
 }
