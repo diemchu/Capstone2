@@ -107,26 +107,25 @@
 </head>
 <body>
 <header>
-    <img src="#" alt="로고" class="logo">
+    <img src="/image/app_logo.jpeg" alt="웹사이트 로고" class="logo">
     <nav class="navbar">
         <a th:href="@{/room/create-room-view}">방 생성하기</a>
-        <a th:href="@{/room/join-room-view}">게시판</a>
-        <a th:href="@{/home/board-view}">방 참여하기</a>
+        <a th:href="@{/room/join-room-list-view}">방 참여하기</a>
+        <a th:href="@{/home/board-view}">게시판</a>
     </nav>
 </header>
 
 
 
-
 <div id="container">
     <aside>
-        <img src="#" alt="사용자 이미지" class="user-image">
-        <div class="nickname">사용자 이름</div>
+        <img src="/image/man.jpeg" alt="사용자 이미지" class="user-image">
+        <div class="nickname">[[${nickname}]]</div>
         <a th:href="@{/home/user-info-view}" class="edit-profile">프로필 수정</a>
-        <a h:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
+        <a th:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
         <a th:href="@{/room/taxiroom-list-view}" class="tag">택시비</a>
         <a th:href="@{/room/deliveryroom-view}" class="tag">배달비</a>
-        <a th:href="@{/room/jointroom-list-view}" class="tag">공동구매</a>
+        <a th:href="@{/room/join-room-list-view}" class="tag">공동구매</a>
         <a th:href="@{/login/login-view}" class="logout">로그아웃</a>
     </aside>
 

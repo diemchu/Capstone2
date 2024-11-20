@@ -122,7 +122,7 @@ public class RoomController {
         room.setDate(date);
         room.setUserId(UserService.user.getId());
         roomService.saveRoom(room);
-        return "redirect:/room/join-room-list-view";
+        return "redirect:/room/join-room-view";
     }
 
 
