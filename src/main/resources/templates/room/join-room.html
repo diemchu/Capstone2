@@ -153,6 +153,7 @@
         <a th:href="@{/home/board-view}">게시판</a>
     </nav>
 </header>
+
 <div id="container">
     <aside>
         <img src="/image/man.jpeg" alt="사용자 이미지" class="user-image">
@@ -213,16 +214,23 @@
 </div>
 
 <footer>
-    <div class="footer-address">
-        <ul>
-            <li>학교 주소: 강원도 강릉시 죽헌길 50</li>
-            <li>전화번호: 033-649-7000</li>
-            <li>팩스: 033-649-7100</li>
-        </ul>
+    <div class="footer-contact">
+        <div class="footer-logo">
+            <img src="/image/ft-logo.png" alt="가톨릭관동대학교 CATHOLIC KWANDONG UNIVERSITY" class="big">
+        </div>
+        <div class="footer-info">
+            <ul class="footer-address">
+                <li>(25601) 강릉시 범일로 579번길 24 (내곡동)</li>
+                <li>TEL : (033) 649 - 7114</li>
+                <li>FAX : (033) 641 - 1010</li>
+                <li>입학 TEL : 033-649-7000 (평일 : 09:00 ~ 17:00)</li>
+            </ul>
+            <div class="footer-copyright">
+                Copyright© CATHOLIC KWANDONG UNIVERSITY. All Rights Reserved
+            </div>
+        </div>
     </div>
-    <img class="big" src="/image/kwandong_logo.png" alt="Catholic Kwandong University">
 </footer>
-
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const postList = document.getElementById("postList");

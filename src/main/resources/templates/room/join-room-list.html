@@ -152,6 +152,7 @@
         <a th:href="@{/home/board-view}">게시판</a>
     </nav>
 </header>
+
 <div id="container">
     <aside>
         <img src="/image/man.jpeg" alt="사용자 이미지" class="user-image">
@@ -178,7 +179,7 @@
             <tr>
                 <th>Id</th>
                 <th>방 이름</th>
-                <th>가테고리</th>
+                <th>카테고리</th>
                 <th>날짜</th>
                 <th>최대 인원</th>
                 <th th:if="${category != 'taxi' && category != 'group' }">배달 받을 위치</th>
