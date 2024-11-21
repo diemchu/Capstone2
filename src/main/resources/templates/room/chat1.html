@@ -86,105 +86,105 @@
 </div>
 
 <script>
-   const roomId = document.getElementById('roomId').textContent;
-   const senderId = document.getElementById('senderId').textContent;
-   const receiverId = document.getElementById('receiverId').textContent;
-   const senderName= document.getElementById('senderName').textContent;
-    console.log(roomId, senderId, receiverId);
+  const roomId = document.getElementById('roomId').textContent;
+  const senderId = document.getElementById('senderId').textContent;
+  const receiverId = document.getElementById('receiverId').textContent;
+  const senderName= document.getElementById('senderName').textContent;
+   console.log(roomId, senderId, receiverId);
 
-    if (roomId && senderId && receiverId) {
-        console.log("Values are correctly loaded.");
-    } else {
-        console.error("Missing values: ", roomId, senderId, receiverId);
-    }
+   if (roomId && senderId && receiverId) {
+       console.log("Values are correctly loaded.");
+   } else {
+       console.error("Missing values: ", roomId, senderId, receiverId);
+   }
 
 
-    window.onload = function() {
-        fetchMessages();
-    };
-  
-    // Hàm fetch tin nhắn từ server
-    function fetchMessages() {
-    fetch(`/api/chat/history/${roomId}`)
-        .then(response => response.json())
-        .then(messages => {
-            console.log("Messages from server:", messages); // Kiểm tra dữ liệu
-            if (Array.isArray(messages)) {
-                renderMessages(messages);
-            } else {
-                console.error("Received messages is not an array:", messages);
-            }
-        })
-        .catch(error => console.error('Error fetching messages:', error));
+   window.onload = function() {
+       fetchMessages();
+   };
+
+   // Hàm fetch tin nhắn từ server
+   function fetchMessages() {
+   fetch(`/api/chat/history/${roomId}`)
+       .then(response => response.json())
+       .then(messages => {
+           console.log("Messages from server:", messages); // Kiểm tra dữ liệu
+           if (Array.isArray(messages)) {
+               renderMessages(messages);
+           } else {
+               console.error("Received messages is not an array:", messages);
+           }
+       })
+       .catch(error => console.error('Error fetching messages:', error));
 }
 function renderMessages(messages) {
-    const chatBox = document.getElementById('chatBox');
-    messages.forEach(message => {
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('message');
-        if (message.senderId === senderId) {
-            messageElement.classList.add('own');
-        }
+   const chatBox = document.getElementById('chatBox');
+   messages.forEach(message => {
+       const messageElement = document.createElement('div');
+       messageElement.classList.add('message');
+       if (message.senderId === senderId) {
+           messageElement.classList.add('own');
+       }
 
-        messageElement.innerHTML = `
-            <div class="user">${message.senderName}</div>
-            <div class="text">${message.text}</div>
-            <div class="timestamp">${new Date(message.timestamp).toLocaleTimeString()}</div>
-        `;
+       messageElement.innerHTML = `
+           <div class="user">${message.senderName}</div>
+           <div class="text">${message.text}</div>
+           <div class="timestamp">${new Date(message.timestamp).toLocaleTimeString()}</div>
+       `;
 
-        chatBox.appendChild(messageElement);
-    });
+       chatBox.appendChild(messageElement);
+   });
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-    window.onload = function() {
-        document.getElementById("sendButton").addEventListener("click", sendMessage);
-        fetchMessages();
-        setInterval(fetchMessages, 3000);
-    };
+   window.onload = function() {
+       document.getElementById("sendButton").addEventListener("click", sendMessage);
+       fetchMessages();
+       setInterval(fetchMessages, 3000);
+   };
 
-    function sendMessage() {
-    const input = document.getElementById('messageInput');
-    const messageText = input.value.trim();
+   function sendMessage() {
+   const input = document.getElementById('messageInput');
+   const messageText = input.value.trim();
 
-    if (messageText) {
-        const newMessage = {
-            roomId: roomId,
-            senderId: senderId,
-            receiverId: receiverId,
-            text: messageText,
-            senderName : senderName,
-            timestamp: new Date().toISOString()
-        };
+   if (messageText) {
+       const newMessage = {
+           roomId: roomId,
+           senderId: senderId,
+           receiverId: receiverId,
+           text: messageText,
+           senderName : senderName,
+           timestamp: new Date().toISOString()
+       };
 
-        fetch('/api/chat/send', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newMessage)
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => {
-                    throw new Error(err.message || 'Failed to send message');
-                });
-            }
-            return response.json();
-        })
-        .then(savedMessage => {
-            renderMessages([savedMessage]);
-            input.value = '';
-        })
-        .catch(error => {
-            console.error('Error sending message:', error);
-            alert("메세지 보내기 실해했습니다.");
-        });
-    } else {
-        alert("메시지를 입력하세요.");
-    }
+       fetch('/api/chat/send', {
+           method: 'POST',
+           headers: {
+               'Content-Type': 'application/json'
+           },
+           body: JSON.stringify(newMessage)
+       })
+       .then(response => {
+           if (!response.ok) {
+               return response.json().then(err => {
+                   throw new Error(err.message || 'Failed to send message');
+               });
+           }
+           return response.json();
+       })
+       .then(savedMessage => {
+           renderMessages([savedMessage]);
+           input.value = '';
+       })
+       .catch(error => {
+           console.error('Error sending message:', error);
+           alert("메세지 보내기 실해했습니다.");
+       });
+   } else {
+       alert("메시지를 입력하세요.");
+   }
 }
-  </script>
-  </body>
-  </html>
+</script>
+</body>
+</html>
