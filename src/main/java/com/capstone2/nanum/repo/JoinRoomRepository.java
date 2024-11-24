@@ -9,4 +9,5 @@ import java.util.List;
 public interface  JoinRoomRepository  extends JpaRepository< JoinRoom,Long> {
     List<JoinRoom> findByUserId(Long userId);
     JoinRoom findById(long id);
+    void deleteByIdAndUserId(Long roomId, Long userId);
 }

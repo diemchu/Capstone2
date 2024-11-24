@@ -2,6 +2,7 @@ package com.capstone2.nanum.services;
 
 import com.capstone2.nanum.database.Room;
 import com.capstone2.nanum.repo.RoomRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +22,13 @@ public class RoomService {
     }
     public List<Room> findByCategory(String category){
         return roomRepository.findByCategory(category);
+    }
+    @Transactional
+    public boolean deleteRoom(Long roomId, Long userId) {
+        if (roomRepository.existsById(roomId)) {
+            roomRepository.deleteByIdAndUserId(roomId, userId);
+            return true;
+        }
+        return false;
     }
 }

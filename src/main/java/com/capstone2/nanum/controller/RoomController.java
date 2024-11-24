@@ -6,15 +6,16 @@ import com.capstone2.nanum.services.JoinRoomService;
 import com.capstone2.nanum.services.RoomService;
 import com.capstone2.nanum.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("room")
@@ -92,10 +93,6 @@ public class RoomController {
     public String deliveryroom() {
         return "room/deliveryroom-list";
     }
-//    @GetMapping("/join-room-list-view")
-//    public String jointroom() {
-//        return "room/join-room-list";
-//    }
 
     @PostMapping("/create-room")
     public String createRoom(
@@ -153,5 +150,23 @@ public class RoomController {
         model.addAttribute("category",category);
         model.addAttribute("rooms",rooms);
         return "room/join-room-list";
+    }
+
+
+    @DeleteMapping("/delete-room")
+    public ResponseEntity<Map<String, Object>> deleteRoom(@RequestParam("roomId") Long roomId) {
+        Long currentUerId = UserService.user.getId();
+        boolean deleted = roomService.deleteRoom(roomId,currentUerId);
+        if (deleted == false){
+            deleted = joinRoomService.deleteRoom(roomId,currentUerId);
+        }
+        Map<String, Object> response = new HashMap<>();
+        if (deleted) {
+            response.put("success", true);
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("success", false);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 }

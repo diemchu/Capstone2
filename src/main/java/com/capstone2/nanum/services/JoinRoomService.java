@@ -6,6 +6,7 @@ import com.capstone2.nanum.database.User;
 import com.capstone2.nanum.repo.JoinRoomRepository;
 import com.capstone2.nanum.repo.RoomRepository;
 import com.capstone2.nanum.repo.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -22,6 +23,16 @@ public class JoinRoomService {
 
     @Autowired
     private  RoomRepository roomRepository;
+
+
+    @Transactional
+    public boolean deleteRoom(Long roomId, Long userId) {
+        if (joinRoomRepository.existsById(roomId)) {
+            joinRoomRepository.deleteByIdAndUserId(roomId, userId);
+            return true;
+        }
+        return false;
+    }
 
     public boolean joinRoom(Long roomId, Long userId,Long roomManagerId, String roomName) {
         try {
