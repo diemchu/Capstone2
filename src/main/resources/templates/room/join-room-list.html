@@ -273,6 +273,7 @@
         .then(data => {
             if (data.success) {
                 alert(`참여했습니다 ID: "${roomId}"`);
+                row.remove();
             } else {
                 alert("참여 중 오류가 발생했습니다.");
             }

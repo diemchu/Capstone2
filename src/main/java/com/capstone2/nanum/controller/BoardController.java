@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -29,7 +30,8 @@ public class BoardController {
     @PostMapping("/save")
     public String savePost(
             @RequestParam String title,
-            @RequestParam String content) {
+            @RequestParam String content
+    ) {
         System.out.println(title);
         System.out.println(content);
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -39,6 +41,8 @@ public class BoardController {
         post.setDate(date);
         post.setNickname(UserService.user.getName());
         postService.savePost(post);
+
+        Long currentUserId = UserService.user.getId();
         return  "redirect:/home/board-view";
 
 
