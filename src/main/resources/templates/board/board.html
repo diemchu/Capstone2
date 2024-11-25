@@ -317,7 +317,19 @@
             background-color: #ccc;
             margin-top: 10px;
         }
+        .comment-row {
+    margin: 8px 0;
+    font-size: 14px;
+}
 
+.comment-nickname {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.comment-content {
+    color: #34495e;
+}
     </style>
 </head>
 <body>
@@ -344,6 +356,8 @@
     </aside>
     <main>
       <p id="userId" th:text="${userId}" style="display: none;"></p>
+      <p id="nickname" th:text="${nickname}" style="display: none;"></p>
+
         <h1>게시판</h1>
         <table>
             <thead>
@@ -532,29 +546,7 @@ function confirmParticipation(row) {
 let longPressTimer;
 let selectedRowId = null;  // ID của hàng được chọn
 const userId= document.getElementById('userId').textContent;
-const comments = {
-    // Giả lập dữ liệu comment, bạn có thể thay bằng API thật
-    1: ["Comment 1", "Comment 2", "Comment 3"],
-    2: ["Comment A", "Comment B"]
-};
-
-// Hàm mở popup và hiển thị comment
-function openPopup(rowId) {
-    const commentListDiv = document.getElementById("comment-list");
-    console.log(rowId);
-    commentListDiv.innerHTML = ''; // Xóa danh sách comment cũ
-
-    // Lấy các comment của bài viết từ dữ liệu giả lập (hoặc từ cơ sở dữ liệu)
-    const postComments = comments[rowId] || [];
-    postComments.forEach(comment => {
-        const commentDiv = document.createElement("div");
-        commentDiv.textContent = comment;
-        commentListDiv.appendChild(commentDiv);
-    });
-
-    // Hiển thị popup
-    document.getElementById("comment-popup").style.display = "block";
-}
+const nickname= document.getElementById('nickname').textContent;
 
 // Hàm đóng popup
 function closePopup() {
@@ -562,6 +554,39 @@ function closePopup() {
 }
 
 // Hàm thêm comment mới
+function openPopup(selectedRowId) {
+    const rowId = selectedRowId;
+    const commentListDiv = document.getElementById("comment-list");
+    commentListDiv.innerHTML = ''; // Xóa danh sách comment cũ
+    console.log(rowId);
+    // Lấy các comment của bài viết từ API
+    fetch(`/comments/get_comments/${rowId}`)
+        .then(response => {
+            if (!response.ok) throw new Error("Failed to fetch comments");
+            return response.json();
+        })
+        .then(comments => {
+            comments.forEach(comment => {
+                const commentDiv = document.createElement("div");
+                commentDiv.className = "comment-row";
+                commentDiv.innerHTML = `
+                    <span class="comment-nickname">${comment.nickname}</span>: 
+                    <span class="comment-content">${comment.content}</span>
+                `;
+                commentListDiv.appendChild(commentDiv);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching comments:", error);
+            const errorDiv = document.createElement("div");
+            errorDiv.textContent = "Failed to load comments.";
+            commentListDiv.appendChild(errorDiv);
+        });
+
+    // Hiển thị popup
+    document.getElementById("comment-popup").style.display = "block";
+}
+//------------------------------------------
 function addComment() {
     const newComment = document.getElementById("new-comment").value;
     if (!newComment) {
@@ -569,25 +594,22 @@ function addComment() {
         return;
     }
 
-    // Tạo đối tượng comment cần gửi tới server
     const commentData = {
         content: newComment,
-        nickname: userId,  // Hoặc thay bằng tên người dùng khác nếu cần
-        posterId: selectedRowId  // ID của bài viết
+        nickname: nickname,  
+        posterId: selectedRowId  
     };
 
-    // Gửi comment tới API để lưu vào cơ sở dữ liệu
-    fetch('/comments', {
+    fetch('/comments/add_comment', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(commentData)  // Chuyển đối tượng comment thành JSON
+        body: JSON.stringify(commentData) 
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Hiển thị lại danh sách comment sau khi thêm thành công
             openPopup(selectedRowId);
         } else {
             alert("Có lỗi xảy ra khi thêm comment.");
@@ -597,11 +619,8 @@ function addComment() {
         console.error("Lỗi khi gửi dữ liệu:", error);
         alert("Có lỗi xảy ra.");
     });
-
-    // Xóa nội dung comment đã nhập
     document.getElementById("new-comment").value = '';
 }
-
 
 function startLongPress(event, row) {
     longPressTimer = setTimeout(() => {
@@ -617,10 +636,10 @@ function endLongPress(event) {
 
 </script>
 
-<div id="comment-popup" class="popup">
+<div id="comment-popup" class="popup" style="display: none;">
     <div class="popup-content">
         <h2>댓글</h2>
-        <div id="comment-list">
+        <div id="comment-list" class="comments-list">
         </div>
         <textarea id="new-comment" placeholder="댓글을 입력하세요..." rows="4"></textarea>
         <button onclick="addComment()">댓글 추가</button>
