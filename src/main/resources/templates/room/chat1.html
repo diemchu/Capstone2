@@ -103,45 +103,45 @@
        fetchMessages();
    };
 
-   // Hàm fetch tin nhắn từ server
    function fetchMessages() {
-   fetch(`/api/chat/history/${roomId}`)
-       .then(response => response.json())
-       .then(messages => {
-           console.log("Messages from server:", messages); // Kiểm tra dữ liệu
-           if (Array.isArray(messages)) {
-               renderMessages(messages);
-           } else {
-               console.error("Received messages is not an array:", messages);
-           }
-       })
-       .catch(error => console.error('Error fetching messages:', error));
+    fetch(`/api/chat/history/${roomId}`)
+        .then(response => response.json())
+        .then(messages => {
+            console.log("Messages from server:", messages); 
+            if (Array.isArray(messages)) {
+                renderMessages(messages); 
+            } else {
+                console.error("Received messages is not an array:", messages);
+            }
+        })
+        .catch(error => console.error('Error fetching messages:', error));
 }
 function renderMessages(messages) {
-   const chatBox = document.getElementById('chatBox');
-   messages.forEach(message => {
-       const messageElement = document.createElement('div');
-       messageElement.classList.add('message');
-       if (message.senderId === senderId) {
-           messageElement.classList.add('own');
-       }
+    const chatBox = document.getElementById('chatBox');
+    chatBox.innerHTML = ''; 
+    messages.forEach(message => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        if (message.senderId === senderId) {
+            messageElement.classList.add('own');
+        }
 
-       messageElement.innerHTML = `
-           <div class="user">${message.senderName}</div>
-           <div class="text">${message.text}</div>
-           <div class="timestamp">${new Date(message.timestamp).toLocaleTimeString()}</div>
-       `;
+        messageElement.innerHTML = `
+            <div class="user">${message.senderName}</div>
+            <div class="text">${message.text}</div>
+            <div class="timestamp">${new Date(message.timestamp).toLocaleTimeString()}</div>
+        `;
 
-       chatBox.appendChild(messageElement);
-   });
+        chatBox.appendChild(messageElement);
+    });
 
-   chatBox.scrollTop = chatBox.scrollHeight;
+    chatBox.scrollTop = chatBox.scrollHeight; 
 }
 
    window.onload = function() {
        document.getElementById("sendButton").addEventListener("click", sendMessage);
        fetchMessages();
-       setInterval(fetchMessages, 3000);
+       setInterval(fetchMessages,100);
    };
 
    function sendMessage() {
