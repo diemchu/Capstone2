@@ -1,9 +1,10 @@
-<!doctype html>
-<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 페이지</title>
+    <title>Nanumi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* 전체 배경 스타일 */
         body {
@@ -73,118 +74,6 @@
 
         .profile-button:hover {
             background-color: #ddd;
-        }
-
-        /* 회원정보 패널 */
-        .profile-panel {
-            position: absolute;
-            top: 60px;
-            right: 20px;
-            background-color: rgba(0, 0, 0, 0.8); /* 어두운 배경 */
-            color: #fff;
-            width: 300px;
-            padding: 20px;
-            border-radius: 10px;
-            display: none;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .profile-panel img {
-            display: block;
-            margin: 0 auto 10px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-        }
-
-        .profile-panel h3 {
-            text-align: center;
-            font-size: 20px;
-            margin: 10px 0;
-        }
-
-        .profile-panel p {
-            text-align: center;
-            font-size: 14px;
-            color: #bbb;
-        }
-
-        .profile-panel button {
-            width: 100%;
-            font-size: 16px;
-            padding: 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .profile-panel button:hover {
-            background-color: #444;
-        }
-
-
-        .profile-panel a:hover {
-            text-decoration: underline;
-        }
-
-        /* 메인 콘텐츠 스타일 */
-        main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            height: calc(100vh - 60px);
-        }
-
-        h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-        }
-
-        p {
-            font-size: 20px;
-            margin-bottom: 20px;
-        }
-        header {
-            margin-bottom: 0;
-        }
-
-        main {
-            margin-top: 0;
-            padding-top: 0;
-        }
-
-
-        .btn-create-room {
-            font-size: 18px;
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-
-        .btn-create-room:hover {
-            background-color: #0056b3;
-        }
-
-        #container {
-            display: flex;
-            height: calc(100vh - 80px);
-            padding-top: 80px;
-            overflow: hidden;
-        }
-        main {
-            width: 90%; /* 기존 너비보다 더 넓게 설정 */
-            max-width: 1200px; /* 최대 너비를 설정하여 너무 넓어지지 않도록 제한 */
-            margin: 0 auto; /* 가운데 정렬 */
-            padding: 20px; /* 내부 여백 추가 */
-        }
-        .pagination {
-            margin-top: 20px;
         }
         main h1 {
             font-size: 24px;
@@ -296,6 +185,7 @@
             background-color: #ff1a1a;
         }
 
+
         button.active {
                 background-color: #28a745;
                 color: white;
@@ -390,10 +280,61 @@
 .comment-content {
     color: #34495e;
 }
+
+        /* 회원정보 패널 */
+        .profile-panel {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8); /* 어두운 배경 */
+            color: #fff;
+            width: 300px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-panel img {
+            display: block;
+            margin: 0 auto 10px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        .profile-panel h3 {
+            text-align: center;
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .profile-panel p {
+            text-align: center;
+            font-size: 14px;
+            color: #bbb;
+        }
+
+        .profile-panel button {
+            width: 100%;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-panel button:hover {
+            background-color: #444;
+        }
+
+
+        .profile-panel a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-
 <header>
     <div class="logo">
         <a th:href="@{/home/home}">
@@ -409,43 +350,52 @@
     <button class="profile-button" id="profileButton">회원정보</button>
 </header>
 
-<div id="container">
-    <main>
-      <p id="userId" th:text="${userId}" style="display: none;"></p>
-      <p id="nickname" th:text="${nickname}" style="display: none;"></p>
+<main>
+    <p id="userId" th:text="${userId}" style="display: none;"></p>
+    <p id="nickname" th:text="${nickname}" style="display: none;"></p>
 
-        <h1>게시판</h1>
-        <table>
-            <thead>
-            <tr>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>작성일</th>
-                <th>내용</th>
-                <th>기능</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tbody>
-                <tr   th:each="post : ${posts}"
-                th:attr="data-id=${post?.id}" th:id="'row-' + ${post.id}"
-                onmousedown="startLongPress(event, this)" onmouseup="endLongPress(event)"
-                onclick="confirmParticipation(this)">
-                    <td th:text="${post.title}"></td>
-                    <td th:text="${post.nickname}"></td>
-                    <td th:text="${post.date}"></td>
-                    <td th:text="${post.content}"></td>
-                    <td>
-                        <button class="like-button" onclick="event.stopPropagation(); toggleLike(this)">좋아요</button>
-                        <button class="dislike-button" onclick="event.stopPropagation(); toggleDislike(this)">싫어요</button>
-                    </td>
-                </tr>
-                </tbody>
-            </tbody>
-        </table>
-        <button onclick="location.href='/board/write'">글쓰기</button>
-    </main>
+    <h1>게시판</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+            <th>내용</th>
+            <th>기능</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tbody>
+        <tr   th:each="post : ${posts}"
+              th:attr="data-id=${post?.id}" th:id="'row-' + ${post.id}"
+              onmousedown="startLongPress(event, this)" onmouseup="endLongPress(event)"
+              onclick="confirmParticipation(this)">
+            <td th:text="${post.title}"></td>
+            <td th:text="${post.nickname}"></td>
+            <td th:text="${post.date}"></td>
+            <td th:text="${post.content}"></td>
+            <td>
+                <button class="like-button" onclick="event.stopPropagation(); toggleLike(this)">좋아요</button>
+                <button class="dislike-button" onclick="event.stopPropagation(); toggleDislike(this)">싫어요</button>
+            </td>
+        </tr>
+        </tbody>
+        </tbody>
+    </table>
+    <button onclick="location.href='/board/write'">글쓰기</button>
+</main>
+<div id="comment-popup" class="popup" style="display: none;">
+    <div class="popup-content">
+        <h2>댓글</h2>
+        <div id="comment-list" class="comments-list">
+        </div>
+        <textarea id="new-comment" placeholder="댓글을 입력하세요..." rows="4"></textarea>
+        <button onclick="addComment()">댓글 추가</button>
+        <button onclick="closePopup()">닫기</button>
+    </div>
 </div>
+
 <!-- 회원정보 패널 -->
 <div class="profile-panel" id="profilePanel">
     <img img src="/image/man.jpeg" alt="프로필 이미지">
@@ -455,6 +405,8 @@
         <button class="btn btn-outline-light" onclick="window.location.href='/login/login-view'">로그아웃</button>
     </div>
 </div>
+
+
 
 <script>
     const profileButton = document.getElementById('profileButton');
@@ -704,15 +656,6 @@ function endLongPress(event) {
 
 </script>
 
-<div id="comment-popup" class="popup" style="display: none;">
-    <div class="popup-content">
-        <h2>댓글</h2>
-        <div id="comment-list" class="comments-list">
-        </div>
-        <textarea id="new-comment" placeholder="댓글을 입력하세요..." rows="4"></textarea>
-        <button onclick="addComment()">댓글 추가</button>
-        <button onclick="closePopup()">닫기</button>
-    </div>
-</div>
+
 </body>
 </html>
