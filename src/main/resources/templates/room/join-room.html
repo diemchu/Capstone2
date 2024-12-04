@@ -1,113 +1,166 @@
-<!doctype html>
-<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 페이지</title>
+    <title>Nanumi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* 전체 배경 스타일 */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            background-image: url('/image/background.jpg'); /* 사용자가 지정한 이미지 경로 */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
+        /* 헤더 스타일 */
         header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             padding: 10px 20px;
-            text-align: center;
-            position: relative;
-            margin-top: 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* 반투명 검은 배경 */
         }
 
         .logo {
-            height: 50px;
-            float: left;
-            margin-right: 20px;
-        }
-
-        .navbar {
-            display: inline-block;
-            text-align: center;
-            justify-content: center;
-        }
-
-        .navbar a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #000;
-        }
-
-        footer {
-            padding: 10px 20px;
-            text-align: center;
-        }
-
-        #container {
             display: flex;
-            border: 1px solid #222;
-            height: calc(100vh - 50px);
-            margin-top: 50px;
+            align-items: center;
         }
 
-        aside {
-            width: 200px;
-            padding: 20px;
-            background-color: #f4f4f4;
-            border-right: 1px solid #ccc;
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
         }
 
-        .user-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin-bottom: 10px;
+        .logo-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 30px; /* 제목과 메뉴 간격 조정 */
         }
 
-        .nickname {
-            font-size: 18px;
-            margin-bottom: 20px;
+        nav {
+            display: flex;
+            gap: 15px;
         }
 
-        .edit-profile, .room-link, .tag, .logout {
-            font-size: 18px;
+        nav a {
             text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+            padding: 5px 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #444;
+            border-radius: 5px;
+        }
+
+        .profile-button {
+            background-color: #fff;
             color: #000;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .logout {
-            color: red;
-            margin-top: 20px;
-        }
-
-        #main {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        #button-container {
-            margin-bottom: 20px;
-        }
-
-        .filter-button {
-            margin: 0 10px;
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
             border: none;
+            padding: 5px 15px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
         }
 
-        .filter-button:hover {
-            background-color: #0056b3;
+        .profile-button:hover {
+            background-color: #ddd;
         }
 
-        table {
+        /* 회원정보 패널 */
+        .profile-panel {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8); /* 어두운 배경 */
+            color: #fff;
+            width: 300px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-panel img {
+            display: block;
+            margin: 0 auto 10px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        .profile-panel h3 {
+            text-align: center;
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .profile-panel p {
+            text-align: center;
+            font-size: 14px;
+            color: #bbb;
+        }
+
+        .profile-panel button {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-panel button:hover {
+            background-color: #444;
+        }
+
+
+        .profile-panel a:hover {
+            text-decoration: underline;
+        }
+
+        /* 메인 콘텐츠 스타일 */
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: calc(100vh - 60px);
+        }
+
+        h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .btn-create-room {
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-create-room:hover {
+            background-color: #0056b3;
         }
 
         th, td {
@@ -121,9 +174,6 @@
             font-weight: bold;
         }
 
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
 
         tr:hover {
             background-color: #eaeaea;
@@ -144,89 +194,87 @@
     </style>
 </head>
 <body>
-
 <header>
-    <img src="/image/app_logo.jpeg" alt="웹사이트 로고" class="logo">
-    <nav class="navbar">
-        <a th:href="@{/room/create-room-view}">방 생성하기</a>
-        <a th:href="@{/room/join-room-list-view}">방 참여하기</a>
-        <a th:href="@{/home/board-view}">게시판</a>
-    </nav>
+    <div class="logo">
+        <a th:href="@{/home/home}">
+            <img src="/image/app_logo.jpeg" alt="Nanumi 로고">
+        </a>
+        <span class="logo-title">Nanumi</span>
+        <nav>
+            <a th:href="@{/room/create-room-view}">방 생성하기</a>
+            <a th:href="@{/room/join-room-list-view}">방 참여하기</a>
+            <a th:href="@{/home/board-view}">게시판</a>
+        </nav>
+    </div>
+    <button class="profile-button" id="profileButton">회원정보</button>
 </header>
+<main id="main">
+    <div class="board">
+        <h1>참여한 방 정보</h1>
 
-<div id="container">
-    <aside>
-        <img src="/image/man.jpeg" alt="사용자 이미지" class="user-image">
-        <div class="nickname">[[${nickname}]]</div>
-        <a th:href="@{/home/user-info-view}" class="edit-profile">프로필 수정</a>
-        <a th:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
-        <a th:href="@{/room/taxiroom-list-view}" class="tag">택시비</a>
-        <a th:href="@{/room/deliveryroom-view}" class="tag">배달비</a>
-        <a th:href="@{/room/join-room-list-view}" class="tag">공동구매</a>
-        <a th:href="@{/login/login-view}" class="logout">로그아웃</a>
-    </aside>
+        <table>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>방 이름</th>
+                <th>가테고리</th>
+                <th>날짜</th>
+                <th>최대 인원</th>
+                <th>배달 받을 위치</th>
+                <th>출발 위치</th>
+                <th>도착 위치</th>
+                <th>상세 설명</th>
+                <th>주문 항목</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="room : ${rooms}"
+                th:attr="data-id=${room?.id},data-room-name=${room.roomName}"
+                onmousedown="startLongPress(event, this)"
+                onmouseup="endLongPress(event)"
+                onclick="confirmParticipation(this)">
+                <td th:if="${room?.id != null}" th:text="${room?.id}"></td>
+                <td th:if="${room?.roomName != null}" th:text="${room?.roomName}"></td>
+                <td th:if="${room?.category != null}" th:text="${room?.category}"></td>
+                <td th:if="${room?.date != null}" th:text="${room?.date}"></td>
+                <td th:if="${room?.maxPeople != null}" th:text="${room?.maxPeople}"></td>
+                <td th:if="${room?.deliveryLocation != null}" th:text="${room?.deliveryLocation}"></td>
+                <td th:if="${room?.departure != null}" th:text="${room?.departure}"></td>
+                <td th:if="${room?.destination != null}" th:text="${room?.destination}"></td>
+                <td th:if="${room?.description != null}" th:text="${room?.description}"></td>
+                <td th:if="${room?.product != null}" th:text="${room?.product}"></td>
+            </tr>
+            </tbody>
 
-    <main id="main">
-        <div class="board">
-            <h1>참여한 방 정보</h1>
+        </table>
+    </div>
+</main>
 
-            <table>
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>방 이름</th>
-                    <th>가테고리</th>
-                    <th>날짜</th>
-                    <th>최대 인원</th>
-                    <th>배달 받을 위치</th>
-                    <th>출발 위치</th>
-                    <th>도착 위치</th>
-                    <th>상세 설명</th>
-                    <th>주문 항목</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="room : ${rooms}"
-                    th:attr="data-id=${room?.id},data-room-name=${room.roomName}"
-                    onmousedown="startLongPress(event, this)"
-                    onmouseup="endLongPress(event)"
-                    onclick="confirmParticipation(this)">
-                    <td th:if="${room?.id != null}" th:text="${room?.id}"></td>
-                    <td th:if="${room?.roomName != null}" th:text="${room?.roomName}"></td>
-                    <td th:if="${room?.category != null}" th:text="${room?.category}"></td>
-                    <td th:if="${room?.date != null}" th:text="${room?.date}"></td>
-                    <td th:if="${room?.maxPeople != null}" th:text="${room?.maxPeople}"></td>
-                    <td th:if="${room?.deliveryLocation != null}" th:text="${room?.deliveryLocation}"></td>
-                    <td th:if="${room?.departure != null}" th:text="${room?.departure}"></td>
-                    <td th:if="${room?.destination != null}" th:text="${room?.destination}"></td>
-                    <td th:if="${room?.description != null}" th:text="${room?.description}"></td>
-                    <td th:if="${room?.product != null}" th:text="${room?.product}"></td>
-                </tr>
-                </tbody>
-
-            </table>
-        </div>
-    </main>
+<!-- 회원정보 패널 -->
+<div class="profile-panel" id="profilePanel">
+    <img img src="/image/man.jpeg" alt="프로필 이미지">
+    <h3>[[${nickname}]]</h3>
+    <div style="display: flex; gap: 10px; justify-content: center;">
+        <button class="btn btn-dark" onclick="window.location.href='/room/join-room-view'">참여한 방</button>
+        <button class="btn btn-outline-light" onclick="window.location.href='/login/login-view'">로그아웃</button>
+    </div>
 </div>
 
-<footer>
-    <div class="footer-contact">
-        <div class="footer-logo">
-            <img src="/image/ft-logo.png" alt="가톨릭관동대학교 CATHOLIC KWANDONG UNIVERSITY" class="big">
-        </div>
-        <div class="footer-info">
-            <ul class="footer-address">
-                <li>(25601) 강릉시 범일로 579번길 24 (내곡동)</li>
-                <li>TEL : (033) 649 - 7114</li>
-                <li>FAX : (033) 641 - 1010</li>
-                <li>입학 TEL : 033-649-7000 (평일 : 09:00 ~ 17:00)</li>
-            </ul>
-            <div class="footer-copyright">
-                Copyright© CATHOLIC KWANDONG UNIVERSITY. All Rights Reserved
-            </div>
-        </div>
-    </div>
-</footer>
+
+<script>
+    const profileButton = document.getElementById('profileButton');
+    const profilePanel = document.getElementById('profilePanel');
+
+    profileButton.addEventListener('click', () => {
+        profilePanel.style.display = profilePanel.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!profilePanel.contains(e.target) && e.target !== profileButton) {
+            profilePanel.style.display = 'none';
+        }
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const postList = document.getElementById("postList");
@@ -250,12 +298,12 @@
 
 
     let longPressTimer;
-    let currentRow; 
+    let currentRow;
 
     const LONG_PRESS_TIME = 1000;
 
     function startLongPress(event, row) {
-        currentRow = row;  
+        currentRow = row;
         longPressTimer = setTimeout(() => {
             const roomId = row.getAttribute("data-id");
             const roomName = row.getAttribute("data-room-name");
@@ -268,7 +316,7 @@
     }
 
     function endLongPress(event) {
-        clearTimeout(longPressTimer);  
+        clearTimeout(longPressTimer);
     }
 
     function deleteRowFromDatabase(roomId, row) {
@@ -323,10 +371,6 @@
             });
         }
     }
-
-
-
 </script>
-
 </body>
 </html>

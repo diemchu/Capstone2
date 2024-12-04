@@ -5,37 +5,170 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인 페이지</title>
     <style>
+        /* 전체 배경 스타일 */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
+            background-color: #000;
+            color: #fff;
+            background-image: url('/image/background.jpg'); /* 사용자가 지정한 이미지 경로 */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
+        /* 헤더 스타일 */
         header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             padding: 10px 20px;
-            text-align: center;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: white;
-            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.7); /* 반투명 검은 배경 */
         }
+
         .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
             height: 50px;
-            float: left;
-            margin-right: 20px;
+            margin-right: 10px;
         }
-        .navbar {
-            display: inline-block;
-            text-align: center;
+
+        .logo-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 30px; /* 제목과 메뉴 간격 조정 */
         }
-        .navbar a {
-            margin: 0 15px;
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
             text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+            padding: 5px 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #444;
+            border-radius: 5px;
+        }
+
+        .profile-button {
+            background-color: #fff;
             color: #000;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-button:hover {
+            background-color: #ddd;
+        }
+
+        /* 회원정보 패널 */
+        .profile-panel {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8); /* 어두운 배경 */
+            color: #fff;
+            width: 300px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-panel img {
+            display: block;
+            margin: 0 auto 10px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        .profile-panel h3 {
+            text-align: center;
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .profile-panel p {
+            text-align: center;
+            font-size: 14px;
+            color: #bbb;
+        }
+
+        .profile-panel button {
+            width: 100%;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-panel button:hover {
+            background-color: #444;
+        }
+
+
+        .profile-panel a:hover {
+            text-decoration: underline;
+        }
+
+        /* 메인 콘텐츠 스타일 */
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: calc(100vh - 60px);
+        }
+
+        h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        header {
+            margin-bottom: 0;
+        }
+
+        main {
+            margin-top: 0;
+            padding-top: 0;
+        }
+
+
+        .btn-create-room {
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-create-room:hover {
+            background-color: #0056b3;
         }
 
         #container {
@@ -44,80 +177,14 @@
             padding-top: 80px;
             overflow: hidden;
         }
-
-        aside {
-            width: 220px;
-            padding: 20px;
-            background-color: #ffffff;
-            border-right: 1px solid #ccc;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-        }
-        .user-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-        }
-        .nickname {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-        .edit-profile {
-            font-size: 18px;
-            text-decoration: none;
-            color: #000;
-            margin-bottom: 10px;
-            display: block;
-        }
-        .room-link {
-            font-size: 24px;
-            font-weight: bold;
-            text-decoration: none;
-            color: #000;
-            margin-bottom: 10px;
-            display: block;
-        }
-        .tag {
-            font-size: 18px;
-            text-decoration: none;
-            color: #000;
-            margin-bottom: 15px;
-            display: block;
-        }
-        .logout {
-            font-size: 18px;
-            text-decoration: none;
-            color: red;
-            margin-top: 20px;
-            display: block;
-        }
-
         main {
             width: 90%; /* 기존 너비보다 더 넓게 설정 */
             max-width: 1200px; /* 최대 너비를 설정하여 너무 넓어지지 않도록 제한 */
             margin: 0 auto; /* 가운데 정렬 */
             padding: 20px; /* 내부 여백 추가 */
         }
-
-
         .pagination {
             margin-top: 20px;
-        }
-
-        footer {
-            padding: 10px 20px;
-            text-align: center;
-            background-color: #f8f8f8;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .footer-address ul {
-            padding: 0;
-            list-style-type: none;
         }
         main h1 {
             font-size: 24px;
@@ -229,11 +296,8 @@
             background-color: #ff1a1a;
         }
 
-        tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
         button.active {
-                background-color: #28a745; 
+                background-color: #28a745;
                 color: white;
             }
         td, th {
@@ -247,10 +311,6 @@
             background-color: #f4f4f4;
             font-weight: bold;
             text-transform: uppercase;
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
         }
 
         tbody tr:hover {
@@ -335,25 +395,21 @@
 <body>
 
 <header>
-    <img src="/image/app_logo.jpeg" alt="웹사이트 로고" class="logo">
-    <nav class="navbar">
-        <a th:href="@{/room/create-room-view}">방 생성하기</a>
-        <a th:href="@{/room/join-room-list-view}">방 참여하기</a>
-        <a th:href="@{/home/board-view}">게시판</a>
-    </nav>
+    <div class="logo">
+        <a th:href="@{/home/home}">
+            <img src="/image/app_logo.jpeg" alt="Nanumi 로고">
+        </a>
+        <span class="logo-title">Nanumi</span>
+        <nav>
+            <a th:href="@{/room/create-room-view}">방 생성하기</a>
+            <a th:href="@{/room/join-room-list-view}">방 참여하기</a>
+            <a th:href="@{/home/board-view}">게시판</a>
+        </nav>
+    </div>
+    <button class="profile-button" id="profileButton">회원정보</button>
 </header>
 
 <div id="container">
-    <aside>
-        <img src="/image/man.jpeg" alt="사용자 이미지" class="user-image">
-        <div class="nickname">[[${nickname}]]</div>
-        <a th:href="@{/home/user-info-view}" class="edit-profile">프로필 수정</a>
-        <a th:href="@{/room/join-room-view}" class="room-link">참여한 방</a>
-        <a th:href="@{/room/taxiroom-list-view}" class="tag">택시비</a>
-        <a th:href="@{/room/deliveryroom-view}" class="tag">배달비</a>
-        <a th:href="@{/room/join-room-list-view}" class="tag">공동구매</a>
-        <a th:href="@{/login/login-view}" class="logout">로그아웃</a>
-    </aside>
     <main>
       <p id="userId" th:text="${userId}" style="display: none;"></p>
       <p id="nickname" th:text="${nickname}" style="display: none;"></p>
@@ -365,14 +421,14 @@
                 <th>제목</th>
                 <th>작성자</th>
                 <th>작성일</th>
-                <th>내용</th> 
+                <th>내용</th>
                 <th>기능</th>
             </tr>
             </thead>
             <tbody>
             <tbody>
                 <tr   th:each="post : ${posts}"
-                th:attr="data-id=${post?.id}" th:id="'row-' + ${post.id}" 
+                th:attr="data-id=${post?.id}" th:id="'row-' + ${post.id}"
                 onmousedown="startLongPress(event, this)" onmouseup="endLongPress(event)"
                 onclick="confirmParticipation(this)">
                     <td th:text="${post.title}"></td>
@@ -390,18 +446,30 @@
         <button onclick="location.href='/board/write'">글쓰기</button>
     </main>
 </div>
-
-<footer>
-    <div class="footer-address">
-        <ul>
-            <li>학교 주소: 강원도 강릉시 죽헌길 50</li>
-            <li>전화번호: 033-649-7000</li>
-            <li>팩스: 033-649-7100</li>
-        </ul>
+<!-- 회원정보 패널 -->
+<div class="profile-panel" id="profilePanel">
+    <img img src="/image/man.jpeg" alt="프로필 이미지">
+    <h3>[[${nickname}]]</h3>
+    <div style="display: flex; gap: 10px; justify-content: center;">
+        <button class="btn btn-dark" onclick="window.location.href='/room/join-room-view'">참여한 방</button>
+        <button class="btn btn-outline-light" onclick="window.location.href='/login/login-view'">로그아웃</button>
     </div>
-    <img class="big" src="/image/kwandong_logo.png" alt="Catholic Kwandong University">
-</footer>
+</div>
 
+<script>
+    const profileButton = document.getElementById('profileButton');
+    const profilePanel = document.getElementById('profilePanel');
+
+    profileButton.addEventListener('click', () => {
+        profilePanel.style.display = profilePanel.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!profilePanel.contains(e.target) && e.target !== profileButton) {
+            profilePanel.style.display = 'none';
+        }
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const postsPerPage = 4; // 페이지당 게시물 수
@@ -527,7 +595,7 @@ function confirmParticipation(row) {
                 // Sau khi xóa, xóa bài viết khỏi DOM
                 const rowElement = document.getElementById(`row-${posterId}`);
                 if (rowElement) {
-                    rowElement.remove(); 
+                    rowElement.remove();
                 }
             } else {
                 alert(data.message || "삭제 중 오류가 발생했습니다.");
@@ -570,7 +638,7 @@ function openPopup(selectedRowId) {
                 const commentDiv = document.createElement("div");
                 commentDiv.className = "comment-row";
                 commentDiv.innerHTML = `
-                    <span class="comment-nickname">${comment.nickname}</span>: 
+                    <span class="comment-nickname">${comment.nickname}</span>:
                     <span class="comment-content">${comment.content}</span>
                 `;
                 commentListDiv.appendChild(commentDiv);
@@ -596,8 +664,8 @@ function addComment() {
 
     const commentData = {
         content: newComment,
-        nickname: nickname,  
-        posterId: selectedRowId  
+        nickname: nickname,
+        posterId: selectedRowId
     };
 
     fetch('/comments/add_comment', {
@@ -605,7 +673,7 @@ function addComment() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(commentData) 
+        body: JSON.stringify(commentData)
     })
     .then(response => response.json())
     .then(data => {
@@ -626,7 +694,7 @@ function startLongPress(event, row) {
     longPressTimer = setTimeout(() => {
         selectedRowId = row.getAttribute("data-id");
         openPopup(selectedRowId);
-    }, 1000);  
+    }, 1000);
 }
 
 function endLongPress(event) {
