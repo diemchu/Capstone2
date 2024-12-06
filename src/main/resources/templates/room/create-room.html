@@ -188,8 +188,25 @@
             width: 100px;
             height: auto;
         }
-
-
+        #main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(128, 128, 128, 0.8); /* 불투명한 회색 */
+            width: 100%;
+            height: 100vh; /* 화면 전체 높이 */
+            padding: 20px; /* 콘텐츠와 가장자리 사이 여백 */
+            box-sizing: border-box;
+        }
+         form {
+            background-color: #fff; /* 폼 배경은 흰색으로 유지 */
+            border-radius: 8px; /* 모서리 둥글게 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 효과 */
+            padding: 20px;
+        }
+        #header-section {
+            color: #000; /* 글자 색을 검은색으로 지정 */
+        }
     </style>
 </head>
 <body>
@@ -210,17 +227,17 @@
 
 <div id="main" style="display: flex; justify-content: center; align-items: center;">
     <form action="/room/create-room" method="post" style="width: 100%; max-width: 600px;">
-        <div>
+        <div id="header-section">
             <h2>방 생성하기</h2>
             <p>원하는 카테고리를 선택하고 방을 생성하세요.</p>
         </div>
         <div class="form-group">
-            <label for="room-name">방 이름</label>
+            <label for="room-name" style = "color: #000">방 이름</label>
             <input type="text" id="room-name" name="room-name" placeholder="방 이름을 입력하세요" required>
         </div>
 
         <div class="form-group">
-            <label for="category">카테고리</label>
+            <label for="category" style = "color: #000">카테고리</label>
             <select id="category" name="category" required onchange="showCategoryFields(this.value)">
                 <option value="">카테고리를 선택하세요</option>
                 <option value="taxi">택시비</option>
@@ -230,23 +247,23 @@
         </div>
 
         <div class="form-group">
-            <label for="max-people">최대 인원 (2~99명)</label>
+            <label for="max-people" style = "color: #000">최대 인원 (2~99명)</label>
             <input type="number" id="max-people" name="max-people" min="2" max="99" required>
         </div>
 
         <div class="form-group">
-            <label for="description">방 설명</label>
+            <label for="description" style = "color: #000">방 설명</label>
             <textarea id="description" name="description" rows="4" placeholder="방에 대한 설명을 입력하세요" required></textarea>
         </div>
 
         <!-- 택시비 카테고리 -->
         <div id="taxi-section" class="category-section">
             <div class="form-group">
-                <label for="departure">출발지</label>
+                <label for="departure" style = "color: #000">출발지</label>
                 <input type="text" id="departure" name="departure" placeholder="출발지를 입력하세요" required>
             </div>
             <div class="form-group">
-                <label for="destination">도착지</label>
+                <label for="destination" style = "color: #000">도착지</label>
                 <input type="text" id="destination" name="destination" placeholder="도착지를 입력하세요" required>
             </div>
         </div>
@@ -254,7 +271,7 @@
         <!-- 배달비 카테고리 -->
         <div id="delivery-section" class="category-section">
             <div class="form-group">
-                <label for="delivery-location">배달 받을 위치</label>
+                <label for="delivery-location" style = "color: #000">배달 받을 위치</label>
                 <input type="text" id="delivery-location" name="delivery-location" placeholder="배달 받을 위치를 입력하세요" required>
             </div>
         </div>
@@ -262,18 +279,18 @@
         <!-- 공동구매 카테고리 -->
         <div id="group-section" class="category-section">
             <div class="form-group">
-                <label for="product">구매할 물품</label>
+                <label for="product" style = "color: #000">구매할 물품</label>
                 <input type="text" id="product" name="product" placeholder="구매할 물품을 입력하세요">
             </div>
         </div>
 
         <div class="form-group">
-            <label for="date">날짜</label>
+            <label for="date" style = "color: #000">날짜</label>
             <input type="date" id="date" name="date" required>
         </div>
 
         <div class="form-actions">
-            <button type="submit">방 생성하기</button>
+            <button type="submit" >방 생성하기</button>
         </div>
     </form>
 </div>
