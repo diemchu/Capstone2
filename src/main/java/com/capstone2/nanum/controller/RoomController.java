@@ -11,7 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,31 +29,79 @@ public class RoomController {
     private  JoinRoomService joinRoomService;
 
 
-    @GetMapping("/join-room-list-view")
-    public String join_rooms_list(Model model) {
-        List<Room> roomList = roomService.findAllRooms();
-        List<Room> rooms = new ArrayList<>();
-        Long currentUserId = UserService.user.getId();
-        List<JoinRoom> joinRoomList = joinRoomService.findUserId(currentUserId);
-        System.out.println(joinRoomList);
+//    @GetMapping("/join-room-list-view")
+//    public String join_rooms_list(@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
+//        List<Room> roomList = roomService.findAllRooms();
+//        List<Room> rooms = new ArrayList<>();
+//        Long currentUserId = UserService.user.getId();
+//        List<JoinRoom> joinRoomList = joinRoomService.findUserId(currentUserId);
+//        System.out.println(joinRoomList);
+//
+//        for (int i = 0 ; i< roomList.size();i++){
+//            if(!currentUserId.equals(roomList.get(i).getUserId())){
+//                rooms.add(roomList.get(i));
+//            }
+//        }
+//        for (int i = 0; i< rooms.size() ; i++){
+//            for (int j = 0 ; j< joinRoomList.size();j++){
+//                if(rooms.get(i).getId().equals(joinRoomList.get(j).getRoomId())){
+//                    rooms.remove(i);
+//                }
+//            }
+//        }
+//        System.out.println(rooms.size());
+//        model.addAttribute("rooms", rooms);
+//        model.addAttribute("nickname", UserService.user.getName());
+//        model.addAttribute("currentUserId",UserService.user.getId());
+//        return "room/join-room-list";
+//    }
+@GetMapping("/join-room-list-view")
+public String join_rooms_list(@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
+    List<Room> roomList = roomService.findAllRooms();
+    List<Room> rooms = new ArrayList<>();
+    Long currentUserId = UserService.user.getId();
+    List<JoinRoom> joinRoomList = joinRoomService.findUserId(currentUserId);
 
-        for (int i = 0 ; i< roomList.size();i++){
-            if(!currentUserId.equals(roomList.get(i).getUserId())){
-                rooms.add(roomList.get(i));
-            }
-        }
-        for (int i = 0; i< rooms.size() ; i++){
-            for (int j = 0 ; j< joinRoomList.size();j++){
-                if(rooms.get(i).getId().equals(joinRoomList.get(j).getRoomId())){
-                    rooms.remove(i);
+    // Lọc các phòng mà người dùng chưa tham gia và không phải là phòng của chính người dùng
+    for (Room room : roomList) {
+        if (!currentUserId.equals(room.getUserId())) {
+            boolean isJoined = false;
+            for (JoinRoom joinRoom : joinRoomList) {
+                if (room.getId().equals(joinRoom.getRoomId())) {
+                    isJoined = true; // Nếu đã tham gia, bỏ qua phòng này
+                    break;
                 }
             }
+            if (!isJoined) {
+                rooms.add(room); // Thêm phòng vào danh sách nếu người dùng chưa tham gia
+            }
         }
-        model.addAttribute("rooms", rooms);
-        model.addAttribute("nickname", UserService.user.getName());
-        model.addAttribute("currentUserId",UserService.user.getId());
-        return "room/join-room-list";
     }
+
+    // Phân trang: Mỗi trang sẽ hiển thị 10 phòng
+    int rowsPerPage = 10;
+    int totalRooms = rooms.size();
+    int totalPages = (int) Math.ceil((double) totalRooms / rowsPerPage);
+
+    // Kiểm tra nếu page không hợp lệ, đưa về trang đầu
+    if (page < 0) page = 0;
+    if (page >= totalPages) page = totalPages - 1;
+
+    // Xác định chỉ số bắt đầu và kết thúc của các phòng trong trang hiện tại
+    int startIndex = page * rowsPerPage;
+    int endIndex = Math.min(startIndex + rowsPerPage, totalRooms);
+    List<Room> roomsForPage = rooms.subList(startIndex, endIndex);
+
+    // Gửi dữ liệu vào model
+    model.addAttribute("rooms", roomsForPage);
+    model.addAttribute("nickname", UserService.user.getName());
+    model.addAttribute("currentUserId", UserService.user.getId());
+    model.addAttribute("currentPage", page); // Trang hiện tại
+    model.addAttribute("totalPages", totalPages); // Tổng số trang
+
+    return "room/join-room-list";
+}
+
 
 
     @GetMapping("/create-room-view")
@@ -119,7 +168,7 @@ public class RoomController {
         room.setDate(date);
         room.setUserId(UserService.user.getId());
         roomService.saveRoom(room);
-        return "redirect:/room/join-room-view";
+        return "redirect:/room/join-room-list-view";
     }
 
 

@@ -144,34 +144,47 @@
             background-color: #0056b3;
         }
 
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-        }
+        body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #000;
+        color: #fff;
+        background-image: url('/image/background.jpg'); /* Sử dụng ảnh nền */
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
 
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
+    /* Bảng */
+    table {
+        width: 80%; /* Đặt chiều rộng bảng */
+        margin: 0 auto; /* Căn giữa bảng */
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
 
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+    }
 
-        tr:hover {
-            background-color: #eaeaea;
-        }
+    th {
+        background-color: transparent; /* Loại bỏ nền trắng của th */
+        font-weight: bold;
+    }
 
-        footer {
-            margin-top: 20px;
-        }
+    tr:hover {
+        background-color: #eaeaea;
+    }
 
-        .footer-address li {
-            list-style-type: none;
-        }
+    footer {
+        margin-top: 20px;
+    }
 
-        .big {
-            width: 100px;
-            height: auto;
-        }
+    .footer-address li {
+        list-style-type: none;
+    }
     </style>
 </head>
 <body>

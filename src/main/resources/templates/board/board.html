@@ -75,6 +75,7 @@
         .profile-button:hover {
             background-color: #ddd;
         }
+
         main h1 {
             font-size: 24px;
             margin-bottom: 20px;
@@ -138,6 +139,7 @@
         .pagination button:hover {
             background-color: #ccc;
         }
+
         button {
             background-color: #007bff;
             color: white;
@@ -152,44 +154,12 @@
         button:hover {
             background-color: #0056b3;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        th {
-            background-color: #f4f4f4;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-
-        .delete-button {
-            background-color: #ff4d4d;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .delete-button:hover {
-            background-color: #ff1a1a;
-        }
-
 
         button.active {
-                background-color: #28a745;
-                color: white;
-            }
+            background-color: #28a745;
+            color: white;
+        }
+
         td, th {
             padding: 10px;
             border: 1px solid #ddd;
@@ -197,10 +167,12 @@
             word-break: break-word; /* Đảm bảo văn bản dài được ngắt dòng */
         }
 
+        /* Thay đổi ở phần đầu bảng */
         th {
-            background-color: #f4f4f4;
+            background-color: transparent; /* Xóa màu nền */
+            padding: 10px;
+            text-align: center;
             font-weight: bold;
-            text-transform: uppercase;
         }
 
         tbody tr:hover {
@@ -211,6 +183,16 @@
             color: #007bff; /* Màu chữ xanh cho cột 내용 */
             font-weight: bold; /* Tô đậm văn bản */
         }
+
+        /* Xoá màu nền khi focus vào bảng */
+        table:focus {
+            outline: none;  /* Loại bỏ outline khi focus vào bảng */
+        }
+
+        tbody tr:focus {
+            background-color: transparent; /* Đảm bảo khi focus vào hàng không thay đổi màu */
+        }
+
         .popup {
             display: none;  /* Ẩn popup mặc định */
             position: fixed;
@@ -248,38 +230,19 @@
             resize: none;
         }
 
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        button + button {
-            background-color: #ccc;
-            margin-top: 10px;
-        }
         .comment-row {
-    margin: 8px 0;
-    font-size: 14px;
-}
+            margin: 8px 0;
+            font-size: 14px;
+        }
 
-.comment-nickname {
-    font-weight: bold;
-    color: #2c3e50;
-}
+        .comment-nickname {
+            font-weight: bold;
+            color: #2c3e50;
+        }
 
-.comment-content {
-    color: #34495e;
-}
+        .comment-content {
+            color: #34495e;
+        }
 
         /* 회원정보 패널 */
         .profile-panel {
@@ -328,11 +291,52 @@
             background-color: #444;
         }
 
-
         .profile-panel a:hover {
             text-decoration: underline;
         }
+        .center-content {
+    display: flex;
+    flex-direction: column; /* Sắp xếp các phần tử theo chiều dọc */
+    align-items: center;     /* Canh giữa theo chiều ngang */
+    justify-content: center; /* Canh giữa theo chiều dọc */
+    margin: 20px auto;       /* Tạo một chút khoảng cách và canh giữa */
+    max-width: 800px;        /* Giới hạn chiều rộng tối đa */
+    width: 100%;
+}
+
+    table {
+        width: 100%; /* Đảm bảo bảng chiếm hết chiều rộng của container */
+        border-collapse: collapse; /* Giảm khoảng cách giữa các ô */
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: center;
+        word-break: break-word;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 20px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+        .comment-title {
+    color: black; /* Thay màu chữ thành đen */
+}
+
     </style>
+
 </head>
 <body>
 <header>
@@ -362,7 +366,6 @@
             <th>작성자</th>
             <th>작성일</th>
             <th>내용</th>
-            <th>기능</th>
         </tr>
         </thead>
         <tbody>
@@ -375,10 +378,6 @@
             <td th:text="${post.nickname}"></td>
             <td th:text="${post.date}"></td>
             <td th:text="${post.content}"></td>
-            <td>
-                <button class="like-button" onclick="event.stopPropagation(); toggleLike(this)">좋아요</button>
-                <button class="dislike-button" onclick="event.stopPropagation(); toggleDislike(this)">싫어요</button>
-            </td>
         </tr>
         </tbody>
         </tbody>
@@ -387,7 +386,7 @@
 </main>
 <div id="comment-popup" class="popup" style="display: none;">
     <div class="popup-content">
-        <h2>댓글</h2>
+        <h2 class="comment-title">댓글</h2>
         <div id="comment-list" class="comments-list">
         </div>
         <textarea id="new-comment" placeholder="댓글을 입력하세요..." rows="4"></textarea>
@@ -499,19 +498,7 @@
     }
 }
 
-// Thay đổi màu nút khi bấm '싫어요'
-function toggleDislike(button) {
-    if (button.classList.contains('active')) {
-        button.classList.remove('active');
-    } else {
-        button.classList.add('active');
-        // Bỏ 'active' khỏi nút '좋아요' nếu có
-        const siblingLike = button.previousElementSibling;
-        if (siblingLike && siblingLike.classList.contains('like-button')) {
-            siblingLike.classList.remove('active');
-        }
-    }
-}
+
 
 // Xóa hàng khi bấm '삭제'
 function deleteRow(id) {

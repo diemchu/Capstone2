@@ -4,8 +4,10 @@ import com.capstone2.nanum.database.Room;
 import com.capstone2.nanum.repo.RoomRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -30,5 +32,9 @@ public class RoomService {
             return true;
         }
         return false;
+    }
+    public Page<Room> getRooms(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size); // page bắt đầu từ 0
+        return roomRepository.findAll(pageable);
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -213,34 +213,60 @@
             background-color: #0056b3;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+        body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #000;
+        color: #fff;
+        background-image: url('/image/background.jpg'); /* Sử dụng ảnh nền */
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
 
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-        }
+    /* Bảng */
+    table {
+        width: 80%; /* Đặt chiều rộng bảng */
+        margin: 0 auto; /* Căn giữa bảng */
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
 
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+    }
 
-        tr:hover {
-            background-color: #eaeaea;
-        }
+    th {
+        background-color: transparent; /* Loại bỏ nền trắng của th */
+        font-weight: bold;
+    }
 
-        footer {
-            margin-top: 20px;
-        }
+    tr:hover {
+        background-color: #eaeaea;
+    }
 
-        .footer-address li {
-            list-style-type: none;
-        }
+    footer {
+        margin-top: 20px;
+    }
+
+    .footer-address li {
+        list-style-type: none;
+    }
+        #pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#pagination button {
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+
     </style>
 </head>
 <body>
@@ -299,7 +325,25 @@
         </tbody>
     </table>
 </div>
+<div id="pagination" style="text-align: center; margin-top: 20px;">
+    <button class="btn btn-primary"
+            th:if="${currentPage > 0}"
+            th:onclick="'window.location.href=\'/room/join-room-list-view?page=' + ${currentPage - 1} + '\''">
+        이전
+    </button>
+
+    <!-- Hiển thị số trang hiện tại -->
+    <span id="pageNumber" th:text="${currentPage + 1}"></span> 페이지
+
+    <!-- Nút Next (Chỉ hiển thị khi không ở trang cuối cùng) -->
+    <button class="btn btn-primary"
+            th:if="${currentPage < totalPages - 1}"
+            th:onclick="'window.location.href=\'/room/join-room-list-view?page=' + ${currentPage + 1} + '\''">
+        다음
+    </button>
 </div>
+
+
 
 <!-- 회원정보 패널 -->
 <div class="profile-panel" id="profilePanel">
@@ -384,7 +428,6 @@
     } else {
         alert("거절했습니다.");
     }
-
 }
 </script>
 </body>
